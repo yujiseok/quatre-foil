@@ -45,6 +45,8 @@
       {
         "prefer": "type-imports"
       }
-    ]
+    ],
+    // no-param-reassign
+    "no-param-reassign": "off"
   }
 }
