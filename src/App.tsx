@@ -1,5 +1,6 @@
-export interface C {}
-const App = (props: C) => {
-  return <div />;
+import Router from "Router";
+
+const App = () => {
+  return <Router />;
 };
 export default App;
