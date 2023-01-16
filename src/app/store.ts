@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import toggleReducer from "features/toggleSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    toggle: toggleReducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

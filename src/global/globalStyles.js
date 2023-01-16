@@ -32,6 +32,10 @@ export const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
   }
 
+  body {
+    height: 100vh;
+  }
+
   a {
     text-decoration: none;
     color: inherit;
@@ -44,6 +48,9 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 1rem;
     color: inherit;
     cursor: pointer;
+    display: inline-block;
+    display: grid;
+    place-items: center;
   }
 
   input {
@@ -58,7 +65,30 @@ export const GlobalStyles = createGlobalStyle`
     height: 100%;
   }
 
+  ul {
+    list-style: none;
+  }
+
   nav {
-    color: var(--white)
+    color: var(--white);
+    background-color: var(--primary-color);
+  }
+
+  h1 {
+    font-family: 'Righteous', cursive;
+  }
+
+  #root {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100%;
+    margin-top: 3.25rem;
+    grid-template-columns: 100%;
+  }
+
+  svg {
+    font-size: 1.5rem;
+    margin: 0.25rem;
+    width: 24px;
   }
 `;
