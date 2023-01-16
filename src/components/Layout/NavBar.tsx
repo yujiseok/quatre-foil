@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { FaShoppingCart, FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { openMenu } from "features/toggleSlice";
 
 const NavBar = () => {
+  const dispatch = useAppDispatch();
+
   return (
     <StyledNav>
       <Container>
-        <HamburgerBtn type="button">
+        <HamburgerBtn type="button" onClick={() => dispatch(openMenu())}>
           <FaBars />
         </HamburgerBtn>
         <h1>
