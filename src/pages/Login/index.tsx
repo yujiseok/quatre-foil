@@ -35,7 +35,7 @@ export default Login;
 const Container = styled.div`
   padding: 30px 16px;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 30px auto 0;
   h2 {
     margin-bottom: 14px;
   }
@@ -43,7 +43,7 @@ const Container = styled.div`
 
 const InputWrapper = styled.div`
   label {
-    line-height: 40px;
+    line-height: 2.5rem;
   }
   input {
     display: block;
@@ -58,7 +58,7 @@ const InputWrapper = styled.div`
 const PwdContainer = styled.div`
   display: flex;
   gap: 14px;
-  line-height: 20px;
+  line-height: 1.25rem;
   margin: 30px 0 30px;
   justify-content: center;
   letter-spacing: 0.02rem;
@@ -75,7 +75,8 @@ const BtnContainer = styled.div`
 const Button = styled.button`
   margin-bottom: 10px;
   padding: 16px 24px;
-  font-size: 16px;
+  font-size: 1rem;
+  font-weight: 900;
   width: 100%;
   border: 1px solid var(--primary-color);
   background-color: ${(props) =>
