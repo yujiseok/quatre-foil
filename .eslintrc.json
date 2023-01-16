@@ -47,6 +47,7 @@
       }
     ],
     // no-param-reassign
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "@typescript-eslint/no-use-before-define": "off"
   }
 }
