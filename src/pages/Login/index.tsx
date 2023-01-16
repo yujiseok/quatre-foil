@@ -1,21 +1,22 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Input from "@components/Input";
 
 const Login = () => {
   return (
     <Container>
       <h2>로그인</h2>
       <InputWrapper>
-        <label htmlFor="loginId">
+        <Input id="loginId" type="email" label="이메일" />
+        {/* <label htmlFor="loginId">
           이메일
           <input type="email" id="loginId" />
-        </label>
-      </InputWrapper>
-      <InputWrapper>
-        <label htmlFor="loginpwd" className="title">
+        </label> */}
+        <Input id="loginpwd" type="password" label="비밀번호" />
+        {/* <label htmlFor="loginpwd" className="title">
           비밀번호
           <input type="password" id="loginpwd" />
-        </label>
+        </label> */}
       </InputWrapper>
       <PwdContainer>
         <div>비밀번호 찾기</div>
