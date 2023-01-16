@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Mypage = () => {
   return (
     <Container>
-      <h2>회원가입</h2>
+      <h2>회원정보</h2>
       <InputWrapper>
         <Input id="email" type="email" label="이메일" />
         <Input id="name" type="text" label="이름" />
@@ -21,11 +21,11 @@ const Mypage = () => {
 export default Mypage;
 
 const Container = styled.div`
-  padding: 30px 16px;
+  padding: 1.875rem 1rem;
   max-width: 400px;
-  margin: 30px auto 0;
+  margin: 1.875rem auto 0;
   h2 {
-    margin-bottom: 14px;
+    margin-bottom: 0.875rem;
   }
 `;
 
@@ -38,18 +38,18 @@ const InputWrapper = styled.div`
     border: 1px solid var(--primary-color);
     width: 100%;
     line-height: 10px;
-    padding: 10px 15px;
+    padding: 0.625rem 0.9375rem;
     color: var(--primary-color);
   }
 `;
 const BtnContainer = styled.div`
   max-width: 250px;
-  margin: 40px auto 0;
+  margin: 2.5rem auto 0;
 `;
 
 const Button = styled.button`
-  margin-bottom: 10px;
-  padding: 16px 24px;
+  margin-bottom: 0.625rem;
+  padding: 1rem 1.5rem;
   font-size: 1rem;
   font-weight: 900;
   width: 100%;
