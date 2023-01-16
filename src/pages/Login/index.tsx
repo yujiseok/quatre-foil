@@ -8,15 +8,7 @@ const Login = () => {
       <h2>로그인</h2>
       <InputWrapper>
         <Input id="loginId" type="email" label="이메일" />
-        {/* <label htmlFor="loginId">
-          이메일
-          <input type="email" id="loginId" />
-        </label> */}
         <Input id="loginpwd" type="password" label="비밀번호" />
-        {/* <label htmlFor="loginpwd" className="title">
-          비밀번호
-          <input type="password" id="loginpwd" />
-        </label> */}
       </InputWrapper>
       <PwdContainer>
         <div>비밀번호 찾기</div>
@@ -34,11 +26,11 @@ const Login = () => {
 export default Login;
 
 const Container = styled.div`
-  padding: 30px 16px;
+  padding: 1.875rem 1rem;
   max-width: 400px;
-  margin: 30px auto 0;
+  margin: 1.875rem auto 0;
   h2 {
-    margin-bottom: 14px;
+    margin-bottom: 0.875rem;
   }
 `;
 
@@ -51,16 +43,16 @@ const InputWrapper = styled.div`
     border: 1px solid var(--primary-color);
     width: 100%;
     line-height: 10px;
-    padding: 10px 15px;
+    padding: 0.625rem 0.9375rem;
     color: var(--primary-color);
   }
 `;
 
 const PwdContainer = styled.div`
   display: flex;
-  gap: 14px;
+  gap: 0.875rem;
   line-height: 1.25rem;
-  margin: 30px 0 30px;
+  margin: 1.875rem 0 1.875rem;
   justify-content: center;
   letter-spacing: 0.02rem;
   a {
@@ -74,8 +66,8 @@ const BtnContainer = styled.div`
 `;
 
 const Button = styled.button`
-  margin-bottom: 10px;
-  padding: 16px 24px;
+  margin-bottom: 0.625rem;
+  padding: 1rem 1.5rem;
   font-size: 1rem;
   font-weight: 900;
   width: 100%;
