@@ -1,4 +1,5 @@
 import Input from "@components/Input";
+import { useState } from "react";
 import styled from "styled-components";
 
 const Mypage = () => {
@@ -8,16 +9,35 @@ const Mypage = () => {
       <InputWrapper>
         <Input id="email" type="email" label="이메일" />
         <Input id="name" type="text" label="이름" />
-        <Input id="text" type="text" label="주소" />
+        <Input id="tel" type="tel" label="전화번호" />
+        <PostalContainer>
+          <div>우편번호</div>
+          <PostalWrapper>
+            <input id="postalcode" type="text" />
+            <button type="button">우편 번호</button>
+          </PostalWrapper>
+        </PostalContainer>
       </InputWrapper>
 
+      <SubscribeContainer>
+        <div>마케팅 정보 수신 동의</div>
+        <SubscribeWrapper>
+          <div>
+            <input type="checkbox" id="subscribe-email" />
+            이메일
+          </div>
+          <div>
+            <input type="checkbox" id="subscribe-msg" />
+            문자 메세지
+          </div>
+        </SubscribeWrapper>
+      </SubscribeContainer>
       <BtnContainer>
         <Button type="submit">변경 사항 저장하기</Button>
       </BtnContainer>
     </Container>
   );
 };
-
 export default Mypage;
 
 const Container = styled.div`
@@ -42,6 +62,31 @@ const InputWrapper = styled.div`
     color: var(--primary-color);
   }
 `;
+
+const PostalContainer = styled.div`
+  line-height: 2.5rem;
+`;
+
+const PostalWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  input {
+    width: 70%;
+  }
+  button {
+    border: 1px solid var(--primary-color);
+    /* padding: 10px 20px; */
+    width: 25%;
+  }
+`;
+
+const NumberWrapper = styled.div`
+  display: flex;
+  input {
+    max-width: 100px;
+  }
+`;
+
 const BtnContainer = styled.div`
   max-width: 250px;
   margin: 2.5rem auto 0;
@@ -56,4 +101,15 @@ const Button = styled.button`
   border: 1px solid var(--primary-color);
   background-color: var(--primary-color);
   color: var(--white);
+`;
+
+const SubscribeContainer = styled.div`
+  margin-top: 20px;
+  align-items: center;
+`;
+
+const SubscribeWrapper = styled.div`
+  display: flex;
+  margin-top: 10px;
+  gap: 20px;
 `;
