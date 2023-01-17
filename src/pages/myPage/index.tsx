@@ -104,12 +104,12 @@ const Button = styled.button`
 `;
 
 const SubscribeContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 1.25rem;
   align-items: center;
 `;
 
 const SubscribeWrapper = styled.div`
   display: flex;
-  margin-top: 10px;
-  gap: 20px;
+  margin-top: 0.625rem;
+  gap: 1.25rem;
 `;
