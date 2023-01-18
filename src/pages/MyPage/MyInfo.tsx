@@ -79,13 +79,6 @@ const PostalWrapper = styled.div`
   }
 `;
 
-const NumberWrapper = styled.div`
-  display: flex;
-  input {
-    max-width: 100px;
-  }
-`;
-
 const BtnContainer = styled.div`
   max-width: 250px;
   margin: 2.5rem auto 0;
