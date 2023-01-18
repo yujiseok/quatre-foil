@@ -1,8 +1,7 @@
 import Input from "@components/Input";
-import { useState } from "react";
 import styled from "styled-components";
 
-const Mypage = () => {
+const MyInfo = () => {
   return (
     <Container>
       <h2>회원정보</h2>
@@ -38,7 +37,7 @@ const Mypage = () => {
     </Container>
   );
 };
-export default Mypage;
+export default MyInfo;
 
 const Container = styled.div`
   padding: 1.875rem 1rem;
