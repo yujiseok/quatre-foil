@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import { FaShoppingCart, FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useAppDispatch } from "app/hooks";
 import { openMenu } from "features/toggleSlice";
+import { tablet } from "@global/responsive";
+import { HiUser } from "react-icons/hi2";
+import { AiFillShopping } from "react-icons/ai";
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -16,9 +19,29 @@ const NavBar = () => {
         <h1>
           <Link to="/">QUATRE FOIL</Link>
         </h1>
-        <button type="button">
-          <FaShoppingCart />
-        </button>
+        <MenuWrapper>
+          <li>
+            <Link to="/shop">
+              <button type="button">shop</button>
+            </Link>
+          </li>
+          <li>
+            <Link to="/mypage">
+              <button type="button">
+                my page
+                {/* <HiUser /> */}
+              </button>
+            </Link>
+          </li>
+          <li>
+            <Link to="/cart">
+              <button type="button">
+                cart
+                {/* <FaShoppingCart /> */}
+              </button>
+            </Link>
+          </li>
+        </MenuWrapper>
       </Container>
     </StyledNav>
   );
@@ -31,6 +54,7 @@ const StyledNav = styled.nav`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 5;
 `;
 
 const Container = styled.div`
@@ -39,10 +63,42 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  ${tablet({
+    padding: "0px 2rem",
+  })}
+`;
+
+const MenuWrapper = styled.ul`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  li {
+    &:hover {
+      opacity: 0.8;
+    }
+
+    button {
+      text-transform: uppercase;
+      font-family: "Righteous", cursive;
+    }
+
+    &:nth-of-type(1),
+    &:nth-of-type(2) {
+      display: none;
+      ${tablet({
+        display: "block",
+      })}
+    }
+  }
 `;
 
 const HamburgerBtn = styled.button`
   svg {
     font-size: 1.25rem;
   }
+
+  ${tablet({
+    display: "none",
+  })}
 `;

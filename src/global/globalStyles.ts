@@ -21,6 +21,7 @@ export const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    outline: none;
   }
 
   html {
@@ -63,6 +64,7 @@ export const GlobalStyles = createGlobalStyle`
     display: block;
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 
   ul {
