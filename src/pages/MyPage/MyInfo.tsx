@@ -1,3 +1,4 @@
+import Button from "@components/Button";
 import Input from "@components/Input";
 import styled from "styled-components";
 
@@ -32,7 +33,7 @@ const MyInfo = () => {
         </SubscribeWrapper>
       </SubscribeContainer>
       <BtnContainer>
-        <Button type="submit">변경 사항 저장하기</Button>
+        <Button>변경 사항 저장하기</Button>
       </BtnContainer>
     </Container>
   );
@@ -41,7 +42,7 @@ export default MyInfo;
 
 const Container = styled.div`
   padding: 1.875rem 1rem;
-  max-width: 400px;
+  max-width: 450px;
   margin: 1.875rem auto 0;
   h2 {
     margin-bottom: 0.875rem;
@@ -84,16 +85,16 @@ const BtnContainer = styled.div`
   margin: 2.5rem auto 0;
 `;
 
-const Button = styled.button`
-  margin-bottom: 0.625rem;
-  padding: 1rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 900;
-  width: 100%;
-  border: 1px solid var(--primary-color);
-  background-color: var(--primary-color);
-  color: var(--white);
-`;
+// const Button = styled.button`
+//   margin-bottom: 0.625rem;
+//   padding: 1rem 1.5rem;
+//   font-size: 1rem;
+//   font-weight: 900;
+//   width: 100%;
+//   border: 1px solid var(--primary-color);
+//   background-color: var(--primary-color);
+//   color: var(--white);
+// `;
 
 const SubscribeContainer = styled.div`
   margin-top: 1.25rem;

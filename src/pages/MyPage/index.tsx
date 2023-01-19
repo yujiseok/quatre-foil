@@ -1,5 +1,5 @@
 import MypageNavbar from "@components/Layout/MypageNav/MypageNavbar";
-import { Outlet } from "react-router";
+import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
 const Mypage = () => {

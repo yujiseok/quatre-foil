@@ -1,24 +1,9 @@
 import styled from "styled-components";
 
-const Button = ({
-  type,
-  children,
-}: {
-  type: "button" | "submit" | "reset";
-  children: React.ReactNode;
-}) => {
-  return (
-    <BtnContainer>
-      <Btn type={type}>{children}</Btn>
-    </BtnContainer>
-  );
+const Button = ({ children }: { children: React.ReactNode }) => {
+  return <Btn type="submit">{children}</Btn>;
 };
 export default Button;
-
-const BtnContainer = styled.div`
-  max-width: 250px;
-  margin: 2.5rem auto 0;
-`;
 
 const Btn = styled.button`
   margin-bottom: 0.625rem;
