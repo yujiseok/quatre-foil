@@ -16,10 +16,10 @@ export default defineConfig({
         find: "@pages",
         replacement: resolve(__dirname, "src/pages"),
       },
-      // {
-      //   find: "@global",
-      //   replacement: resolve(__dirname, "src/global"),
-      // },
+      {
+        find: "@global",
+        replacement: resolve(__dirname, "src/global"),
+      },
     ],
   },
 

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FaGithub } from "react-icons/fa";
 import TopBtnPortal from "@components/topBtn/TopBtnPortal";
 import TopBtn from "@components/topBtn/TopBtn";
+import { tablet } from "@global/responsive";
 
 const Footer = () => {
   return (
@@ -70,12 +71,22 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  ${tablet({
+    padding: "0px 2rem",
+    gap: "1.25rem",
+  })}
 `;
 
 const FooterTop = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  ${tablet({
+    flexDirection: "row",
+    justifyContent: "space-between",
+  })}
 `;
 const FooterBottom = styled.div`
   text-align: center;
