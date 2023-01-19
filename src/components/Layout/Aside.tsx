@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { IoClose, IoChevronDown } from "react-icons/io5";
 import { useState } from "react";
+import { tablet } from "@global/responsive";
 
 interface IBtn {
   isOpen: boolean;
@@ -62,7 +63,7 @@ const Aside = () => {
               <Link to="/cart">cart</Link>
             </li>
             <li>
-              <Link to="/">my page</Link>
+              <Link to="/mypage">my page</Link>
             </li>
           </MenuWrapper>
         </nav>
@@ -90,6 +91,10 @@ const StyledAside = styled(motion.aside)`
   top: 0;
   z-index: 10;
   padding: 0 1.5rem;
+
+  ${tablet({
+    display: "none",
+  })}
 `;
 
 const TitleWrapper = styled.div`
@@ -133,4 +138,7 @@ const Backdrop = styled(motion.div)`
   height: 100%;
   z-index: 5;
   background-color: rgba(0, 0, 0, 0.2);
+  ${tablet({
+    display: "none",
+  })}
 `;

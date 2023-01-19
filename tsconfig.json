@@ -18,8 +18,8 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["components/*"],
-      "@pages/*": ["pages/*"]
-      // "@global/*": ["global/*"]
+      "@pages/*": ["pages/*"],
+      "@global/*": ["global/*"]
     }
   },
   "include": [".eslintrc.json", "src"],

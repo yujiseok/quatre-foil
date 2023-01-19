@@ -1,8 +1,52 @@
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-import { desktop } from "../../global/responsive";
+import Slider from "react-slick";
+import { SlickArrowLeft, SlickArrowRight } from "@components/SlickButton";
+import { desktop, tablet } from "../../global/responsive";
+import "@global/slick.css";
+import "@global/slick-theme.css";
 
 const Home = () => {
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    nextArrow: <SlickArrowRight />,
+    prevArrow: <SlickArrowLeft />,
+    autoplay: true,
+    draggable: true,
+    responsive: [
+      // {
+      //   breakpoint: 1024,
+      //   settings: {
+      //     slidesToShow: 4,
+      //     slidesToScroll: 4,
+      //   },
+      // },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 540,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
   return (
     <>
       <section>
@@ -28,33 +72,49 @@ const Home = () => {
 
       {/* marquee */}
       <section>
-        <MarqueeWrapper>
-          <div>
-            Marque Lorem, ipsum.Marque Lorem, ipsum. Marque Lorem, ipsum.Marque
-            Lorem, ipsum.🪑
-          </div>
-          <div>
-            Marque Lorem, ipsum.Marque Lorem, ipsum. Marque Lorem, ipsum.Marque
-            Lorem, ipsum.🪑
-          </div>
-          <div>
-            Marque Lorem, ipsum.Marque Lorem, ipsum. Marque Lorem, ipsum.Marque
-            Lorem, ipsum.🪑
-          </div>
-        </MarqueeWrapper>
-        <MarqueeWrapper>
-          <div>
-            Marque Lorem, ipsum.Marque Lorem, ipsum. Marque Lorem, ipsum.Marque
-            Lorem, ipsum.
-          </div>
-        </MarqueeWrapper>
+        <MarqueeContainer>
+          <MarqueeWrapper>
+            <p>
+              Marque Lorem, ipsum.Marque Lorem, ipsum. Marque Lorem,
+              ipsum.Marque Lorem, ipsum.🪑 Marque Lorem, ipsum.Marque Lorem,
+              ipsum. Marque Lorem, ipsum.Marque Lorem, ipsum.🪑
+            </p>
+            <p>
+              Marque Lorem, ipsum.Marque Lorem, ipsum. Marque Lorem,
+              ipsum.Marque Lorem, ipsum.🪑 Marque Lorem, ipsum.Marque Lorem,
+              ipsum. Marque Lorem, ipsum.Marque Lorem, ipsum.🪑
+            </p>
+          </MarqueeWrapper>
+        </MarqueeContainer>
+        <picture>
+          <source srcSet="https://www.thespruce.com/thmb/-kmScobJiRSHTYtLbEsyyXOq-cM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1266719687-0dd6bcac7ede4045a7f71f0640a718ee.jpg" />
+          <img
+            src="https://www.thespruce.com/thmb/-kmScobJiRSHTYtLbEsyyXOq-cM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1266719687-0dd6bcac7ede4045a7f71f0640a718ee.jpg"
+            alt="hero-img"
+          />
+        </picture>
+
+        <MarqueeContainer>
+          <MarqueeWrapper>
+            <p>
+              나랏말싸미 듕귁에 달아 문자와로 서르 사맛디 아니할쎄.🪑나랏말싸미
+              듕귁에 달아 문자와로 서르 사맛디 아니할쎄.🪑나랏말싸미 듕귁에 달아
+              문자와로 서르 사맛디 아니할쎄.🪑
+            </p>
+            <p>
+              나랏말싸미 듕귁에 달아 문자와로 서르 사맛디 아니할쎄.🪑나랏말싸미
+              듕귁에 달아 문자와로 서르 사맛디 아니할쎄.🪑나랏말싸미 듕귁에 달아
+              문자와로 서르 사맛디 아니할쎄.🪑
+            </p>
+          </MarqueeWrapper>
+        </MarqueeContainer>
       </section>
 
       {/* 상품 section */}
       <ItemSection>
         <ItemWrapper>
           <Item>
-            <Link to="/">
+            <StyledLink to="/" slick={false}>
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -62,10 +122,10 @@ const Home = () => {
               <ItemName>
                 <p>이름</p>
               </ItemName>
-            </Link>
+            </StyledLink>
           </Item>
           <Item>
-            <Link to="/">
+            <StyledLink to="/" slick={false}>
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -73,10 +133,10 @@ const Home = () => {
               <ItemName>
                 <p>이름</p>
               </ItemName>
-            </Link>
+            </StyledLink>
           </Item>
           <Item>
-            <Link to="/">
+            <StyledLink to="/" slick={false}>
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -84,10 +144,10 @@ const Home = () => {
               <ItemName>
                 <p>이름</p>
               </ItemName>
-            </Link>
+            </StyledLink>
           </Item>
           <Item>
-            <Link to="/">
+            <StyledLink to="/" slick={false}>
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -95,13 +155,112 @@ const Home = () => {
               <ItemName>
                 <p>이름</p>
               </ItemName>
-            </Link>
+            </StyledLink>
+          </Item>
+          <Item>
+            <StyledLink to="/" slick={false}>
+              <img
+                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
+                alt="test"
+              />
+              <ItemName>
+                <p>이름</p>
+              </ItemName>
+            </StyledLink>
+          </Item>
+          <Item>
+            <StyledLink to="/" slick={false}>
+              <img
+                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
+                alt="test"
+              />
+              <ItemName>
+                <p>이름</p>
+              </ItemName>
+            </StyledLink>
+          </Item>
+          <Item>
+            <StyledLink to="/" slick={false}>
+              <img
+                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
+                alt="test"
+              />
+              <ItemName>
+                <p>이름</p>
+              </ItemName>
+            </StyledLink>
+          </Item>
+          <Item>
+            <StyledLink to="/" slick={false}>
+              <img
+                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
+                alt="test"
+              />
+              <ItemName>
+                <p>이름</p>
+              </ItemName>
+            </StyledLink>
           </Item>
         </ItemWrapper>
       </ItemSection>
 
       {/* slick section */}
-      <section />
+      <SlickSection>
+        <h2>인기 상품을 만나 보세요! 🔥</h2>
+
+        <Slider {...settings}>
+          <StyledLink to="/" slick>
+            <img
+              src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
+              alt="test"
+            />
+            <TextWrap>
+              <p>이름</p>
+              <p>가격</p>
+            </TextWrap>
+          </StyledLink>
+          <StyledLink to="/" slick>
+            <img
+              src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
+              alt="test"
+            />
+            <TextWrap>
+              <p>이름</p>
+              <p>가격</p>
+            </TextWrap>
+          </StyledLink>
+          <StyledLink to="/" slick>
+            <img
+              src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
+              alt="test"
+            />
+            <TextWrap>
+              <p>이름</p>
+              <p>가격</p>
+            </TextWrap>
+          </StyledLink>
+          <StyledLink to="/" slick>
+            <img
+              src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
+              alt="test"
+            />
+            <TextWrap>
+              <p>이름</p>
+              <p>가격</p>
+            </TextWrap>
+          </StyledLink>
+          <StyledLink to="/" slick>
+            <img
+              src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
+              alt="test"
+            />
+            <TextWrap>
+              <p>이름</p>
+              <p>가격</p>
+            </TextWrap>
+          </StyledLink>
+        </Slider>
+      </SlickSection>
     </>
   );
 };
@@ -134,21 +293,23 @@ const marquee = keyframes`
 `;
 
 // marquee 해결하기
-const MarqueeWrapper = styled.div`
+const MarqueeContainer = styled.div`
   max-width: 100%;
   overflow: hidden;
+`;
+
+const MarqueeWrapper = styled.div`
   white-space: nowrap;
   overflow: hidden;
   display: inline-block;
-  animation: ${marquee} 6s linear infinite;
+  animation: ${marquee} 15s linear infinite forwards;
   padding: 1rem;
-
-  div {
-    display: inline-block;
-    min-width: 100%;
-  }
   &:hover {
     animation-play-state: paused;
+  }
+
+  p {
+    display: inline-block;
   }
 `;
 
@@ -160,6 +321,10 @@ const ItemWrapper = styled.ul`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   border-top: 2px solid;
+
+  ${tablet({
+    gridTemplateColumns: "repeat(4,1fr)",
+  })}
 `;
 
 const ItemName = styled.div`
@@ -188,8 +353,6 @@ const Item = styled.li`
   }
 
   a {
-    display: block;
-    height: 300px;
   }
 
   img {
@@ -201,4 +364,28 @@ const Item = styled.li`
   ${ItemName}:hover {
     opacity: 1;
   }
+`;
+
+const StyledLink = styled(Link)<{ slick: boolean }>`
+  /* display: block; */
+  /* height: ${({ slick }) => (slick ? "75vh" : "300px")}; */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-direction: column;
+  position: relative;
+
+  img {
+    height: ${({ slick }) => (slick ? "400px" : "100%")};
+    width: ${({ slick }) => (slick ? "300px" : "100%")};
+  }
+`;
+
+const SlickSection = styled.section`
+  padding: 5rem 1.5rem 2rem;
+`;
+
+const TextWrap = styled.div`
+  position: absolute;
+  bottom: 0;
 `;

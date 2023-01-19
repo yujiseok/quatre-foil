@@ -48,6 +48,9 @@
     ],
     // no-param-reassign
     "no-param-reassign": "off",
-    "@typescript-eslint/no-use-before-define": "off"
+    // 타입 선언 아래에서 끌어올리기 가능하게
+    "@typescript-eslint/no-use-before-define": "off",
+    // props에 디폴트 지정 끄기
+    "react/require-default-props": "off"
   }
 }
