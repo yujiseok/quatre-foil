@@ -49,7 +49,7 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 1rem;
     color: inherit;
     cursor: pointer;
-    display: inline-block;
+    /* display: inline-block; */
     display: grid;
     place-items: center;
   }
