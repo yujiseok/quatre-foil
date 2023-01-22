@@ -1,5 +1,6 @@
 import Layout from "@components/Layout";
 import ScrollToTop from "@components/Layout/ScrollToTop";
+import Detail from "@pages/Detail";
 import Home from "@pages/Home";
 import Login from "@pages/Login";
 import Mypage from "@pages/MyPage";
@@ -18,6 +19,7 @@ const Router = () => {
         <Route element={<Layout />}>
           <Route index path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/shop/:id" element={<Detail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/mypage" element={<Mypage />}>
