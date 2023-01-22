@@ -23,7 +23,6 @@ export default MypageNavbar;
 
 const Navbar = styled.div`
   ul {
-    display: flex;
-    gap: 100px;
+    display: grid;
   }
 `;
