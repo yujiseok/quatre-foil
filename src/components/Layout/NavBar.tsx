@@ -26,9 +26,9 @@ const NavBar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/mypage">
+            <Link to="/login">
               <button type="button">
-                my page
+                login
                 {/* <HiUser /> */}
               </button>
             </Link>

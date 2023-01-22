@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import Slider from "react-slick";
 import { SlickArrowLeft, SlickArrowRight } from "@components/SlickButton";
-import { desktop, tablet } from "../../global/responsive";
+import { mobile, desktop, tablet } from "../../global/responsive";
 import "@global/slick.css";
 import "@global/slick-theme.css";
 
@@ -47,12 +47,14 @@ const Home = () => {
       },
     ],
   };
+  const slick = true;
+
   return (
     <>
       <section>
         <picture>
           <source srcSet="https://www.thespruce.com/thmb/-kmScobJiRSHTYtLbEsyyXOq-cM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1266719687-0dd6bcac7ede4045a7f71f0640a718ee.jpg" />
-          <img
+          <HeroBg
             src="https://www.thespruce.com/thmb/-kmScobJiRSHTYtLbEsyyXOq-cM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1266719687-0dd6bcac7ede4045a7f71f0640a718ee.jpg"
             alt="hero-img"
           />
@@ -88,7 +90,7 @@ const Home = () => {
         </MarqueeContainer>
         <picture>
           <source srcSet="https://www.thespruce.com/thmb/-kmScobJiRSHTYtLbEsyyXOq-cM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1266719687-0dd6bcac7ede4045a7f71f0640a718ee.jpg" />
-          <img
+          <HeroBg
             src="https://www.thespruce.com/thmb/-kmScobJiRSHTYtLbEsyyXOq-cM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1266719687-0dd6bcac7ede4045a7f71f0640a718ee.jpg"
             alt="hero-img"
           />
@@ -114,7 +116,7 @@ const Home = () => {
       <ItemSection>
         <ItemWrapper>
           <Item>
-            <StyledLink to="/" slick={false}>
+            <StyledLink to="/" slick={!slick}>
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -125,7 +127,7 @@ const Home = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink to="/" slick={false}>
+            <StyledLink to="/" slick={!slick}>
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -136,7 +138,7 @@ const Home = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink to="/" slick={false}>
+            <StyledLink to="/" slick={!slick}>
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -147,7 +149,7 @@ const Home = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink to="/" slick={false}>
+            <StyledLink to="/" slick={!slick}>
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -266,6 +268,20 @@ const Home = () => {
 };
 export default Home;
 
+const HeroBg = styled.img`
+  aspect-ratio: 4/3;
+
+  ${mobile({
+    aspectRatio: "3/2",
+  })}
+
+  ${tablet({
+    aspectRatio: "16/9",
+  })} /* ${desktop({
+    aspectRatio: "2.75/1",
+  })} */
+`;
+
 const Caption = styled.section`
   text-align: center;
   padding: 2rem 0;
@@ -345,11 +361,32 @@ const Item = styled.li`
 
   &:nth-of-type(odd) {
     border-left: 2px solid;
+
+    ${tablet({
+      borderLeft: "1px solid",
+    })}
   }
 
   &:nth-of-type(even) {
     border-left: 1px solid;
     border-right: 2px solid;
+    ${tablet({
+      borderRight: "none",
+    })}
+
+    &:nth-of-type(4),
+    &:nth-of-type(8) {
+      ${tablet({
+        borderRight: "1px solid",
+      })}
+    }
+
+    &:nth-of-type(1),
+    &:nth-of-type(6) {
+      ${tablet({
+        borderLeft: "1px solid",
+      })}
+    }
   }
 
   a {

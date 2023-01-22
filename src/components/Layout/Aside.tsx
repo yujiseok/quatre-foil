@@ -4,8 +4,8 @@ import { closeMenu } from "features/toggleSlice";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { IoClose, IoChevronDown } from "react-icons/io5";
-import { useState } from "react";
-import { tablet } from "@global/responsive";
+import { useEffect, useState } from "react";
+import { mobile, tablet } from "@global/responsive";
 
 interface IBtn {
   isOpen: boolean;
@@ -14,7 +14,21 @@ interface IBtn {
 const Aside = () => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
+
   const handleClick = () => setIsOpen((prev) => !prev);
+
+  const handleResize = () => {
+    if (window.innerWidth > 768) {
+      dispatch(closeMenu());
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
 
   return (
     <>
@@ -41,7 +55,9 @@ const Aside = () => {
           <MenuWrapper>
             <li>
               <ShopDropdown>
-                <Link to="/shop">shop</Link>
+                <button type="button" onClick={() => dispatch(closeMenu())}>
+                  <Link to="/shop">shop</Link>
+                </button>
                 <DropdownBtn
                   type="button"
                   isOpen={isOpen}
@@ -60,10 +76,14 @@ const Aside = () => {
               ) : null}
             </li>
             <li>
-              <Link to="/cart">cart</Link>
+              <button type="button" onClick={() => dispatch(closeMenu())}>
+                <Link to="/cart">cart</Link>
+              </button>
             </li>
             <li>
-              <Link to="/mypage">my page</Link>
+              <button type="button" onClick={() => dispatch(closeMenu())}>
+                <Link to="/login">login</Link>
+              </button>
             </li>
           </MenuWrapper>
         </nav>
@@ -92,8 +112,8 @@ const StyledAside = styled(motion.aside)`
   z-index: 10;
   padding: 0 1.5rem;
 
-  ${tablet({
-    display: "none",
+  ${mobile({
+    width: "70vw",
   })}
 `;
 
@@ -113,12 +133,24 @@ const MenuWrapper = styled.ul`
   font-family: "Righteous", cursive;
   font-size: 1.25rem;
   text-transform: uppercase;
+
+  li {
+    padding-top: 0.25rem;
+  }
+
+  button {
+    display: inline-block;
+    font-family: inherit;
+    font-size: inherit;
+    text-transform: uppercase;
+  }
 `;
 
 const ShopDropdown = styled.div`
   display: flex;
   /* width: 100%; */
   justify-content: space-between;
+  align-items: center;
 `;
 
 const DropdownBtn = styled(motion.button)<IBtn>`
@@ -138,7 +170,7 @@ const Backdrop = styled(motion.div)`
   height: 100%;
   z-index: 5;
   background-color: rgba(0, 0, 0, 0.2);
-  ${tablet({
+  /* ${tablet({
     display: "none",
-  })}
+  })} */
 `;
