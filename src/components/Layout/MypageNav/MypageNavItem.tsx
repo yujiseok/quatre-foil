@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const MypageNavItem = ({ title }) => {
-  return (
-    <li>
-      <span>{title}</span>
-    </li>
-  );
+  return <NavItemList>{title}</NavItemList>;
 };
 export default MypageNavItem;
+
+const NavItemList = styled.li`
+  &:hover {
+    color: var(--black-60);
+  }
+`;
