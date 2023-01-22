@@ -31,7 +31,7 @@ const Shop = () => {
       </CategoryWrapper>
       <ItemWrapper>
         <li>
-          <StyledLink to="/shop">
+          <StyledLink to="/shop/abc">
             <img
               src="https://contents.sixshop.com/thumbnails/uploadedFiles/181086/product/image_1635159135938_1000.png"
               alt=""
