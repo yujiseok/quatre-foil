@@ -8,7 +8,7 @@ import { tablet } from "@global/responsive";
 const Footer = () => {
   return (
     <>
-      <footer>
+      <StyledFooter>
         <Container>
           <FooterTop>
             <h1>QUATRE FOIL</h1>
@@ -56,7 +56,7 @@ const Footer = () => {
             <span>Copyright © QUATRE FOIL All rights reserved.</span>
           </FooterBottom>
         </Container>
-      </footer>
+      </StyledFooter>
       <TopBtnPortal>
         <TopBtn />
       </TopBtnPortal>
@@ -64,6 +64,10 @@ const Footer = () => {
   );
 };
 export default Footer;
+
+const StyledFooter = styled.footer`
+  padding-top: 3rem;
+`;
 
 const Container = styled.div`
   padding: 0 1rem;
