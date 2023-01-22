@@ -1,12 +1,20 @@
 import Button from "@components/Button";
 import Input from "@components/Input";
 import styled from "styled-components";
+import { RiEditLine } from "react-icons/ri";
 
 const MyInfo = () => {
   return (
     <Container>
       <h2>회원정보</h2>
       <InputWrapper>
+        <ProfileWrapper>
+          <img
+            src="https://www.the-pr.co.kr/news/photo/202104/46684_71487_3134.jpg"
+            alt="프로필 기본 이미지"
+          />
+          <EditButton />
+        </ProfileWrapper>
         <Input id="email" type="email" label="이메일" />
         <Input id="name" type="text" label="이름" />
         <Input id="tel" type="tel" label="전화번호" />
@@ -61,6 +69,26 @@ const InputWrapper = styled.div`
     padding: 0.625rem 0.9375rem;
     color: var(--primary-color);
   }
+`;
+
+const ProfileWrapper = styled.div`
+  position: relative;
+  img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid var(--black-30);
+    margin-inline: auto;
+  }
+`;
+
+const EditButton = styled(RiEditLine)`
+  position: absolute;
+  right: 100px;
+  bottom: 0;
+  cursor: pointer;
 `;
 
 const PostalContainer = styled.div`
