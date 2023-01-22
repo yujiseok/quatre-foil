@@ -36,6 +36,8 @@ const Container = styled.div`
 `;
 
 const ItemContainer = styled.div`
+  width: 680px !important;
+  margin-inline
   border: 1px solid var(--black-20);
   display: flex;
   padding: 10px;

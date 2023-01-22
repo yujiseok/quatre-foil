@@ -13,10 +13,10 @@ const Signup = () => {
       </InputWrapper>
       <CheckContainer>
         <CheckWrapper>
-          <div>
+          {/* <div>
             <input type="checkbox" id="all_check_agree" />
             모두 동의합니다.
-          </div>
+          </div> */}
           <div>
             <input type="checkbox" id="all_check_agree" />
             (필수) 이용약관과 개인정보 수집 및 이용에 동의합니다.
