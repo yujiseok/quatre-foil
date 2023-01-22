@@ -31,7 +31,7 @@ const Shop = () => {
       </CategoryWrapper>
       <ItemWrapper>
         <li>
-          <StyledLink to="/shop">
+          <StyledLink to="/shop/abc">
             <img
               src="https://contents.sixshop.com/thumbnails/uploadedFiles/181086/product/image_1635159135938_1000.png"
               alt=""
@@ -46,7 +46,7 @@ const Shop = () => {
           </StyledLink>
         </li>
         <li>
-          <StyledLink to="/shop">
+          <StyledLink to="/shop/abc">
             <img
               src="http://blesswebshop.com/1108-2574-large/n69-lost-in-contemplation-variation-bedsheets-saturnia.jpg"
               alt=""
@@ -61,7 +61,7 @@ const Shop = () => {
           </StyledLink>
         </li>
         <li>
-          <StyledLink to="/shop">
+          <StyledLink to="/shop/abc">
             <img
               src="https://contents.sixshop.com/thumbnails/uploadedFiles/181086/product/image_1635159135938_1000.png"
               alt=""
@@ -76,7 +76,7 @@ const Shop = () => {
           </StyledLink>
         </li>
         <li>
-          <StyledLink to="/shop">
+          <StyledLink to="/shop/abc">
             <img
               src="http://blesswebshop.com/1108-2574-large/n69-lost-in-contemplation-variation-bedsheets-saturnia.jpg"
               alt=""
