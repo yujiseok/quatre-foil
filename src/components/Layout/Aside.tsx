@@ -55,7 +55,9 @@ const Aside = () => {
           <MenuWrapper>
             <li>
               <ShopDropdown>
-                <Link to="/shop">shop</Link>
+                <button type="button" onClick={() => dispatch(closeMenu())}>
+                  <Link to="/shop">shop</Link>
+                </button>
                 <DropdownBtn
                   type="button"
                   isOpen={isOpen}
