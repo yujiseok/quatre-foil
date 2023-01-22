@@ -103,7 +103,6 @@ const PostalWrapper = styled.div`
   }
   button {
     border: 1px solid var(--primary-color);
-    /* padding: 10px 20px; */
     width: 25%;
   }
 `;
@@ -112,17 +111,6 @@ const BtnContainer = styled.div`
   max-width: 250px;
   margin: 2.5rem auto 0;
 `;
-
-// const Button = styled.button`
-//   margin-bottom: 0.625rem;
-//   padding: 1rem 1.5rem;
-//   font-size: 1rem;
-//   font-weight: 900;
-//   width: 100%;
-//   border: 1px solid var(--primary-color);
-//   background-color: var(--primary-color);
-//   color: var(--white);
-// `;
 
 const SubscribeContainer = styled.div`
   margin-top: 1.25rem;

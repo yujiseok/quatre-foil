@@ -46,7 +46,7 @@ const ItemContainer = styled.li`
 
 const ItemInfoWrapper = styled.div`
   display: flex;
-  padding-top: 10px;
+  padding-top: 0.625rem;
   img {
     max-width: 100px;
   }
@@ -54,10 +54,10 @@ const ItemInfoWrapper = styled.div`
 
 const ItemInfoContainer = styled.div`
   display: inline-block;
-  margin-left: 20px;
+  margin-left: 1.25rem;
   p {
     color: var(--black-30);
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 2;
   }
   span {
@@ -68,13 +68,13 @@ const ItemInfoContainer = styled.div`
 const ConfirmOrderContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 30px;
+  gap: 0.625rem;
+  margin-top: 1.875rem;
 `;
 
 const Cfmbtn = styled.button`
   border: 1px solid var(--black-20);
-  width: 280px;
+  width: 17.5rem;
   border-radius: 5px;
-  padding: 5px 0;
+  padding: 0.3125rem 0;
 `;

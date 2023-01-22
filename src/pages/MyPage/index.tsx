@@ -17,5 +17,5 @@ export default Mypage;
 const Navbar = styled.section`
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding: 1.25rem;
 `;
