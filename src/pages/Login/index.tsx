@@ -27,7 +27,7 @@ export default Login;
 
 const Container = styled.div`
   padding: 1.875rem 1rem;
-  max-width: 400px;
+  max-width: 450px;
   margin: 1.875rem auto 0;
   h2 {
     margin-bottom: 0.875rem;

@@ -3,7 +3,10 @@ import ScrollToTop from "@components/Layout/ScrollToTop";
 import Detail from "@pages/Detail";
 import Home from "@pages/Home";
 import Login from "@pages/Login";
-import Mypage from "@pages/myPage";
+import Mypage from "@pages/MyPage";
+import MyAccount from "@pages/MyPage/MyAccount";
+import MyInfo from "@pages/MyPage/MyInfo";
+import MyOrder from "@pages/MyPage/MyOrder";
 import Shop from "@pages/Shop";
 import Signup from "@pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -19,7 +22,11 @@ const Router = () => {
           <Route path="/shop/:id" element={<Detail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/mypage" element={<Mypage />}>
+            <Route path="order" element={<MyOrder />} />
+            <Route path="account" element={<MyAccount />} />
+            <Route path="info" element={<MyInfo />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
