@@ -1,5 +1,6 @@
 import Layout from "@components/Layout";
 import ScrollToTop from "@components/Layout/ScrollToTop";
+import Cart from "@pages/Cart";
 import Detail from "@pages/Detail";
 import Home from "@pages/Home";
 import Login from "@pages/Login";
@@ -22,6 +23,7 @@ const Router = () => {
           <Route path="/shop/:id" element={<Detail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/mypage" element={<Mypage />}>
             <Route path="order" element={<MyOrder />} />
             <Route path="account" element={<MyAccount />} />
