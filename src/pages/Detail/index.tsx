@@ -27,7 +27,7 @@ const Detail = () => {
           <h4>쿠키</h4>
           <p>가격</p>
           <p>설명 주저리</p>
-          <p>
+          <div>
             <p>수량</p>
             <BtnWrapper>
               <button
@@ -42,7 +42,7 @@ const Detail = () => {
                 +
               </button>
             </BtnWrapper>
-          </p>
+          </div>
           <PriceWrapper>
             <Text>
               <div>주문 수량</div>
@@ -88,13 +88,6 @@ const Detail = () => {
           <p>
             <span>
               <strong>배송 지역 ㅣ&nbsp;</strong>대한민국 전지역
-            </span>
-          </p>
-
-          <p>
-            <span>
-              <strong>배송 비용 ㅣ&nbsp;</strong>2,500원 / 구매 금액
-              50,000원&nbsp;이상 시 무료배송 / 도서산간 지역 별도 추가 금액 발생
             </span>
           </p>
 
