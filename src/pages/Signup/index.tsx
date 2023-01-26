@@ -1,5 +1,5 @@
 import Input from "@components/Input";
-import { type } from "os";
+// import { type } from "os";
 import React, { useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -17,17 +17,23 @@ const Signup = () => {
   };
   const uploadProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
-    // const length = fileList?.length;
     if (fileList && fileList[0]) {
+      if (!isCheckProfileSize(fileList[0].size)) return;
       const url = URL.createObjectURL(fileList[0]);
-
       setImageFile({
         file: fileList[0],
         thumbnail: url,
         type: fileList[0].type.slice(0, 5),
       });
     }
-    console.log("fileList", fileList);
+  };
+  const MAX_PROFILE_IMAGE_SIZE = 1024 * 1024;
+  const isCheckProfileSize = (size) => {
+    if (size > MAX_PROFILE_IMAGE_SIZE) {
+      alert("1MB이하의 이미지를 추가해주세요🐆");
+      return false;
+    }
+    return true;
   };
 
   const showImage = useMemo(() => {
@@ -58,20 +64,16 @@ const Signup = () => {
       </InputWrapper>
       <ProfileContainer>
         <div>프로필</div>
-        {showImage}
         <FileUploadForm>
           <FileInput
             type="file"
             id="fileUpload"
-            accept=".jpg, .jpeg, .webp, .png, .gif, .svg"
+            accept=".jpg, .jpeg, .webp, .png, .svg"
             ref={fileInputRef}
             onChange={uploadProfile}
           />
-          {/* <FileUploadBtn type="button" onClick={handleClickFileInput}>
-            파일업로드버튼
-          </FileUploadBtn> */}
         </FileUploadForm>
-        {/* <ShowFileImg /> */}
+        <div>{showImage}</div>
       </ProfileContainer>
       <CheckContainer>
         <CheckWrapper>
@@ -112,23 +114,6 @@ const Container = styled.div`
 
 const ShowFileImg = styled.img``;
 
-const ProfileContainer = styled.div`
-  padding-top: 30px;
-  img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    overflow: hidden;
-    border-radius: 50%;
-    border: 1px solid var(--black-30);
-    margin-inline: auto;
-  }
-`;
-
-const FileUploadForm = styled.form``;
-
-const FileInput = styled.input``;
-
 const InputWrapper = styled.div`
   label {
     line-height: 2.5rem;
@@ -141,6 +126,26 @@ const InputWrapper = styled.div`
     padding: 0.625rem 0.9375rem;
     color: var(--primary-color);
   }
+`;
+
+const ProfileContainer = styled.div`
+  padding-top: 30px;
+  img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid var(--black-30);
+    margin-inline: auto;
+    padding: 10px;
+  }
+`;
+
+const FileUploadForm = styled.form``;
+
+const FileInput = styled.input`
+  font-size: 12px;
 `;
 
 const CheckContainer = styled.div`
