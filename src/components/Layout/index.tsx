@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import NavBar from "./NavBar";
 
 const Layout = () => {
-  const { toggle } = useAppSelector((state) => state.toggle);
+  const { toggle } = useAppSelector((state) => state.toggleReducer);
 
   return (
     <>

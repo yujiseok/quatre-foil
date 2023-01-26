@@ -1,15 +1,18 @@
 import { tablet } from "@global/responsive";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { setCategory } from "features/categorySlice";
 import type { MouseEvent } from "react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const CATEGORY = ["ALL", "FURNITURE", "BEDROOM", "HOMEWEAR", "GARDENING"];
 
 const Shop = () => {
-  const [active, setActive] = useState("ALL");
+  const { category } = useAppSelector((state) => state.categoryReducer);
+  const dispatch = useAppDispatch();
+
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
-    setActive(e.currentTarget.textContent as string);
+    dispatch(setCategory(e.currentTarget.textContent as string));
   };
 
   return (
@@ -22,7 +25,7 @@ const Shop = () => {
             <Category
               type="button"
               onClick={onClick}
-              className={item === active ? "active" : ""}
+              className={item === category ? "active" : ""}
             >
               {item}
             </Category>
