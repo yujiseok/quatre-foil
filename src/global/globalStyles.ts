@@ -31,6 +31,7 @@ export const GlobalStyles = createGlobalStyle`
     color: var(--primary-color);
     background-color: var(--white);
     line-height: 1.5;
+    scroll-behavior: smooth;
   }
 
   body {

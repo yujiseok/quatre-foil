@@ -4,8 +4,21 @@ import { FaGithub } from "react-icons/fa";
 import TopBtnPortal from "@components/topBtn/TopBtnPortal";
 import TopBtn from "@components/topBtn/TopBtn";
 import { tablet } from "@global/responsive";
+import { useAppDispatch } from "app/hooks";
+import { setCategory } from "features/categorySlice";
+import type { MouseEvent } from "react";
+import { scrollToTop } from "utils/scroll";
+
+const CATEGORY = ["ALL", "FURNITURE", "BEDROOM", "HOMEWEAR", "GARDENING"];
 
 const Footer = () => {
+  const dispatch = useAppDispatch();
+
+  const handleClickCategory = (e: MouseEvent<HTMLAnchorElement>) => {
+    dispatch(setCategory(e.currentTarget.textContent));
+    scrollToTop();
+  };
+
   return (
     <>
       <StyledFooter>
@@ -13,21 +26,30 @@ const Footer = () => {
           <FooterTop>
             <h1>QUATRE FOIL</h1>
             <ul>
-              <li>
-                <Link to="/">furniture</Link>
+              {CATEGORY.map((item) => (
+                <li key={item}>
+                  <Link to="/shop" onClick={handleClickCategory}>
+                    {item}
+                  </Link>
+                </li>
+              ))}
+              {/* <li>
+                <Link to="/shop" onClick={handleClickCategory}>
+                  FURNITURE
+                </Link>
               </li>
               <li>
-                <Link to="/">bedroom</Link>
+                <Link to="/shop">BEDROOM</Link>
               </li>
               <li>
-                <Link to="/">homewear</Link>
+                <Link to="/shop">HOMEWEAR</Link>
               </li>
               <li>
-                <Link to="/">bathroom</Link>
+                <Link to="/shop">BATHROOM</Link>
               </li>
               <li>
-                <Link to="/">gardening</Link>
-              </li>
+                <Link to="/shop">GARDENING</Link>
+              </li> */}
             </ul>
 
             <div>

@@ -4,12 +4,16 @@ import { closeMenu } from "features/toggleSlice";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { IoClose, IoChevronDown } from "react-icons/io5";
+import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { mobile, tablet } from "@global/responsive";
+import { setCategory } from "features/categorySlice";
+import { scrollToTop } from "utils/scroll";
 
 interface IBtn {
   isOpen: boolean;
 }
+const CATEGORY = ["ALL", "FURNITURE", "BEDROOM", "HOMEWEAR", "GARDENING"];
 
 const Aside = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +21,11 @@ const Aside = () => {
 
   const handleClick = () => setIsOpen((prev) => !prev);
 
+  const handleClickCategory = (e: MouseEvent<HTMLAnchorElement>) => {
+    dispatch(setCategory(e.currentTarget.textContent));
+    dispatch(closeMenu());
+    scrollToTop();
+  };
   const handleResize = () => {
     if (window.innerWidth > 768) {
       dispatch(closeMenu());
@@ -43,7 +52,7 @@ const Aside = () => {
           x: "-100%",
           transition: { duration: 0.5 },
         }}
-        transition={{ type: "spring", bounce: 0, duration: 0.7 }}
+        transition={{ type: "spring", bounce: 0, duration: 0.9 }}
       >
         <nav>
           <TitleWrapper>
@@ -69,9 +78,13 @@ const Aside = () => {
 
               {isOpen ? (
                 <DropdownMenu>
-                  <li>
-                    <Link to="/shop">furniture</Link>
-                  </li>
+                  {CATEGORY.map((item) => (
+                    <li key={item}>
+                      <Link to="/shop" onClick={handleClickCategory}>
+                        {item}
+                      </Link>
+                    </li>
+                  ))}
                 </DropdownMenu>
               ) : null}
             </li>

@@ -1,10 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import categoryReducer from "features/categorySlice";
 import toggleReducer from "features/toggleSlice";
 
+const rootReducer = combineReducers({
+  toggleReducer,
+  categoryReducer,
+});
+
 export const store = configureStore({
-  reducer: {
-    toggle: toggleReducer,
-  },
+  reducer: rootReducer,
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
