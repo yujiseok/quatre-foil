@@ -8,7 +8,7 @@ export const GlobalStyles = createGlobalStyle`
     --black-10: #e6e6e6;
     --black-20: #ccc;
     --black-30: #b3b3b3;
-    --black-40: ##999;
+    --black-40: #999;
     --black-50: #808080;
     --black-60: #666;
     --black-70: #4c4c4c;

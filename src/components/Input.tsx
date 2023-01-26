@@ -1,4 +1,12 @@
-const Input = ({ id, label, type }) => {
+const Input = ({
+  id,
+  label,
+  type,
+}: {
+  id: string;
+  label: string;
+  type: string;
+}) => {
   return (
     <label htmlFor={id}>
       {label}
