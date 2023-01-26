@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IoChevronUp } from "react-icons/io5";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
+import { scrollToTop } from "utils/scroll";
 
 const TopBtn = () => {
   const [showButton, setShowButton] = useState(false);
@@ -19,13 +20,6 @@ const TopBtn = () => {
       window.removeEventListener("scroll", handleShowButton);
     };
   }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <AnimatePresence>

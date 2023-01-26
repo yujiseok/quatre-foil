@@ -47,7 +47,6 @@ const Home = () => {
       },
     ],
   };
-  const slick = true;
 
   return (
     <>
@@ -116,7 +115,7 @@ const Home = () => {
       <ItemSection>
         <ItemWrapper>
           <Item>
-            <StyledLink to="/" slick={!slick}>
+            <StyledLink to="/" slick="">
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -127,7 +126,7 @@ const Home = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink to="/" slick={!slick}>
+            <StyledLink to="/" slick="">
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -138,7 +137,7 @@ const Home = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink to="/" slick={!slick}>
+            <StyledLink to="/" slick="">
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -149,7 +148,7 @@ const Home = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink to="/" slick={!slick}>
+            <StyledLink to="/" slick="">
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -160,7 +159,7 @@ const Home = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink to="/" slick={false}>
+            <StyledLink to="/" slick="">
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -171,7 +170,7 @@ const Home = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink to="/" slick={false}>
+            <StyledLink to="/" slick="">
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -182,7 +181,7 @@ const Home = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink to="/" slick={false}>
+            <StyledLink to="/" slick="">
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -193,7 +192,7 @@ const Home = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink to="/" slick={false}>
+            <StyledLink to="/" slick="">
               <img
                 src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
                 alt="test"
@@ -211,7 +210,7 @@ const Home = () => {
         <h2>인기 상품을 만나 보세요! 🔥</h2>
 
         <Slider {...settings}>
-          <StyledLink to="/" slick>
+          <StyledLink to="/" slick="slick">
             <img
               src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
               alt="test"
@@ -221,7 +220,7 @@ const Home = () => {
               <p>가격</p>
             </TextWrap>
           </StyledLink>
-          <StyledLink to="/" slick>
+          <StyledLink to="/" slick="slick">
             <img
               src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
               alt="test"
@@ -231,7 +230,7 @@ const Home = () => {
               <p>가격</p>
             </TextWrap>
           </StyledLink>
-          <StyledLink to="/" slick>
+          <StyledLink to="/" slick="slick">
             <img
               src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
               alt="test"
@@ -241,7 +240,7 @@ const Home = () => {
               <p>가격</p>
             </TextWrap>
           </StyledLink>
-          <StyledLink to="/" slick>
+          <StyledLink to="/" slick="slick">
             <img
               src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
               alt="test"
@@ -251,7 +250,7 @@ const Home = () => {
               <p>가격</p>
             </TextWrap>
           </StyledLink>
-          <StyledLink to="/" slick>
+          <StyledLink to="/" slick="slick">
             <img
               src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
               alt="test"
@@ -403,7 +402,7 @@ const Item = styled.li`
   }
 `;
 
-const StyledLink = styled(Link)<{ slick: boolean }>`
+const StyledLink = styled(Link)<{ slick: string }>`
   /* display: block; */
   /* height: ${({ slick }) => (slick ? "75vh" : "300px")}; */
   display: flex !important;
