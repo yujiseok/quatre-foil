@@ -1,100 +1,121 @@
 import Input from "@components/Input";
-// import { type } from "os";
-import React, { useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import type { FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+interface FormValue {
+  profileImg: string;
+  name: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+}
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  displayName: yup.string().max(20).required(),
+  password: yup.string().min(4).max(16).required(),
+  password2: yup
+    .string()
+    .oneOf([yup.ref("password"), null])
+    .required(),
+});
+
+const toBase64 = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    if (file) {
+      reader.onload = () => resolve(reader.result as string);
+      reader.readAsDataURL(file);
+      reader.onerror = (error) => reject(error);
+    }
+  });
 
 const Signup = () => {
-  type UploadImg = {
-    file: File;
-    thumbnail: string;
-    type: string;
+  const [profile, setProfile] = useState<string>(
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+  );
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const profilePreview = watch("profileImg");
+
+  const onSubmit = async (data: FieldValues) => {
+    const { displayName, email, password, profileImg } = data;
+    const profileImgBase64 = await toBase64(profileImg[0]);
   };
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageFile, setImageFile] = useState<UploadImg | null>(null);
-  const handleClickFileInput = () => {
-    fileInputRef.current?.click();
-  };
-  const uploadProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files;
-    if (fileList && fileList[0]) {
-      if (!isCheckProfileSize(fileList[0].size)) return;
-      const url = URL.createObjectURL(fileList[0]);
-      setImageFile({
-        file: fileList[0],
-        thumbnail: url,
-        type: fileList[0].type.slice(0, 5),
-      });
+  useEffect(() => {
+    if (profilePreview && profilePreview.length > 0) {
+      const file: any = profilePreview[0];
+      if (file.size > MAX_PROFILE_IMAGE_SIZE) {
+        alert(" 1MB이하의 이미지를 추가해주세요🐆");
+        return;
+      }
+      setProfile(URL.createObjectURL(file));
     }
-  };
+  }, [profilePreview]);
+
   const MAX_PROFILE_IMAGE_SIZE = 1024 * 1024;
-  const isCheckProfileSize = (size) => {
-    if (size > MAX_PROFILE_IMAGE_SIZE) {
-      alert("1MB이하의 이미지를 추가해주세요🐆");
-      return false;
-    }
-    return true;
-  };
 
-  const showImage = useMemo(() => {
-    if (!imageFile && imageFile == null) {
-      return (
-        <img
-          src="https://www.the-pr.co.kr/news/photo/202104/46684_71487_3134.jpg"
-          alt="비어있는 프로필"
-        />
-      );
-    }
-    return (
-      <ShowFileImg
-        src={imageFile.thumbnail}
-        alt={imageFile.type}
-        onClick={handleClickFileInput}
-      />
-    );
-  }, [imageFile]);
   return (
-    <Container>
+    <Container onSubmit={handleSubmit(onSubmit)}>
       <h2>회원가입</h2>
-      <InputWrapper>
-        <Input id="email" type="email" label="이메일" />
-        <Input id="pwd" type="password" label="비밀번호" />
-        <Input id="pwdcfm" type="password" label="비밀번호 확인" />
-        <Input id="name" type="text" label="이름" />
-      </InputWrapper>
       <ProfileContainer>
-        <div>프로필</div>
-        <FileUploadForm>
-          <FileInput
+        <div>프로필 사진 설정</div>
+        <FileUploadContainer>
+          <label htmlFor="profileImgBase64">
+            <img src={profile} alt="" />
+          </label>
+          <input
             type="file"
-            id="fileUpload"
-            accept=".jpg, .jpeg, .webp, .png, .svg"
-            ref={fileInputRef}
-            onChange={uploadProfile}
+            // onChange={onChange}
+            id="profileImgBase64"
+            {...register("profileImg")}
           />
-        </FileUploadForm>
-        <div>{showImage}</div>
+        </FileUploadContainer>
       </ProfileContainer>
-      <CheckContainer>
-        <CheckWrapper>
-          {/* <div>
-            <input type="checkbox" id="all_check_agree" />
-            모두 동의합니다.
-          </div> */}
-          <div>
-            <input type="checkbox" id="all_check_agree" />
-            (필수) 이용약관과 개인정보 수집 및 이용에 동의합니다.
-          </div>
-          <div>
-            <input type="checkbox" id="all_check_agree" />
-            (필수) 만 14세 이상입니다.
-          </div>
-          <div>
-            <input type="checkbox" id="all_check_agree" />
-            (선택) 이메일 및 SMS 마케팅 정보 수신에 동의합니다.
-          </div>
-        </CheckWrapper>
-      </CheckContainer>
+      <InputWrapper>
+        <div>
+          <label htmlFor="email">이메일 *</label>
+          <input type="text" id="email" {...register("email")} />
+        </div>
+        {errors.email && (
+          <p>{errors.email && "이메일을 형식에 맞게 입력해주세요."}</p>
+        )}
+        <div>
+          <label htmlFor="displayName">이름 *</label>
+          <input type="text" id="displayName" {...register("displayName")} />
+        </div>
+        {errors.displayName && (
+          <p>{errors.displayName && "이름은 최대 20자여야 합니다."}</p>
+        )}
+        <div>
+          <label htmlFor="password">비밀번호 *</label>
+          <input type="password" id="password" {...register("password")} />
+        </div>
+        {errors.password && (
+          <p>{errors.password && "비밀번호는 4~8자리여야 합니다."}</p>
+        )}
+        <div>
+          <label htmlFor="password2">비밀번호 확인 *</label>
+          <input type="password" id="password2" {...register("password2")} />
+        </div>
+        {errors.password2 && (
+          <p>{errors.password2 && "비밀번호가 일치하지 않습니다."}</p>
+        )}
+      </InputWrapper>
       <BtnContainer>
         <Button type="submit">가입하기</Button>
       </BtnContainer>
@@ -103,7 +124,7 @@ const Signup = () => {
 };
 export default Signup;
 
-const Container = styled.div`
+const Container = styled.form`
   padding: 1.875rem 1rem;
   max-width: 400px;
   margin: 1.875rem auto 0;
@@ -111,8 +132,6 @@ const Container = styled.div`
     margin-bottom: 0.875rem;
   }
 `;
-
-const ShowFileImg = styled.img``;
 
 const InputWrapper = styled.div`
   label {
@@ -126,33 +145,35 @@ const InputWrapper = styled.div`
     padding: 0.625rem 0.9375rem;
     color: var(--primary-color);
   }
+  p {
+    color: red;
+    font-size: 10px;
+    margin-top: 0.25rem;
+  }
 `;
 
 const ProfileContainer = styled.div`
-  padding-top: 30px;
+  padding-top: 1.875rem;
   img {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     overflow: hidden;
     border-radius: 50%;
     border: 1px solid var(--black-30);
     margin-inline: auto;
-    padding: 10px;
+    padding: 0.25rem;
   }
 `;
 
-const FileUploadForm = styled.form``;
-
-const FileInput = styled.input`
-  font-size: 12px;
+const FileUploadContainer = styled.div`
+  button {
+    border: 1px solid;
+  }
+  #profileImgBase64 {
+    display: none;
+  }
 `;
-
-const CheckContainer = styled.div`
-  margin-top: 1.25rem;
-`;
-
-const CheckWrapper = styled.div``;
 
 const BtnContainer = styled.div`
   max-width: 250px;
