@@ -11,4 +11,4 @@ const axiosConfig: AxiosRequestConfig = {
   },
 };
 
-export const instance = axios.create(axiosConfig);
+export const request = axios.create(axiosConfig);
