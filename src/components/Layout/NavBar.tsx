@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { FaShoppingCart, FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { openMenu } from "features/toggleSlice";
 import { tablet } from "@global/responsive";
 import { HiUser } from "react-icons/hi2";
@@ -9,6 +9,7 @@ import { AiFillShopping } from "react-icons/ai";
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
 
   return (
     <StyledNav>
@@ -21,26 +22,22 @@ const NavBar = () => {
         </h1>
         <MenuWrapper>
           <li>
-            <Link to="/shop">
-              <button type="button">shop</button>
-            </Link>
+            <Link to="/shop">shop</Link>
           </li>
-          <li>
-            <Link to="/login">
-              <button type="button">
-                login
-                {/* <HiUser /> */}
-              </button>
-            </Link>
-          </li>
-          <li>
-            <Link to="/cart">
-              <button type="button">
-                cart
-                {/* <FaShoppingCart /> */}
-              </button>
-            </Link>
-          </li>
+          {auth.accessToken ? (
+            <>
+              <li>
+                <Link to="/mypage">my page</Link>
+              </li>
+              <li>
+                <Link to="/cart">cart</Link>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link to="/login">login</Link>
+            </li>
+          )}
         </MenuWrapper>
       </Container>
     </StyledNav>
@@ -64,7 +61,7 @@ const Container = styled.div`
   align-items: center;
   height: 100%;
   ${tablet({
-    padding: "0px 2rem",
+    padding: "0px 2.5rem",
   })}
 `;
 
@@ -78,7 +75,7 @@ const MenuWrapper = styled.ul`
       opacity: 0.8;
     }
 
-    button {
+    a {
       text-transform: uppercase;
       font-family: "Righteous", cursive;
     }

@@ -65,3 +65,21 @@ export const login: AuthFn = async (email, password) => {
     return false;
   }
 };
+
+export const logout: AuthFn = async (token) => {
+  try {
+    const res = await request("/auth/logout", {
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      console.log(error.message);
+    }
+    return false;
+  }
+};

@@ -1,5 +1,7 @@
 import Layout from "@components/Layout";
 import ScrollToTop from "@components/Layout/ScrollToTop";
+import PrivateRouter from "@components/PrivateRouter";
+import PublicRouter from "@components/PublicRouter";
 import Cart from "@pages/Cart";
 import Detail from "@pages/Detail";
 import Home from "@pages/Home";
@@ -21,13 +23,27 @@ const Router = () => {
           <Route index path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:id" element={<Detail />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <PublicRouter>
+                <Login />
+              </PublicRouter>
+            }
+          />
           <Route path="/signup" element={<Signup />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/mypage" element={<Mypage />}>
+          <Route
+            path="/mypage"
+            element={
+              <PrivateRouter>
+                <Mypage />
+              </PrivateRouter>
+            }
+          >
             <Route path="order" element={<MyOrder />} />
             <Route path="account" element={<MyAccount />} />
-            <Route path="info" element={<MyInfo />} />
+            <Route path="/mypage" element={<MyInfo />} />
           </Route>
         </Route>
       </Routes>

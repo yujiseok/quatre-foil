@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-const MypageNavItem = ({ title }) => {
+interface Props {
+  title: string;
+}
+
+const MypageNavItem = ({ title }: Props) => {
   return <NavItemList>{title}</NavItemList>;
 };
 export default MypageNavItem;
