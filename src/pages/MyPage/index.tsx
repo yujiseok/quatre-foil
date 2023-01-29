@@ -23,4 +23,5 @@ const Navbar = styled.nav`
   display: flex;
   justify-content: center;
   padding: 1.25rem;
+  margin-top: 2rem;
 `;
