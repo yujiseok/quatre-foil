@@ -7,6 +7,8 @@ import * as yup from "yup";
 import { signUp } from "api";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { setUser } from "features/authSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -57,11 +59,12 @@ const Signup = () => {
   };
 
   const profilePreview = watch("profileImg");
+  console.log(typeof profilePreview);
   useEffect(() => {
     if (profilePreview && profilePreview.length > 0) {
       const file: any = profilePreview[0];
       if (file.size > MAX_PROFILE_IMAGE_SIZE) {
-        alert(" 1MB이하의 이미지를 추가해주세요🐆");
+        toast.error("1MB이하의 이미지를 추가해주세요");
         return;
       }
       setProfile(URL.createObjectURL(file));
@@ -117,6 +120,17 @@ const Signup = () => {
       <BtnContainer>
         <Button type="submit">가입하기</Button>
       </BtnContainer>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="light"
+      />
     </Container>
   );
 };

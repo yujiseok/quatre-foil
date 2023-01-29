@@ -1,23 +1,53 @@
 import Button from "@components/Button";
-import Input from "@components/Input";
 import styled from "styled-components";
 import { RiEditLine } from "react-icons/ri";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { logout } from "api";
+import { logOutAction } from "features/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const MyInfo = () => {
+  const auth = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    const res = await logout(auth.accessToken);
+    if (res) {
+      dispatch(logOutAction());
+      navigate("/");
+    }
+  };
+
   return (
     <Container>
       <h2>회원정보</h2>
       <InputWrapper>
         <ProfileWrapper>
           <img
-            src="https://www.the-pr.co.kr/news/photo/202104/46684_71487_3134.jpg"
+            src={
+              auth.user.profileImg ??
+              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            }
             alt="프로필 기본 이미지"
           />
-          <EditButton />
+          <label htmlFor="profile">
+            <EditButton />
+          </label>
+          <input type="file" id="profile" />
         </ProfileWrapper>
-        <Input id="email" type="email" label="이메일" />
-        <Input id="name" type="text" label="이름" />
-        <Input id="tel" type="tel" label="전화번호" />
+        <div>
+          <label htmlFor="email">이메일</label>
+          <input type="text" id="email" value={auth.user.email} />
+        </div>
+        <div>
+          <label htmlFor="email">이름</label>
+          <input type="text" id="email" value={auth.user.displayName} />
+        </div>
+        <div>
+          <label htmlFor="password">비밀번호</label>
+          <input type="text" id="password" />
+        </div>
+
         <PostalContainer>
           <div>우편번호</div>
           <PostalWrapper>
@@ -41,7 +71,8 @@ const MyInfo = () => {
         </SubscribeWrapper>
       </SubscribeContainer>
       <BtnContainer>
-        <Button>변경 사항 저장하기</Button>
+        <Button primary>변경 사항 저장하기</Button>
+        <Button onClick={handleLogout}>로그아웃</Button>
       </BtnContainer>
     </Container>
   );
@@ -81,6 +112,10 @@ const ProfileWrapper = styled.div`
     border-radius: 50%;
     border: 1px solid var(--black-30);
     margin-inline: auto;
+  }
+
+  input {
+    display: none;
   }
 `;
 

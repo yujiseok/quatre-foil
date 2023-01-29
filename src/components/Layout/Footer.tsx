@@ -33,23 +33,6 @@ const Footer = () => {
                   </Link>
                 </li>
               ))}
-              {/* <li>
-                <Link to="/shop" onClick={handleClickCategory}>
-                  FURNITURE
-                </Link>
-              </li>
-              <li>
-                <Link to="/shop">BEDROOM</Link>
-              </li>
-              <li>
-                <Link to="/shop">HOMEWEAR</Link>
-              </li>
-              <li>
-                <Link to="/shop">BATHROOM</Link>
-              </li>
-              <li>
-                <Link to="/shop">GARDENING</Link>
-              </li> */}
             </ul>
 
             <div>
@@ -99,7 +82,7 @@ const Container = styled.div`
   gap: 2rem;
 
   ${tablet({
-    padding: "0px 2rem",
+    padding: "0px 2.5rem",
     gap: "1.25rem",
   })}
 `;
