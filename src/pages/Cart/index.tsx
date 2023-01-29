@@ -72,7 +72,7 @@ const Cart = (props: Props) => {
 };
 
 const Container = styled.div`
-  padding: 0 1rem;
+  padding: 0 1rem 2.25rem;
 
   h4 {
     font-size: 1.5rem;
