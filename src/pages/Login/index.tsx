@@ -62,8 +62,14 @@ const Login = () => {
       </PwdContainer>
       <BtnContainer>
         <Button type="submit">로그인 하기</Button>
-        <Button type="button" signup>
-          <Link to="/signup">회원가입 하기</Link>
+        <Button
+          type="button"
+          signup
+          onClick={() => {
+            navigate("/signup");
+          }}
+        >
+          회원가입 하기
         </Button>
       </BtnContainer>
     </Container>
