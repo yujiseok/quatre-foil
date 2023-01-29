@@ -1,21 +1,67 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Input from "@components/Input";
+import type { FieldValues } from "react-hook-form";
+import { useState } from "react";
+import { login } from "api";
+import { useAppDispatch } from "app/hooks";
+import { setUser } from "features/authSlice";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(4).max(16).required(),
+});
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+  // const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data: FieldValues) => {
+    // setIsLoading(true);
+    const { email, password } = data;
+    const res = await login(email, password);
+    if (res.accessToken) {
+      dispatch(setUser(res));
+      navigate("/");
+    }
+  };
+
   return (
-    <Container>
+    <Container onSubmit={handleSubmit(onSubmit)}>
       <h2>로그인</h2>
       <InputWrapper>
-        <Input id="loginId" type="email" label="이메일" />
-        <Input id="loginpwd" type="password" label="비밀번호" />
+        <div>
+          <label htmlFor="email">이메일</label>
+          <input type="text" id="email" {...register("email")} />
+        </div>
+        {errors.email && (
+          <p>{errors.email && "이메일을 형식에 맞게 입력해주세요."}</p>
+        )}
+        <div>
+          <label htmlFor="password">비밀번호</label>
+          <input type="password" id="password" {...register("password")} />
+        </div>
+        {errors.password && (
+          <p>{errors.password && "비밀번호를 정확히 입력해주세요"}</p>
+        )}
       </InputWrapper>
       <PwdContainer>
         <div>비밀번호 찾기</div>
         <div>비회원 주문 조회하기</div>
       </PwdContainer>
       <BtnContainer>
-        <Button type="button">로그인 하기</Button>
+        <Button type="submit">로그인 하기</Button>
         <Button type="button" signup>
           <Link to="/signup">회원가입 하기</Link>
         </Button>
@@ -25,7 +71,7 @@ const Login = () => {
 };
 export default Login;
 
-const Container = styled.div`
+const Container = styled.form`
   padding: 1.875rem 1rem;
   max-width: 450px;
   margin: 1.875rem auto 0;
@@ -46,6 +92,11 @@ const InputWrapper = styled.div`
     padding: 0.625rem 0.9375rem;
     color: var(--primary-color);
   }
+  p {
+    color: red;
+    font-size: 10px;
+    margin-top: 0.25rem;
+  }
 `;
 
 const PwdContainer = styled.div`
@@ -65,7 +116,7 @@ const BtnContainer = styled.div`
   margin: 0 auto;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ signup?: boolean }>`
   margin-bottom: 0.625rem;
   padding: 1rem 1.5rem;
   font-size: 1rem;

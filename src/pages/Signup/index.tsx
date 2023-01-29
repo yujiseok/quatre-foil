@@ -1,18 +1,12 @@
-import Input from "@components/Input";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import type { FieldValues } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
-interface FormValue {
-  profileImg: string;
-  name: string;
-  email: string;
-  password: string;
-  password_confirm: string;
-}
+import { singup } from "api";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { setUser } from "features/authSlice";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -24,21 +18,23 @@ const schema = yup.object().shape({
     .required(),
 });
 
-const toBase64 = (file: File): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    if (file) {
-      reader.onload = () => resolve(reader.result as string);
-      reader.readAsDataURL(file);
-      reader.onerror = (error) => reject(error);
-    }
-  });
+const MAX_PROFILE_IMAGE_SIZE = 1024 * 1024;
 
 const Signup = () => {
   const [profile, setProfile] = useState<string>(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
   );
+  const [profileImgBase64, setProfileImgBase64] = useState("");
+
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+  const toBase64 = (file: File) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => setProfileImgBase64(reader.result as string);
+    }
+  };
 
   const {
     register,
@@ -49,13 +45,18 @@ const Signup = () => {
     resolver: yupResolver(schema),
   });
 
-  const profilePreview = watch("profileImg");
-
   const onSubmit = async (data: FieldValues) => {
     const { displayName, email, password, profileImg } = data;
-    const profileImgBase64 = await toBase64(profileImg[0]);
+    toBase64(profileImg[0]);
+
+    const test = await singup(email, password, displayName, profileImgBase64);
+
+    if (test.accessToken) {
+      dispatch(setUser(test));
+    }
   };
 
+  const profilePreview = watch("profileImg");
   useEffect(() => {
     if (profilePreview && profilePreview.length > 0) {
       const file: any = profilePreview[0];
@@ -66,8 +67,6 @@ const Signup = () => {
       setProfile(URL.createObjectURL(file));
     }
   }, [profilePreview]);
-
-  const MAX_PROFILE_IMAGE_SIZE = 1024 * 1024;
 
   return (
     <Container onSubmit={handleSubmit(onSubmit)}>
@@ -80,7 +79,6 @@ const Signup = () => {
           </label>
           <input
             type="file"
-            // onChange={onChange}
             id="profileImgBase64"
             {...register("profileImg")}
           />
