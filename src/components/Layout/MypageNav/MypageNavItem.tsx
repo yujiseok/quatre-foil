@@ -11,6 +11,8 @@ export default MypageNavItem;
 
 const NavItemList = styled.li`
   &:hover {
-    color: var(--black-60);
+    text-decoration: underline;
   }
+  font-size: 18px;
+  font-weight: 600;
 `;
