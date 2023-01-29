@@ -1,9 +1,8 @@
 // api 요청 함수 만들기
-import type { AxiosResponse } from "axios";
-import { instance } from "./core/api";
+import { AxiosError } from "axios";
+import { request } from "./core/api";
 
 // 인증
-
 interface AuthFn {
   (
     email?: string,
@@ -23,14 +22,14 @@ interface ResponseValue {
 }
 
 // 회원가입
-export const singup: AuthFn = async (
+export const signUp: AuthFn = async (
   email,
   password,
   displayName,
   profileImgBase64,
 ) => {
   try {
-    const res = await instance("/auth/signup", {
+    const res = await request("/auth/signup", {
       method: "post",
       data: {
         email,
@@ -41,19 +40,28 @@ export const singup: AuthFn = async (
     });
     return res.data;
   } catch (error) {
-    console.log(error);
+    if (error instanceof AxiosError) {
+      console.log(error.message);
+    }
     return false;
   }
 };
 
 export const login: AuthFn = async (email, password) => {
-  const res = await instance("/auth/login", {
-    method: "post",
-    data: {
-      email,
-      password,
-    },
-  });
-  console.log(res.data);
-  return res.data;
+  try {
+    const res = await request("/auth/login", {
+      method: "post",
+      data: {
+        email,
+        password,
+      },
+    });
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      console.log(error.message);
+    }
+    return false;
+  }
 };

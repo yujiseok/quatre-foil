@@ -4,7 +4,7 @@ import type { FieldValues } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { singup } from "api";
+import { signUp } from "api";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { setUser } from "features/authSlice";
 
@@ -49,7 +49,7 @@ const Signup = () => {
     const { displayName, email, password, profileImg } = data;
     toBase64(profileImg[0]);
 
-    const test = await singup(email, password, displayName, profileImgBase64);
+    const test = await signUp(email, password, displayName, profileImgBase64);
 
     if (test.accessToken) {
       dispatch(setUser(test));
