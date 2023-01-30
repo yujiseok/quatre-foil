@@ -9,15 +9,28 @@ interface AuthFn {
     password?: string,
     displayName?: string,
     profileImgBase64?: string,
+    accessToken?: string,
   ): Promise<ResponseValue>;
 }
 
+interface EditAuthFn {
+  (
+    displayName?: string,
+    profileImgBase64?: string,
+    oldPassword?: string,
+    newPassword?: string,
+    accessToken?: string,
+  ): Promise<User>;
+}
+
+interface User {
+  email: string;
+  displayName: string;
+  profileImg: string | null;
+}
+
 interface ResponseValue {
-  user: {
-    email: string;
-    displayName: string;
-    profileImg: string | null;
-  };
+  user: User;
   accessToken: string;
 }
 
@@ -75,6 +88,36 @@ export const logout: AuthFn = async (token) => {
       },
     });
 
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      console.log(error.message);
+    }
+    return false;
+  }
+};
+
+// 정보 수정
+export const editInfo: EditAuthFn = async (
+  displayName,
+  profileImgBase64,
+  oldPassword,
+  newPassword,
+  token,
+) => {
+  try {
+    const res = await request("/auth/user", {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        displayName,
+        profileImgBase64,
+        oldPassword,
+        newPassword,
+      },
+    });
     return res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
