@@ -18,6 +18,8 @@ const CATEGORY = ["ALL", "FURNITURE", "BEDROOM", "HOMEWEAR", "GARDENING"];
 const Aside = () => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const toggle = useAppSelector((state) => state.toggleReducer.toggle);
+  const { accessToken } = useAppSelector((state) => state.auth);
 
   const handleClick = () => setIsOpen((prev) => !prev);
 
@@ -95,7 +97,11 @@ const Aside = () => {
             </li>
             <li>
               <button type="button" onClick={() => dispatch(closeMenu())}>
-                <Link to="/login">login</Link>
+                {accessToken ? (
+                  <Link to="/mypage">my page</Link>
+                ) : (
+                  <Link to="/login">login</Link>
+                )}
               </button>
             </li>
           </MenuWrapper>
