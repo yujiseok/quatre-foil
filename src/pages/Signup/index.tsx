@@ -10,6 +10,7 @@ import { setUser } from "features/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -52,9 +53,17 @@ const Signup = () => {
   const onSubmit = async (data: FieldValues) => {
     const { displayName, email, password, profileImg } = data;
     toBase64(profileImg[0]);
-    const res = await signUp(email, password, displayName, profileImgBase64);
-    if (res.accessToken) {
-      navigate("/", { replace: true });
+    try {
+      const res = await signUp(email, password, displayName, profileImgBase64);
+      if (res.accessToken) {
+        toast.success("회원가입에 성공했습니다");
+        navigate("/", { replace: true });
+      }
+    } catch (error) {
+      console.log("error", error);
+      if (error instanceof AxiosError) {
+        toast.error(error?.response?.data);
+      }
     }
   };
 
