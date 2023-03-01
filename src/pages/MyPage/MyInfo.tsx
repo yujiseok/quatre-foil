@@ -2,7 +2,7 @@ import Button from "@components/Button";
 import styled from "styled-components";
 import { RiEditLine } from "react-icons/ri";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { editInfo, logout } from "api";
+import { editInfo, logout } from "api/auth";
 import { logOutAction, editUser } from "features/authSlice";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -51,7 +51,7 @@ const MyInfo = () => {
   };
 
   const handleLogout = async () => {
-    const res = await logout(auth.accessToken);
+    const res = await logout();
     if (res) {
       dispatch(logOutAction());
       navigate("/");
@@ -160,7 +160,9 @@ const MyInfo = () => {
       </SubscribeContainer> */}
       <BtnContainer>
         <Button primary>변경 사항 저장하기</Button>
-        <Button onClick={handleLogout}>로그아웃</Button>
+        <Button type="button" onClick={handleLogout}>
+          로그아웃
+        </Button>
       </BtnContainer>
       <ToastContainer
         position="bottom-right"

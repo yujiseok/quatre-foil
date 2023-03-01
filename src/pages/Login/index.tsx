@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import type { FieldValues } from "react-hook-form";
 import { useState } from "react";
-import { login } from "api";
+import { login } from "api/auth";
 import { useAppDispatch } from "app/hooks";
 import { setUser } from "features/authSlice";
 import * as yup from "yup";

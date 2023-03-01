@@ -4,13 +4,15 @@ const Button = ({
   primary,
   children,
   onClick,
+  type,
 }: {
   primary?: boolean;
   children: React.ReactNode;
   onClick?: () => void;
+  type?: "submit" | "button";
 }) => {
   return (
-    <Btn primary={primary as boolean} type="submit" onClick={onClick}>
+    <Btn primary={primary as boolean} type={type} onClick={onClick}>
       {children}
     </Btn>
   );

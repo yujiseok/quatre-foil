@@ -1,5 +1,4 @@
-import { addAccount } from "api";
-import { calcLength } from "framer-motion";
+import { addAccount } from "api/account";
 import type { MouseEvent } from "react";
 import { useRef, useState } from "react";
 import styled from "styled-components";
