@@ -68,7 +68,6 @@ const MyInfo = () => {
       newPassword,
       auth.accessToken,
     );
-    console.log(res);
     if (res.displayName) {
       dispatch(editUser(res));
     }

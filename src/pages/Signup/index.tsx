@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { setUser } from "features/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -23,6 +25,7 @@ const schema = yup.object().shape({
 const MAX_PROFILE_IMAGE_SIZE = 1024 * 1024;
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<string>(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
   );
@@ -50,16 +53,20 @@ const Signup = () => {
   const onSubmit = async (data: FieldValues) => {
     const { displayName, email, password, profileImg } = data;
     toBase64(profileImg[0]);
-
-    const test = await signUp(email, password, displayName, profileImgBase64);
-
-    if (test.accessToken) {
-      dispatch(setUser(test));
+    try {
+      const res = await signUp(email, password, displayName, profileImgBase64);
+      if (res.accessToken) {
+        // 모달을 이용해서 유저에게 정보 알리기
+        navigate("/");
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data);
+      }
     }
   };
 
   const profilePreview = watch("profileImg");
-  console.log(typeof profilePreview);
   useEffect(() => {
     if (profilePreview && profilePreview.length > 0) {
       const file: any = profilePreview[0];
