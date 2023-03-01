@@ -12,3 +12,13 @@ const axiosConfig: AxiosRequestConfig = {
 };
 
 export const request = axios.create(axiosConfig);
+
+// request.interceptors.response.use(
+//   (res) => res,
+//   (error) => {
+//     if (error) {
+//       alert(error.response.data);
+//     }
+//     return Promise.reject();
+//   },
+// );

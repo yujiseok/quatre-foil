@@ -8,6 +8,9 @@ import { setUser } from "features/authSlice";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { AxiosError } from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -30,10 +33,17 @@ const Login = () => {
   const onSubmit = async (data: FieldValues) => {
     // setIsLoading(true);
     const { email, password } = data;
-    const res = await login(email, password);
-    if (res.accessToken) {
-      dispatch(setUser(res));
-      navigate("/");
+    try {
+      const res = await login(email, password);
+      if (res.accessToken) {
+        // 모달을 이용해서 유저에게 정보 알리기
+        dispatch(setUser(res));
+        navigate("/");
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data);
+      }
     }
   };
 
@@ -72,6 +82,17 @@ const Login = () => {
           회원가입 하기
         </Button>
       </BtnContainer>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="light"
+      />
     </Container>
   );
 };
