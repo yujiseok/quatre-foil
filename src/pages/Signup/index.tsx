@@ -56,13 +56,12 @@ const Signup = () => {
     try {
       const res = await signUp(email, password, displayName, profileImgBase64);
       if (res.accessToken) {
-        toast.success("회원가입에 성공했습니다");
-        navigate("/", { replace: true });
+        // 모달을 이용해서 유저에게 정보 알리기
+        navigate("/");
       }
     } catch (error) {
-      console.log("error", error);
       if (error instanceof AxiosError) {
-        toast.error(error?.response?.data);
+        toast.error(error.response?.data);
       }
     }
   };
