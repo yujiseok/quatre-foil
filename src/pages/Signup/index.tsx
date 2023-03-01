@@ -4,7 +4,7 @@ import type { FieldValues } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { signUp } from "api";
+import { signUp } from "api/auth";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { setUser } from "features/authSlice";
 import { ToastContainer, toast } from "react-toastify";
