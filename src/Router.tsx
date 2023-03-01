@@ -31,7 +31,14 @@ const Router = () => {
               </PublicRouter>
             }
           />
-          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/signup"
+            element={
+              <PublicRouter>
+                <Signup />
+              </PublicRouter>
+            }
+          />
           <Route path="/cart" element={<Cart />} />
           <Route
             path="/mypage"
@@ -43,7 +50,7 @@ const Router = () => {
           >
             <Route path="order" element={<MyOrder />} />
             <Route path="account" element={<MyAccount />} />
-            <Route path="/mypage" element={<MyInfo />} />
+            <Route path="mypage" element={<MyInfo />} />
           </Route>
         </Route>
       </Routes>
