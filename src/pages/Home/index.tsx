@@ -6,80 +6,76 @@ import { mobile, desktop, tablet } from "../../global/responsive";
 import "@global/slick.css";
 import "@global/slick-theme.css";
 
-const Home = () => {
-  const settings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    nextArrow: <SlickArrowRight />,
-    prevArrow: <SlickArrowLeft />,
-    autoplay: true,
-    draggable: true,
-    responsive: [
-      // {
-      //   breakpoint: 1024,
-      //   settings: {
-      //     slidesToShow: 4,
-      //     slidesToScroll: 4,
-      //   },
-      // },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
+const settings = {
+  infinite: true,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  nextArrow: <SlickArrowRight />,
+  prevArrow: <SlickArrowLeft />,
+  autoplay: true,
+  draggable: true,
+  responsive: [
+    // {
+    //   breakpoint: 1024,
+    //   settings: {
+    //     slidesToShow: 4,
+    //     slidesToScroll: 4,
+    //   },
+    // },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
       },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
       },
-      {
-        breakpoint: 540,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
+    },
+    {
+      breakpoint: 540,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
       },
-    ],
-  };
+    },
+  ],
+};
 
+const Home = () => {
   return (
     <>
-      <section>
+      <HeroSection>
         <picture>
-          <source srcSet="https://www.thespruce.com/thmb/-kmScobJiRSHTYtLbEsyyXOq-cM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1266719687-0dd6bcac7ede4045a7f71f0640a718ee.jpg" />
+          <source srcSet="https://images.adsttc.com/media/images/5eb5/a567/b357/65bd/2b00/06b1/large_jpg/1.jpg?1588962659" />
           <HeroBg
-            src="https://www.thespruce.com/thmb/-kmScobJiRSHTYtLbEsyyXOq-cM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1266719687-0dd6bcac7ede4045a7f71f0640a718ee.jpg"
+            src="https://images.adsttc.com/media/images/5eb5/a567/b357/65bd/2b00/06b1/large_jpg/1.jpg?1588962659"
             alt="hero-img"
           />
         </picture>
-      </section>
-      <Caption>
-        <p>
-          Lorem, ipsum.
-          <br />
-          Lorem, ipsum. 안녕하세요
-          <br />
-          Lorem, ipsum.
-          <br />
-        </p>
-        <ShopBtn to="/shop">쇼핑하기</ShopBtn>
-      </Caption>
+        <Caption>
+          <p>
+            안녕하세요.
+            <br />
+            라이프스타일 편집샵
+            <br />
+            QUATRE FOIL입니다.
+            <br />
+          </p>
+          <ShopBtn to="/shop">쇼핑하기</ShopBtn>
+        </Caption>
+      </HeroSection>
 
       {/* marquee */}
       <section>
         <MarqueeContainer>
           <MarqueeWrapper>
-            <p>
-              Marque Lorem, ipsum.Marque Lorem, ipsum. Marque Lorem,
-              ipsum.Marque Lorem, ipsum.🪑 Marque Lorem, ipsum.Marque Lorem,
-              ipsum. Marque Lorem, ipsum.Marque Lorem, ipsum.🪑
-            </p>
+            <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑 </p>
             <p>
               Marque Lorem, ipsum.Marque Lorem, ipsum. Marque Lorem,
               ipsum.Marque Lorem, ipsum.🪑 Marque Lorem, ipsum.Marque Lorem,
@@ -87,25 +83,26 @@ const Home = () => {
             </p>
           </MarqueeWrapper>
         </MarqueeContainer>
-        <picture>
-          <source srcSet="https://www.thespruce.com/thmb/-kmScobJiRSHTYtLbEsyyXOq-cM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1266719687-0dd6bcac7ede4045a7f71f0640a718ee.jpg" />
+        <Picture>
+          <source srcSet="https://pbs.twimg.com/media/D1dPc6rWkAE57dJ.jpg" />
           <HeroBg
-            src="https://www.thespruce.com/thmb/-kmScobJiRSHTYtLbEsyyXOq-cM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1266719687-0dd6bcac7ede4045a7f71f0640a718ee.jpg"
+            src="https://pbs.twimg.com/media/D1dPc6rWkAE57dJ.jpg"
             alt="hero-img"
           />
-        </picture>
+        </Picture>
 
         <MarqueeContainer>
           <MarqueeWrapper>
+            <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑 </p>
+            <p>QUATRE FOIL의 최신 상품을 만나보세요 🛏️ </p>
+
             <p>
-              나랏말싸미 듕귁에 달아 문자와로 서르 사맛디 아니할쎄.🪑나랏말싸미
-              듕귁에 달아 문자와로 서르 사맛디 아니할쎄.🪑나랏말싸미 듕귁에 달아
-              문자와로 서르 사맛디 아니할쎄.🪑
-            </p>
-            <p>
-              나랏말싸미 듕귁에 달아 문자와로 서르 사맛디 아니할쎄.🪑나랏말싸미
-              듕귁에 달아 문자와로 서르 사맛디 아니할쎄.🪑나랏말싸미 듕귁에 달아
-              문자와로 서르 사맛디 아니할쎄.🪑
+              Infinite Marquee with long sentence Infinite Marquee with long
+              sentence Infinite Marquee with long sentence Infinite Marquee with
+              long sentence Infinite Marquee with long sentence Infinite Marquee
+              with long sentence Infinite Marquee with long sentence Infinite
+              Marquee with long sentence Infinite Marquee with long sentence
+              Infinite Marquee with long sentence
             </p>
           </MarqueeWrapper>
         </MarqueeContainer>
@@ -267,8 +264,27 @@ const Home = () => {
 };
 export default Home;
 
+const HeroSection = styled.section`
+  ${tablet({
+    display: "flex",
+  })}
+
+  picture {
+    ${tablet({
+      flex: 1,
+      borderBottom: "2px solid var(--primary-color)",
+      height: "690px",
+    })}
+  }
+
+  img {
+    object-fit: cover;
+  }
+`;
+
 const HeroBg = styled.img`
   aspect-ratio: 4/3;
+  object-fit: cover;
 
   ${mobile({
     aspectRatio: "3/2",
@@ -276,17 +292,24 @@ const HeroBg = styled.img`
 
   ${tablet({
     aspectRatio: "16/9",
-  })} /* ${desktop({
-    aspectRatio: "2.75/1",
-  })} */
+  })}
 `;
 
-const Caption = styled.section`
+const Caption = styled.div`
   text-align: center;
+  flex-shrink: 0;
+  flex: 1;
   padding: 2rem 0;
   font-size: 1.5rem;
   font-weight: 600;
   border-bottom: 2px solid var(--primary-color);
+
+  ${tablet({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  })}
 `;
 
 const ShopBtn = styled(Link)`
@@ -298,6 +321,13 @@ const ShopBtn = styled(Link)`
   font-size: 1.25rem;
 `;
 
+const Picture = styled.picture`
+  display: block;
+  ${tablet({
+    height: "640px",
+  })}
+`;
+
 const marquee = keyframes`
   0% {
     transform: translate3d(0, 0, 0);
@@ -307,17 +337,18 @@ const marquee = keyframes`
   }
 `;
 
-// marquee 해결하기
 const MarqueeContainer = styled.div`
   max-width: 100%;
   overflow: hidden;
+  white-space: nowrap;
 `;
 
 const MarqueeWrapper = styled.div`
   white-space: nowrap;
   overflow: hidden;
   display: inline-block;
-  animation: ${marquee} 15s linear infinite forwards;
+  will-change: transform;
+  animation: ${marquee} 30s linear infinite;
   padding: 1rem;
   &:hover {
     animation-play-state: paused;
@@ -325,6 +356,7 @@ const MarqueeWrapper = styled.div`
 
   p {
     display: inline-block;
+    margin-left: 0.5rem;
   }
 `;
 
@@ -354,7 +386,6 @@ const ItemName = styled.div`
 `;
 
 const Item = styled.li`
-  /* border-right: 1px solid; */
   border-bottom: 1px solid;
   position: relative;
 
@@ -403,8 +434,6 @@ const Item = styled.li`
 `;
 
 const StyledLink = styled(Link)<{ slick: string }>`
-  /* display: block; */
-  /* height: ${({ slick }) => (slick ? "75vh" : "300px")}; */
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
