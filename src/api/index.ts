@@ -61,22 +61,14 @@ export const signUp: AuthFn = async (
 
 // 로그인
 export const login: AuthFn = async (email, password) => {
-  try {
-    const res = await request("/auth/login", {
-      method: "post",
-      data: {
-        email,
-        password,
-      },
-    });
-
-    return res.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log(error.message);
-    }
-    return false;
-  }
+  const res = await request("/auth/login", {
+    method: "post",
+    data: {
+      email,
+      password,
+    },
+  });
+  return res.data;
 };
 
 // 로그아웃
