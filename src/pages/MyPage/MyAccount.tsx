@@ -1,44 +1,46 @@
 import styled from "styled-components";
 import Button from "@components/Button";
 import AccountModal from "@components/AccountModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { colors } from "constants/color";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { AiOutlinePlus } from "react-icons/ai";
-import shinhan from "../../assets/shinhan.svg";
-import kookmin from "../../assets/kookmin.svg";
-import woori from "../../assets/woori.svg";
+import type { AccountValue } from "api/account";
+import { getAccountInfo } from "api/account";
 
 const MyAccount = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [accountLists, setAccountLists] = useState<AccountValue>({
+    totalBalance: 0,
+    accounts: [],
+  });
   const onClickButton = () => {
     setIsOpen(true);
   };
+  useEffect(() => {
+    const account = async () => {
+      const res = await getAccountInfo();
+      setAccountLists(res);
+    };
+    account();
+  }, []);
   return (
     <Container>
       {/* <h3>연결된 잔액</h3> */}
-      <BankList>
-        <BankName>
-          <img src={shinhan} alt="신한" />
-          <p>&nbsp;신한은행</p>
-        </BankName>
-        <p>1,000,000원</p>
-        <DeleteBtn>
-          <HiOutlineXMark />
-        </DeleteBtn>
-      </BankList>
-
-      <BankList>
-        <BankName>
-          <img src={shinhan} alt="신한" />
-          <p>&nbsp;신한은행</p>
-        </BankName>
-        <p>40,000원</p>
-        <DeleteBtn>
-          <HiOutlineXMark />
-        </DeleteBtn>
-      </BankList>
-
+      {accountLists?.accounts.map((account) => {
+        return (
+          <BankList key={account.bankCode}>
+            <BankName>
+              <img src={`/assets/${account.bankCode}.svg`} alt="신한" />
+              <p>&nbsp;{account.bankName}</p>
+            </BankName>
+            <p>1,000,000원</p>
+            <DeleteBtn>
+              <HiOutlineXMark />
+            </DeleteBtn>
+          </BankList>
+        );
+      })}
       <BtnContainer>
         <Button onClick={onClickButton}>
           <AiOutlinePlus />
@@ -71,9 +73,11 @@ const BankList = styled.ul`
   padding: 1.25rem 1.5rem;
   align-items: center;
   div {
+    flex: 0.5;
     padding: 4px 8px;
   }
   p {
+    flex: 0.5;
     font-weight: 500;
     font-size: 18px;
     color: var(--black-50);
