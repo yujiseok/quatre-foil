@@ -1,5 +1,6 @@
-import { addAccount } from "api/account";
-import type { ChangeEvent, MouseEvent } from "react";
+import type { AccountValue } from "api/account";
+import { addAccount, getAccountInfo } from "api/account";
+import type { ChangeEvent, Dispatch, MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { colors } from "constants/color";
@@ -7,7 +8,13 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-const AccountModal = ({ onClose }: { onClose: () => void }) => {
+const AccountModal = ({
+  onClose,
+  setAccountLists,
+}: {
+  onClose: () => void;
+  setAccountLists: Dispatch<React.SetStateAction<AccountValue>>;
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isAgree, setIsAgree] = useState(false);
   const [btnActive, setBtnActive] = useState("");
@@ -104,6 +111,17 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
     setBtnActive(e.currentTarget.dataset.code as string);
   };
 
+  const addMyAccount = async () => {
+    const res = await addAccount(btnActive, accountInput, mobileInput, isAgree);
+    if (res) {
+      alert("계좌가 성공적으로 추가되었어요!!!");
+      onClose();
+    }
+    const accountData = await getAccountInfo();
+    console.log(accountData);
+    setAccountLists(accountData);
+  };
+
   return (
     <Overlay>
       <ModalWrap ref={modalRef}>
@@ -142,12 +160,7 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
             <p>위 약관에 동의합니다</p>
           </CheckWrapper>
           <ButtonWrapper>
-            <Button
-              type="button"
-              onClick={() => {
-                addAccount(btnActive, accountInput, mobileInput, isAgree);
-              }}
-            >
+            <Button type="button" onClick={addMyAccount}>
               등록하기
             </Button>
             <Button type="button" onClick={onClose}>

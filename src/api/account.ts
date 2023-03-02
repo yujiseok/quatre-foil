@@ -87,7 +87,7 @@ export const getAccountInfo: AccountFn = async (token) => {
     return res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log(error.message);
+      console.log(error);
     }
   }
   return false;
@@ -110,6 +110,26 @@ export const addAccount: AddAccountFn = async (
         signature,
       },
     });
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      console.log(error);
+    }
+  }
+  return false;
+};
+
+// 계좌 해지
+export const delAccount = async (accountId: string, signature: boolean) => {
+  try {
+    const res = await client("/account", {
+      method: "DELETE",
+      data: {
+        accountId,
+        signature,
+      },
+    });
+    console.log(res.data);
     return res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
