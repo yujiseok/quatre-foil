@@ -35,18 +35,18 @@ interface BankValue {
   bank: [];
 }
 
-interface AccountValue {
+export interface AccountValue {
   totalBalance: number;
   accounts: Bank[];
 }
 
 interface Bank {
   // 사용자 계좌 정보
-  id: string; // 계좌 ID
-  bankName: string; // 은행 이름
-  bankCode: string; // 은행 코드
-  accountNumber: string; // 계좌 번호
-  balance: number; // 계좌 잔액
+  id?: string; // 계좌 ID
+  bankName?: string; // 은행 이름
+  bankCode?: string; // 은행 코드
+  accountNumber?: string; // 계좌 번호
+  balance?: number; // 계좌 잔액
 }
 
 interface MyAccountValue {
@@ -78,7 +78,7 @@ export const getBankInfo: BankFn = async (token) => {
 // 계좌 목록 및 잔액 조회
 export const getAccountInfo: AccountFn = async (token) => {
   try {
-    const res = await client("/api/account", {
+    const res = await client("/account", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -101,7 +101,7 @@ export const addAccount: AddAccountFn = async (
   signature,
 ) => {
   try {
-    const res = await client("/api/account", {
+    const res = await client("/account", {
       method: "POST",
       data: {
         bankCode,
@@ -113,7 +113,7 @@ export const addAccount: AddAccountFn = async (
     return res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log(error.message);
+      console.log(error);
     }
   }
   return false;
