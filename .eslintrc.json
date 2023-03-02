@@ -58,6 +58,7 @@
       {
         "labelAttributes": ["htmlFor"]
       }
-    ]
+    ],
+    "@typescript-eslint/no-shadow": "off"
   }
 }

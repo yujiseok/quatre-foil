@@ -4,67 +4,93 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 import { tablet } from "@global/responsive";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import type { InitialState } from "features/cartSlice";
+import {
+  removeItem,
+  decrementQuantity,
+  incrementQuantity,
+} from "features/cartSlice";
 
 interface Props {}
 const Cart = (props: Props) => {
   const [count, setCount] = useState(1);
+  const { cart } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const getTotal = () => {
+    let totalQuantity = 0;
+    let totalPrice = 0;
+    cart.forEach((item) => {
+      totalQuantity += item.quantity;
+      totalPrice += item.price * item.quantity;
+    });
 
-  const onIncrement = () => {
-    setCount((prev) => prev + 1);
+    return { totalQuantity, totalPrice };
   };
-  const onDecrement = () => {
-    if (count > 1) {
-      setCount((prev) => prev - 1);
-    }
+
+  const onIncrement = (item: InitialState) => {
+    console.log("clicked");
+    dispatch(incrementQuantity(item));
   };
+  const onDecrement = (item: InitialState) => {
+    dispatch(decrementQuantity(item));
+  };
+
+  const handleClickDelete = (item: InitialState) => {
+    dispatch(removeItem(item));
+  };
+
   return (
     <Container>
       <h4>
-        장바구니 <span>{count}</span>
+        장바구니 <span>{getTotal().totalQuantity || 0}</span>
       </h4>
 
       <CartWrapper>
-        <CartItem>
-          <div className="img-wrapper">
-            <Link to="/shop/abc">
-              <img
-                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-                alt=""
-              />
-            </Link>
-          </div>
-          <DetailWrapper>
-            <div className="price-detail">
-              <p>어쩌구 저쩌구 - 이불 세트</p>
-              <BtnWrapper>
+        {cart.map((item) => (
+          <CartItem key={item.id}>
+            <div className="img-wrapper">
+              <Link to="/shop/abc">
+                <img src={item.thumbnail} alt={item.title} />
+              </Link>
+            </div>
+            <DetailWrapper>
+              <div className="price-detail">
+                <p>{item.title}</p>
+                <BtnWrapper>
+                  <button
+                    type="button"
+                    onClick={() => onDecrement(item)}
+                    // disabled={count === 1}
+                  >
+                    -
+                  </button>
+                  <p>{item.quantity}</p>
+                  <button type="button" onClick={() => onIncrement(item)}>
+                    +
+                  </button>
+                </BtnWrapper>
+                <div>{item.price}</div>
+              </div>
+              <div>
+                <DeleteBtn type="button">
+                  <MdClose />
+                </DeleteBtn>
                 <button
+                  className="delete-btn-pc"
                   type="button"
-                  onClick={onDecrement}
-                  // disabled={count === 1}
+                  onClick={() => handleClickDelete(item)}
                 >
-                  -
+                  삭제하기
                 </button>
-                <p>{count}</p>
-                <button type="button" onClick={onIncrement}>
-                  +
-                </button>
-              </BtnWrapper>
-              <div>가격</div>
-            </div>
-            <div>
-              <DeleteBtn type="button">
-                <MdClose />
-              </DeleteBtn>
-              <button className="delete-btn-pc" type="button">
-                삭제하기
-              </button>
-            </div>
-          </DetailWrapper>
-        </CartItem>
+              </div>
+            </DetailWrapper>
+          </CartItem>
+        ))}
       </CartWrapper>
       <Total>
         <div>합계</div>
-        <div>금액</div>
+        <div>{getTotal().totalPrice.toLocaleString()} 원</div>
       </Total>
       <Button>주문하기</Button>
     </Container>
@@ -85,12 +111,12 @@ const Container = styled.div`
   })}
 `;
 
-const CartWrapper = styled.div`
+const CartWrapper = styled.ul`
   margin: 1.5rem 0;
   border-top: 1px solid;
 `;
 
-const CartItem = styled.div`
+const CartItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
