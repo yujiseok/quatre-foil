@@ -1,17 +1,34 @@
 import { tablet } from "@global/responsive";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { addToCart } from "features/cartSlice";
 import { useState } from "react";
 import styled from "styled-components";
 
 const Detail = () => {
-  const [count, setCount] = useState(1);
+  const [quantity, setQuantity] = useState(1);
 
   const onIncrement = () => {
-    setCount((prev) => prev + 1);
+    setQuantity((prev) => prev + 1);
   };
   const onDecrement = () => {
-    if (count > 1) {
-      setCount((prev) => prev - 1);
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
     }
+  };
+
+  const dispatch = useAppDispatch();
+
+  const handleClickCart = () => {
+    dispatch(
+      addToCart({
+        id: "1213",
+        price: 1000,
+        quantity,
+        thumbnail:
+          "http://blesswebshop.com/1108-2574-large/n69-lost-in-contemplation-variation-bedsheets-saturnia.jpg",
+        title: "쿠키",
+      }),
+    );
   };
 
   return (
@@ -33,11 +50,11 @@ const Detail = () => {
               <button
                 type="button"
                 onClick={onDecrement}
-                disabled={count === 1}
+                disabled={quantity === 1}
               >
                 -
               </button>
-              <p>{count}</p>
+              <p>{quantity}</p>
               <button type="button" onClick={onIncrement}>
                 +
               </button>
@@ -46,7 +63,7 @@ const Detail = () => {
           <PriceWrapper>
             <Text>
               <div>주문 수량</div>
-              <div>{count}개</div>
+              <div>{quantity}개</div>
             </Text>
             <Text>
               <div>총 상품 금액</div>
@@ -58,7 +75,9 @@ const Detail = () => {
             <Button type="button" primary="primary">
               구매하기
             </Button>
-            <Button type="button">장바구니에 담기</Button>
+            <Button type="button" onClick={handleClickCart}>
+              장바구니에 담기
+            </Button>
           </BuyBtnWrapper>
         </ItemDescription>
       </ItemWrapper>
@@ -149,8 +168,7 @@ const Detail = () => {
 
           <p>
             <span>
-              <strong>반품 주소 ㅣ&nbsp;</strong>서울특별시 서초구 강남대로 123,
-              ㅇㅇㅇ ㅇㅇㅇ
+              <strong>반품 주소 ㅣ&nbsp;</strong>서울특별시 서초구 강남대로
             </span>
           </p>
 
