@@ -1,25 +1,51 @@
 import styled from "styled-components";
 import Button from "@components/Button";
 import AccountModal from "@components/AccountModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { colors } from "constants/color";
+import { HiOutlineXMark } from "react-icons/hi2";
+import { AiOutlinePlus } from "react-icons/ai";
+import type { AccountValue } from "api/account";
+import { getAccountInfo } from "api/account";
 
 const MyAccount = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [accountLists, setAccountLists] = useState<AccountValue>({
+    totalBalance: 0,
+    accounts: [],
+  });
   const onClickButton = () => {
     setIsOpen(true);
   };
+  useEffect(() => {
+    const account = async () => {
+      const res = await getAccountInfo();
+      setAccountLists(res);
+    };
+    account();
+  }, []);
   return (
     <Container>
-      <h2>계좌 관리</h2>
-      <Lists>
-        <h3>잔액</h3>
-        <BankList>
-          <p>신한은행</p>
-          <div>1,000,000원</div>
-        </BankList>
-      </Lists>
+      {/* <h3>연결된 잔액</h3> */}
+      {accountLists?.accounts.map((account) => {
+        return (
+          <BankList key={account.bankCode}>
+            <BankName>
+              <img src={`/assets/${account.bankCode}.svg`} alt="신한" />
+              <p>&nbsp;{account.bankName}</p>
+            </BankName>
+            <p>1,000,000원</p>
+            <DeleteBtn>
+              <HiOutlineXMark />
+            </DeleteBtn>
+          </BankList>
+        );
+      })}
       <BtnContainer>
-        <Button onClick={onClickButton}>계좌 추가</Button>
+        <Button onClick={onClickButton}>
+          <AiOutlinePlus />
+          계좌 연결
+        </Button>
         {isOpen && (
           <AccountModal
             onClose={() => {
@@ -33,49 +59,56 @@ const MyAccount = () => {
 };
 export default MyAccount;
 
-const Container = styled.ul`
+const Container = styled.div`
   max-width: 750px;
-  padding: 1.875rem 1rem;
   margin: 1.875rem auto 0;
-  h2 {
-    margin-bottom: 0.875rem;
-    margin-left: 150px;
-  }
 `;
 
-const Lists = styled.ul`
-  padding-top: 0.625rem;
-  h3 {
-    margin-bottom: 20px;
-  }
-`;
-
-const BankList = styled.li`
+const BankList = styled.ul`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  border: 1px solid var(--black-20);
+  margin-top: 1rem;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  align-items: center;
   div {
-    border: 1px solid var(--primary-color);
-    background-color: var(--primary-color);
-    color: var(--white);
+    flex: 0.5;
     padding: 4px 8px;
-    /* border-radius: 4px; */
   }
   p {
+    flex: 0.5;
     font-weight: 500;
     font-size: 18px;
     color: var(--black-50);
   }
 `;
 
+const BankName = styled.div`
+  align-items: center;
+  img {
+    width: 30px;
+  }
+  p {
+    color: ${colors.black90};
+    font-weight: 500;
+  }
+  display: flex;
+`;
+
 const BtnContainer = styled.div`
-  max-width: 250px;
-  margin: 4rem auto 0;
+  align-items: center;
+  margin: 1.5rem auto 1.25rem;
   Button {
-    &:hover {
-      background-color: var(--primary-color);
-      color: var(--white);
-      transition: 0.1s;
-    }
+    display: flex;
+    border: none;
+    justify-content: center;
+  }
+`;
+
+const DeleteBtn = styled.button`
+  color: ${colors.black80};
+  :hover {
+    color: ${colors.secondary};
   }
 `;

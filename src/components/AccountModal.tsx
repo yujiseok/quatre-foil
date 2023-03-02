@@ -1,16 +1,52 @@
 import { addAccount } from "api/account";
-import type { MouseEvent } from "react";
-import { useRef, useState } from "react";
+import type { ChangeEvent, MouseEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { colors } from "constants/color";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const AccountModal = ({ onClose }: { onClose: () => void }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isAgree, setIsAgree] = useState(false);
+  const [btnActive, setBtnActive] = useState("");
+  const [accountInput, setAccountInput] = useState("");
+  const [mobileInput, setMobileInput] = useState("");
+
   const handleSign = () => {
-    setIsAgree(!isAgree);
+    setIsAgree((prev) => !prev);
   };
 
-  const [btnActive, setBtnActive] = useState("");
+  // 모달 오버레이에서 스크롤 방지
+  useEffect(() => {
+    document.body.style.cssText = `
+      position: fixed;
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = "";
+      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+    };
+  }, []);
+
+  // const schema = yup.object().shape({
+  //   account: yup.string().max(12).required(),
+  //     // .oneOf([yup.ref("password"), null])
+  //     .required(),
+  // });
+
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   watch,
+  //   formState: { errors },
+  // } = useForm({
+  //   resolver: yupResolver(schema),
+  // });
+
   const banks = [
     {
       name: "KB국민은행",
@@ -55,66 +91,61 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
       disabled: false,
     },
   ];
-  const [value, setValue] = useState("");
 
-  function inputBox() {
-    if (btnActive) {
-      if (btnActive === "KB국민은행" || btnActive === "NH농협은행") {
-        return (
-          <AccountInput>
-            <input type="text" maxLength={4} />-
-            <input type="text" maxLength={4} />-
-            <input type="text" maxLength={4} />-
-            <input type="text" maxLength={3} />
-            <button type="button">중복 확인</button>
-          </AccountInput>
-        );
-      }
-      return (
-        <AccountInput>
-          <input type="text" maxLength={4} />-
-          <input type="text" maxLength={6} />-
-          <input type="text" maxLength={6} />
-          <button type="button">중복 확인</button>
-        </AccountInput>
-      );
-    }
-    return "";
-  }
-  const toggleActive = (e: MouseEvent<HTMLButtonElement>) => {
-    setBtnActive(e.currentTarget.textContent as string);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setAccountInput(e.target.value);
   };
+
+  const numberChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setMobileInput(e.target.value);
+  };
+
+  const toggleActive = (e: MouseEvent<HTMLButtonElement>) => {
+    setBtnActive(e.currentTarget.dataset.code as string);
+  };
+
   return (
     <Overlay>
       <ModalWrap ref={modalRef}>
         <Contents>
-          <h3>계좌 추가</h3>
+          <h3>계좌 연결</h3>
           <BankLists>
             {banks.map((bank) => {
               return (
                 <BankList
                   key={bank.code}
-                  className={btnActive === bank.name ? "active" : ""}
-                  value={bank.name}
+                  className={btnActive === bank.code ? "active" : ""}
                 >
-                  <button type="button" onClick={toggleActive}>
+                  <button
+                    type="button"
+                    data-code={bank.code}
+                    onClick={toggleActive}
+                  >
                     {bank.name}
                   </button>
                 </BankList>
               );
             })}
           </BankLists>
-          {inputBox()}
-          {btnActive ? <Notice>계좌번호를 입력해주세요</Notice> : null}
+          <AddInput>
+            <div>
+              <label htmlFor="account">계좌번호</label>
+              <input type="text" id="account" onChange={onChange} />
+            </div>
+            <div>
+              <label htmlFor="mobile">전화번호</label>
+              <input type="text" id="mobile" onChange={numberChange} />
+            </div>
+          </AddInput>
           <CheckWrapper htmlFor="">
             <CheckInput type="checkbox" onChange={handleSign} />
             <p>위 약관에 동의합니다</p>
           </CheckWrapper>
           <ButtonWrapper>
             <Button
-              type="submit"
+              type="button"
               onClick={() => {
-                addAccount();
+                addAccount(btnActive, accountInput, mobileInput, isAgree);
               }}
             >
               등록하기
@@ -193,14 +224,23 @@ const BankList = styled.li`
   }
 `;
 
-const AccountInput = styled.div`
+const AddInput = styled.form`
+  color: ${colors.black60};
+  label {
+    line-height: 2rem;
+  }
   display: flex;
-  box-sizing: border-box;
+  flex-direction: column;
   margin-top: 20px;
   justify-content: center;
-
+  margin-inline: auto;
   input {
-    width: 60px;
+    display: block;
+    border: 1px solid ${colors.black60};
+    width: 100%;
+    /* line-height: 10px; */
+    padding: 0.25rem 0.5rem;
+    color: ${colors.black60};
   }
   button {
     margin-left: 10px;
@@ -213,12 +253,14 @@ const AccountInput = styled.div`
   }
 `;
 
-const CfmBtm = styled.button``;
-
 const CheckWrapper = styled.label`
   display: flex;
   justify-content: center;
   margin: 10px 0 0 0;
+  p {
+    color: ${colors.black70};
+    font-size: 12px;
+  }
 `;
 
 const CheckInput = styled.input`
@@ -226,26 +268,6 @@ const CheckInput = styled.input`
   margin: 0;
   font-size: 10px;
   margin-right: 4px;
-`;
-
-const Notice = styled.div`
-  font-size: 12px;
-  margin-top: 4px;
-  margin-inline: auto;
-  padding: 4px 20px;
-  /* background-color: var(--secondary-color); */
-  color: var(--secondary-color);
-`;
-
-const Form = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-  margin-inline: auto;
-  input {
-    border: 1px solid var(--primary-color);
-    width: 100px;
-  }
 `;
 
 const ButtonWrapper = styled.div`
