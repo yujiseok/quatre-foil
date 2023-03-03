@@ -19,8 +19,6 @@ const schema = yup.object().shape({
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  // const [isLoading, setIsLoading] = useState(false);
-
   const navigate = useNavigate();
   const {
     register,
@@ -31,14 +29,16 @@ const Login = () => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    // setIsLoading(true);
     const { email, password } = data;
     try {
       const res = await login(email, password);
-      if (res.accessToken) {
-        // 모달을 이용해서 유저에게 정보 알리기
-        dispatch(setUser(res));
-        navigate("/");
+      if (res.data.accessToken) {
+        toast.success("로그인이 성공하였습니다", {
+          onClose: () => {
+            dispatch(setUser(res.data));
+            navigate("/");
+          },
+        });
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -72,18 +72,14 @@ const Login = () => {
       </PwdContainer>
       <BtnContainer>
         <Button type="submit">로그인 하기</Button>
-        <Button
-          type="button"
-          signup
-          onClick={() => {
-            navigate("/signup");
-          }}
-        >
-          회원가입 하기
-        </Button>
+        <Link to="/signup">
+          <Button type="button" signup>
+            회원가입 하기
+          </Button>
+        </Link>
       </BtnContainer>
       <ToastContainer
-        position="bottom-right"
+        position="top-center"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
