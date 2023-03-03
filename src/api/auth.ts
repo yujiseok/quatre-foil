@@ -87,7 +87,7 @@ export const signUp: AuthFn = async (
 // };
 
 export const login = (email: string, password: string) => {
-  return client({
+  const res = client({
     method: "post",
     url: "/auth/login",
     data: {
@@ -95,6 +95,7 @@ export const login = (email: string, password: string) => {
       password,
     },
   });
+  return res;
 };
 
 // 로그아웃
