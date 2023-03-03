@@ -1,4 +1,5 @@
 import { tablet } from "@global/responsive";
+import { purchase } from "api/product";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { addToCart } from "features/cartSlice";
 import { useState } from "react";
@@ -72,7 +73,7 @@ const Detail = () => {
           </PriceWrapper>
 
           <BuyBtnWrapper>
-            <Button type="button" primary="primary">
+            <Button type="button" primary="primary" onClick={() => purchase()}>
               구매하기
             </Button>
             <Button type="button" onClick={handleClickCart}>
