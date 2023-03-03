@@ -6,7 +6,7 @@ import { colors } from "constants/color";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { AiOutlinePlus } from "react-icons/ai";
 import type { AccountValue } from "api/account";
-import { getAccountInfo } from "api/account";
+import { delAccount, getAccountInfo } from "api/account";
 
 const MyAccount = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,18 +24,33 @@ const MyAccount = () => {
     };
     account();
   }, []);
+
+  const delMyAccount = async (id: string, boolean: boolean) => {
+    const res = await delAccount(id, boolean);
+    console.log(res);
+    if (res) {
+      alert("삭제되었어요!!!!!");
+    }
+    const accountData = await getAccountInfo();
+    setAccountLists(accountData);
+  };
+
   return (
     <Container>
-      {/* <h3>연결된 잔액</h3> */}
-      {accountLists?.accounts.map((account) => {
+      {accountLists?.accounts?.map((account) => {
         return (
           <BankList key={account.bankCode}>
             <BankName>
               <img src={`/assets/${account.bankCode}.svg`} alt="신한" />
               <p>&nbsp;{account.bankName}</p>
             </BankName>
-            <p>1,000,000원</p>
-            <DeleteBtn>
+            <p>{account.balance?.toLocaleString("en")}원</p>
+            <DeleteBtn
+              type="button"
+              onClick={() => {
+                delMyAccount(account?.id as string, true);
+              }}
+            >
               <HiOutlineXMark />
             </DeleteBtn>
           </BankList>
@@ -51,6 +66,7 @@ const MyAccount = () => {
             onClose={() => {
               setIsOpen(false);
             }}
+            setAccountLists={setAccountLists}
           />
         )}
       </BtnContainer>
