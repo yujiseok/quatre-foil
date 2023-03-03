@@ -10,6 +10,7 @@ import Mypage from "@pages/MyPage";
 import MyAccount from "@pages/MyPage/MyAccount";
 import MyInfo from "@pages/MyPage/MyInfo";
 import MyOrder from "@pages/MyPage/MyOrder";
+import Purchase from "@pages/Purchase";
 import Shop from "@pages/Shop";
 import Signup from "@pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -40,6 +41,7 @@ const Router = () => {
             }
           />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/purchase" element={<Purchase />} />
           <Route
             path="/mypage"
             element={
