@@ -1,11 +1,20 @@
 import { tablet } from "@global/responsive";
+import { useQuery } from "@tanstack/react-query";
+import { getProduct } from "api/product";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { addToCart } from "features/cartSlice";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Detail = () => {
   const [quantity, setQuantity] = useState(1);
+  const { productId } = useParams();
+
+  const { data: product, isLoading } = useQuery({
+    queryKey: ["product"],
+    queryFn: () => getProduct(productId as string),
+  });
 
   const onIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -21,29 +30,26 @@ const Detail = () => {
   const handleClickCart = () => {
     dispatch(
       addToCart({
-        id: "1213",
-        price: 1000,
+        id,
+        price,
         quantity,
-        thumbnail:
-          "http://blesswebshop.com/1108-2574-large/n69-lost-in-contemplation-variation-bedsheets-saturnia.jpg",
-        title: "쿠키",
+        thumbnail,
+        title,
       }),
     );
   };
 
+  if (isLoading) return <div>loading...</div>;
+  const { id, title, price, description, thumbnail, tags } = product!;
   return (
     <Section>
       <ItemWrapper>
         <ImgWrapper>
-          <img
-            src="http://blesswebshop.com/1108-2574-large/n69-lost-in-contemplation-variation-bedsheets-saturnia.jpg"
-            alt="d"
-          />
+          <img src={thumbnail} alt={title} />
         </ImgWrapper>
         <ItemDescription>
-          <h4>쿠키</h4>
-          <p>가격</p>
-          <p>설명 주저리</p>
+          <h4>{title}</h4>
+          <p>{price.toLocaleString()} 원</p>
           <div>
             <p>수량</p>
             <BtnWrapper>
@@ -67,7 +73,7 @@ const Detail = () => {
             </Text>
             <Text>
               <div>총 상품 금액</div>
-              <div>원</div>
+              <div>{(price * quantity).toLocaleString()} 원</div>
             </Text>
           </PriceWrapper>
 
@@ -84,7 +90,7 @@ const Detail = () => {
 
       <DescWrapper>
         <h4>상세설명</h4>
-        <div>설명들 </div>
+        <div>{description}</div>
         <div className="desc-footer">
           <p>&nbsp;</p>
 

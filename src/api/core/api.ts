@@ -9,13 +9,13 @@ const axiosConfig: AxiosRequestConfig = {
     username: import.meta.env.VITE_API_USERNAME,
   },
 };
-const { accessToken } = JSON.parse(
-  JSON.parse(localStorage.getItem("persist:root") as string).auth,
-);
+
 export const client = axios.create(axiosConfig);
 
 client.interceptors.request.use((config) => {
-  console.log(accessToken);
+  const { accessToken } = JSON.parse(
+    JSON.parse(localStorage.getItem("persist:root") as string).auth,
+  );
   if (!config.headers) return config;
 
   if (accessToken !== null) {
