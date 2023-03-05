@@ -276,8 +276,11 @@ const ItemName = styled.div`
   top: 0;
   display: grid;
   place-items: center;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.7);
   opacity: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-align: center;
 `;
 
 const Item = styled.li`
@@ -339,6 +342,7 @@ const StyledLink = styled(Link)<{ slick: string }>`
   position: relative;
 
   img {
+    object-fit: contain;
     height: ${({ slick }) => (slick ? "400px" : "100%")};
     width: ${({ slick }) => (slick ? "300px" : "100%")};
   }

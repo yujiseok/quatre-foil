@@ -40,7 +40,7 @@ const Detail = () => {
   };
 
   if (isLoading) return <div>loading...</div>;
-  const { id, title, price, description, thumbnail, tags } = product!;
+  const { id, title, price, description, thumbnail, tags, photo } = product!;
   return (
     <Section>
       <ItemWrapper>
@@ -91,6 +91,10 @@ const Detail = () => {
       <DescWrapper>
         <h4>상세설명</h4>
         <div>{description}</div>
+        <div>
+          <img src={photo} alt={title} />
+        </div>
+
         <div className="desc-footer">
           <p>&nbsp;</p>
 
