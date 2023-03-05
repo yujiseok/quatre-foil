@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import Slider from "react-slick";
 import { SlickArrowLeft, SlickArrowRight } from "@components/SlickButton";
-import { mobile, desktop, tablet } from "../../global/responsive";
 import "@global/slick.css";
 import "@global/slick-theme.css";
+import { useQuery } from "@tanstack/react-query";
+import { getAllProducts } from "api/product";
+import { mobile, tablet } from "../../global/responsive";
 
 const settings = {
   infinite: true,
@@ -48,6 +50,12 @@ const settings = {
 };
 
 const Home = () => {
+  const { data: products, isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: getAllProducts,
+  });
+  console.log(products);
+
   return (
     <>
       <HeroSection>
@@ -111,94 +119,17 @@ const Home = () => {
       {/* 상품 section */}
       <ItemSection>
         <ItemWrapper>
-          <Item>
-            <StyledLink to="/" slick="">
-              <img
-                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-                alt="test"
-              />
-              <ItemName>
-                <p>이름</p>
-              </ItemName>
-            </StyledLink>
-          </Item>
-          <Item>
-            <StyledLink to="/" slick="">
-              <img
-                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-                alt="test"
-              />
-              <ItemName>
-                <p>이름</p>
-              </ItemName>
-            </StyledLink>
-          </Item>
-          <Item>
-            <StyledLink to="/" slick="">
-              <img
-                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-                alt="test"
-              />
-              <ItemName>
-                <p>이름</p>
-              </ItemName>
-            </StyledLink>
-          </Item>
-          <Item>
-            <StyledLink to="/" slick="">
-              <img
-                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-                alt="test"
-              />
-              <ItemName>
-                <p>이름</p>
-              </ItemName>
-            </StyledLink>
-          </Item>
-          <Item>
-            <StyledLink to="/" slick="">
-              <img
-                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-                alt="test"
-              />
-              <ItemName>
-                <p>이름</p>
-              </ItemName>
-            </StyledLink>
-          </Item>
-          <Item>
-            <StyledLink to="/" slick="">
-              <img
-                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-                alt="test"
-              />
-              <ItemName>
-                <p>이름</p>
-              </ItemName>
-            </StyledLink>
-          </Item>
-          <Item>
-            <StyledLink to="/" slick="">
-              <img
-                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-                alt="test"
-              />
-              <ItemName>
-                <p>이름</p>
-              </ItemName>
-            </StyledLink>
-          </Item>
-          <Item>
-            <StyledLink to="/" slick="">
-              <img
-                src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-                alt="test"
-              />
-              <ItemName>
-                <p>이름</p>
-              </ItemName>
-            </StyledLink>
-          </Item>
+          {!isLoading &&
+            products?.slice(0, 9).map((product) => (
+              <Item key={product.id}>
+                <StyledLink to={`/shop/${product.id}`} slick="">
+                  <img src={product.thumbnail!} alt={product.title} />
+                  <ItemName>
+                    <p>{product.title}</p>
+                  </ItemName>
+                </StyledLink>
+              </Item>
+            ))}
         </ItemWrapper>
       </ItemSection>
 
@@ -207,56 +138,20 @@ const Home = () => {
         <h2>인기 상품을 만나 보세요! 🔥</h2>
 
         <Slider {...settings}>
-          <StyledLink to="/" slick="slick">
-            <img
-              src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-              alt="test"
-            />
-            <TextWrap>
-              <p>이름</p>
-              <p>가격</p>
-            </TextWrap>
-          </StyledLink>
-          <StyledLink to="/" slick="slick">
-            <img
-              src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-              alt="test"
-            />
-            <TextWrap>
-              <p>이름</p>
-              <p>가격</p>
-            </TextWrap>
-          </StyledLink>
-          <StyledLink to="/" slick="slick">
-            <img
-              src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-              alt="test"
-            />
-            <TextWrap>
-              <p>이름</p>
-              <p>가격</p>
-            </TextWrap>
-          </StyledLink>
-          <StyledLink to="/" slick="slick">
-            <img
-              src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-              alt="test"
-            />
-            <TextWrap>
-              <p>이름</p>
-              <p>가격</p>
-            </TextWrap>
-          </StyledLink>
-          <StyledLink to="/" slick="slick">
-            <img
-              src="https://en.gata.co.kr/web/product/medium/202211/2c6fd870e48f45d7f3e80df832cafb13.jpg"
-              alt="test"
-            />
-            <TextWrap>
-              <p>이름</p>
-              <p>가격</p>
-            </TextWrap>
-          </StyledLink>
+          {!isLoading &&
+            products?.map((product) => (
+              <StyledLink
+                key={product.id}
+                to={`/shop/${product.id}`}
+                slick="slick"
+              >
+                <img src={product.thumbnail!} alt={product.title} />
+                <TextWrap>
+                  <p>{product.title}</p>
+                  <p>{product.price.toLocaleString()} 원</p>
+                </TextWrap>
+              </StyledLink>
+            ))}
         </Slider>
       </SlickSection>
     </>
@@ -388,6 +283,9 @@ const ItemName = styled.div`
 const Item = styled.li`
   border-bottom: 1px solid;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:nth-of-type(odd) {
     border-left: 2px solid;
