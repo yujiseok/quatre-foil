@@ -52,7 +52,8 @@ const MyInfo = () => {
 
   const handleLogout = async () => {
     const res = await logout();
-    if (res) {
+    console.log(res.data);
+    if (res.data) {
       dispatch(logOutAction());
       navigate("/");
     }
