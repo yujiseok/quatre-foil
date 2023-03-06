@@ -41,7 +41,7 @@ const Router = () => {
             }
           />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/purchase" element={<Purchase />} />
+          <Route path="/purchase/:productId" element={<Purchase />} />
           <Route
             path="/mypage"
             element={

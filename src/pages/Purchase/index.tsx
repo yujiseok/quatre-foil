@@ -1,17 +1,23 @@
 import Button from "@components/Button";
 import { tablet } from "@global/responsive";
 import { MdClose } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import DaumPostcode from "react-daum-postcode";
 import { useEffect, useRef, useState } from "react";
-import { colors } from "constants/color";
+import { useAppSelector } from "app/hooks";
+import { getTotal } from "utils/getTotal";
+import { useQuery } from "@tanstack/react-query";
+import { getProduct } from "api/product";
 
 const Purchase = () => {
   const [openPostcode, setOpenPostcode] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const [zipcode, setZipcode] = useState("");
   const [address, setAddress] = useState("");
+  const { cart } = useAppSelector((state) => state);
+  const { purchase } = useAppSelector((state) => state);
+  const { productId } = useParams();
 
   const handle = {
     // 버튼 클릭 이벤트
@@ -48,37 +54,49 @@ const Purchase = () => {
   return (
     <Container>
       <h4>
-        주문 목록 <span>몇 개</span>
+        주문 목록
+        <span>{productId === "cart" ? getTotal(cart).totalQuantity : "1"}</span>
       </h4>
-
       <PurchaseWrapper>
-        <PurchaseItem>
-          <div className="img-wrapper">
-            <Link to="/shop/abc">
-              <img
-                src="https://w.namu.la/s/ce183abef5e87594e9b0c182844ef87ad1679448ae06239ae8e4db1004c577a9dd67d3048532f18f13937fe4ef96e487abb8166b7afa7d4c07ff9eb8cbec249ce620af833f563f63dacfd0fd04228027"
-                alt="이미지"
-              />{" "}
-            </Link>
-          </div>
-          <DetailWrapper>
-            <div className="price-detail">
-              <p />
-              <BtnWrapper>
-                <p>몇개</p>
-              </BtnWrapper>
-              <div>얼마</div>
+        {productId === "cart" ? (
+          // 카트에서 주문하기 눌렀을 때
+          cart.map((item) => (
+            <PurchaseItem key={item.id}>
+              <div className="img-wrapper">
+                <Link to={`/shop/${item.id}`}>
+                  <img src={item.thumbnail} alt={item.title} />
+                </Link>
+              </div>
+              <DetailWrapper>
+                <div className="price-detail">
+                  <p>{item.title}</p>
+                  <BtnWrapper>
+                    <p>{item.quantity}</p>
+                  </BtnWrapper>
+                  <div>{item.price.toLocaleString()} 원</div>
+                </div>
+              </DetailWrapper>
+            </PurchaseItem>
+          ))
+        ) : (
+          // 개별 주문 할 때
+          <PurchaseItem>
+            <div className="img-wrapper">
+              <Link to={`/shop/${purchase.id}`}>
+                <img src={purchase.thumbnail} alt={purchase.title} />
+              </Link>
             </div>
-            <div>
-              <DeleteBtn type="button">
-                <MdClose />
-              </DeleteBtn>
-              <button className="delete-btn-pc" type="button">
-                삭제하기
-              </button>
-            </div>
-          </DetailWrapper>
-        </PurchaseItem>
+            <DetailWrapper>
+              <div className="price-detail">
+                <p>{purchase.title}</p>
+                <BtnWrapper>
+                  <p>{purchase.quantity}</p>
+                </BtnWrapper>
+                <div>{purchase.price.toLocaleString()} 원</div>
+              </div>
+            </DetailWrapper>
+          </PurchaseItem>
+        )}
       </PurchaseWrapper>
 
       <ShippingContainer>
@@ -142,7 +160,13 @@ const Purchase = () => {
           )}
         </div>
       </ShippingContainer>
-      <Button> 총 얼마 주문하기</Button>
+      <Button>
+        총{" "}
+        {productId === "cart"
+          ? getTotal(cart).totalPrice.toLocaleString()
+          : (purchase.price * purchase.quantity).toLocaleString()}
+        원 주문하기
+      </Button>
     </Container>
   );
 };
