@@ -98,21 +98,29 @@ export const login = (email: string, password: string) => {
   return res;
 };
 
-// 로그아웃
-export const logout: AuthFn = async (token) => {
-  try {
-    const res = await client("/auth/logout", {
-      method: "post",
-    });
-
-    return res.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log(error.message);
-    }
-    return false;
-  }
+export const logout = () => {
+  const res = client({
+    method: "post",
+    url: "/auth/logout",
+  });
+  return res;
 };
+
+// 로그아웃
+// export const logout: AuthFn = async (token) => {
+//   try {
+//     const res = await client("/auth/logout", {
+//       method: "post",
+//     });
+
+//     return res.data;
+//   } catch (error) {
+//     if (error instanceof AxiosError) {
+//       console.log(error);
+//     }
+//     return false;
+//   }
+// };
 
 // 정보 수정
 export const editInfo: EditAuthFn = async (
