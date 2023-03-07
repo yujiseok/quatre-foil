@@ -67,40 +67,60 @@ export const signUp: AuthFn = async (
 };
 
 // 로그인
-export const login: AuthFn = async (email, password) => {
-  try {
-    const res = await client("/auth/login", {
-      method: "post",
-      data: {
-        email,
-        password,
-      },
-    });
+// export const login: AuthFn = async (email, password) => {
+//   try {
+//     const res = await client("/auth/login", {
+//       method: "post",
+//       data: {
+//         email,
+//         password,
+//       },
+//     });
 
-    return res.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log(error.message);
-    }
-    return false;
-  }
+//     return res.data;
+//   } catch (error) {
+//     if (error instanceof AxiosError) {
+//       console.log(error.message);
+//     }
+//     return false;
+//   }
+// };
+
+export const login = (email: string, password: string) => {
+  const res = client({
+    method: "post",
+    url: "/auth/login",
+    data: {
+      email,
+      password,
+    },
+  });
+  return res;
+};
+
+export const logout = () => {
+  const res = client({
+    method: "post",
+    url: "/auth/logout",
+  });
+  return res;
 };
 
 // 로그아웃
-export const logout: AuthFn = async (token) => {
-  try {
-    const res = await client("/auth/logout", {
-      method: "post",
-    });
+// export const logout: AuthFn = async (token) => {
+//   try {
+//     const res = await client("/auth/logout", {
+//       method: "post",
+//     });
 
-    return res.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log(error.message);
-    }
-    return false;
-  }
-};
+//     return res.data;
+//   } catch (error) {
+//     if (error instanceof AxiosError) {
+//       console.log(error);
+//     }
+//     return false;
+//   }
+// };
 
 // 정보 수정
 export const editInfo: EditAuthFn = async (

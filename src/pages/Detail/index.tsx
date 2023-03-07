@@ -3,13 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getProduct } from "api/product";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { addToCart } from "features/cartSlice";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { purchaseAction } from "features/purchaseSlice";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Detail = () => {
   const [quantity, setQuantity] = useState(1);
   const { productId } = useParams();
+  const navigate = useNavigate();
+  const { purchase } = useAppSelector((state) => state);
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["product"],
@@ -38,6 +41,26 @@ const Detail = () => {
       }),
     );
   };
+
+  const handleClickPurchase = () => {
+    dispatch(
+      purchaseAction({
+        id,
+        price,
+        quantity,
+        thumbnail,
+        title,
+      }),
+    );
+
+    // navigate(`/purchase/${purchase.id}`);
+  };
+
+  console.log(purchase);
+
+  useEffect(() => {
+    if (purchase.id === productId) navigate(`/purchase/${purchase.id}`);
+  }, [navigate, purchase.id, productId]);
 
   if (isLoading) return <div>loading...</div>;
   const { id, title, price, description, thumbnail, tags, photo } = product!;
@@ -78,7 +101,11 @@ const Detail = () => {
           </PriceWrapper>
 
           <BuyBtnWrapper>
-            <Button type="button" primary="primary">
+            <Button
+              type="button"
+              primary="primary"
+              onClick={handleClickPurchase}
+            >
               구매하기
             </Button>
             <Button type="button" onClick={handleClickCart}>

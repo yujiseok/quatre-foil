@@ -11,22 +11,13 @@ import {
   decrementQuantity,
   incrementQuantity,
 } from "features/cartSlice";
+import { getTotal } from "utils/getTotal";
 
 interface Props {}
 const Cart = (props: Props) => {
   const [count, setCount] = useState(1);
   const { cart } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
-  const getTotal = () => {
-    let totalQuantity = 0;
-    let totalPrice = 0;
-    cart.forEach((item) => {
-      totalQuantity += item.quantity;
-      totalPrice += item.price * item.quantity;
-    });
-
-    return { totalQuantity, totalPrice };
-  };
 
   const onIncrement = (item: InitialState) => {
     console.log("clicked");
@@ -43,7 +34,7 @@ const Cart = (props: Props) => {
   return (
     <Container>
       <h4>
-        장바구니 <span>{getTotal().totalQuantity || 0}</span>
+        장바구니 <span>{getTotal(cart).totalQuantity || 0}</span>
       </h4>
 
       <CartWrapper>
@@ -90,9 +81,11 @@ const Cart = (props: Props) => {
       </CartWrapper>
       <Total>
         <div>합계</div>
-        <div>{getTotal().totalPrice.toLocaleString()} 원</div>
+        <div>{getTotal(cart).totalPrice.toLocaleString()} 원</div>
       </Total>
-      <Button>주문하기</Button>
+      <Link to="/purchase/cart">
+        <Button>주문하기</Button>
+      </Link>
     </Container>
   );
 };
