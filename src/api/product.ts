@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { client } from "./core/api";
 
 // 제품 구매
-export const purchase = async (productId: string, accountId: string) => {
+export const purchaseItem = async (productId: string, accountId: string) => {
   return client("/products/buy", {
     method: "POST",
     data: {
@@ -54,6 +54,24 @@ export interface IProductDetail {
   photo: string; // 제품 상세 이미지(URL)
   isSoldOut: boolean; // 제품 매진 여부
 }
+
+export interface TransactionDetail {
+  // 거래 내역 정보
+  detailId: string; // 거래 내역 ID
+  product: {
+    // 거래한 제품 정보
+    productId: string;
+    title: string;
+    price: number;
+    description: string;
+    tags: string[];
+    thumbnail: string | null;
+  };
+  timePaid: string; // 제품을 거래한 시간
+  isCanceled: boolean; // 거래 취소 여부
+  done: boolean; // 거래 완료 여부
+}
+
 export const getAllProducts = async () => {
   const { data } = await client<Product[]>({
     url: "products",
@@ -68,5 +86,13 @@ export const getAllProducts = async () => {
 export const getProduct = async (id: string) => {
   const { data } = await client.get<IProductDetail>(`/products/${id}`);
 
+  return data;
+};
+
+// 제품 전체 거래 내역
+export const getPurchaseHistory = async () => {
+  const { data } = await client<TransactionDetail[]>({
+    url: "products/transactions/details",
+  });
   return data;
 };
