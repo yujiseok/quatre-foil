@@ -1,9 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { TransactionDetail } from "api/product";
-import { getPurchaseHistory } from "api/product";
+import {
+  cfmPurchase,
+  TransactionDetail,
+  getPurchaseHistory,
+  cancelPurchase,
+} from "api/product";
+
 import { useAppSelector } from "app/hooks";
 import { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import { tablet } from "../../global/responsive";
 
@@ -14,8 +19,24 @@ const MyOrder = () => {
     queryFn: getPurchaseHistory,
     refetchOnWindowFocus: false,
   });
+  console.log(history);
 
-  // const cfmMutation = useMutation({});
+  const confirmMutation = useMutation({
+    mutationFn: (id: string) => cfmPurchase(id),
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries();
+    },
+  });
+
+  const cancelMutation = useMutation({
+    mutationFn: (id: string) => cancelPurchase(id),
+    onSuccess(data, variables, context) {
+      // queryClient.invalidateQueries();
+    },
+    onError(error, variables, context) {
+      toast.error("이미 구매 완료한 제품은 취소할 수 없습니다.");
+    },
+  });
 
   return (
     <Container>
@@ -23,8 +44,9 @@ const MyOrder = () => {
         return (
           <ItemContainer key={item.timePaid}>
             <TitleContainer>
-              <h3>결제 완료&nbsp;·&nbsp;</h3>
-              <span>{item.done ? "구매 확정" : " 확정 대기 "}</span>
+              <h3>결제 완료&nbsp;&nbsp;</h3>
+              <span>{item.done ? "구매 확정" : ""}</span>
+              <span>{item.isCanceled ? "구매 취소" : ""}</span>
             </TitleContainer>
             <Wrapper>
               <ItemInfoWrapper>
@@ -38,8 +60,18 @@ const MyOrder = () => {
                 </ItemInfoContainer>
               </ItemInfoWrapper>
               <ConfirmOrderContainer>
-                <Cfmbtn type="button">확정</Cfmbtn>
-                <Cfmbtn type="button">취소</Cfmbtn>
+                <Cfmbtn
+                  type="button"
+                  onClick={() => confirmMutation.mutate(item.detailId)}
+                >
+                  확정
+                </Cfmbtn>
+                <Cfmbtn
+                  type="button"
+                  onClick={() => cancelMutation.mutate(item.detailId)}
+                >
+                  취소
+                </Cfmbtn>
               </ConfirmOrderContainer>
             </Wrapper>
           </ItemContainer>
