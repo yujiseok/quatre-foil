@@ -1,4 +1,6 @@
 import { tablet } from "@global/responsive";
+import { useQuery } from "@tanstack/react-query";
+import { getAllProducts } from "api/product";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { setCategory } from "features/categorySlice";
 import type { MouseEvent } from "react";
@@ -14,6 +16,25 @@ const Shop = () => {
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
     dispatch(setCategory(e.currentTarget.textContent as string));
   };
+
+  const {
+    data: products,
+    isLoading,
+    isFetching,
+  } = useQuery({
+    queryKey: ["products"],
+    queryFn: getAllProducts,
+  });
+
+  const filteredProducts = products?.filter((product) =>
+    product.tags.find((tag) => {
+      if (tag === category.toLowerCase() || category === "ALL") {
+        return product;
+      }
+    }),
+  );
+
+  if (isFetching) return <h1>Loading...</h1>;
 
   return (
     <Section>
@@ -33,66 +54,20 @@ const Shop = () => {
         ))}
       </CategoryWrapper>
       <ItemWrapper>
-        <li>
-          <StyledLink to="/shop/abc">
-            <img
-              src="https://contents.sixshop.com/thumbnails/uploadedFiles/181086/product/image_1635159135938_1000.png"
-              alt=""
-              srcSet=""
-            />
+        {filteredProducts?.map((product) => (
+          <li key={product.id}>
+            <StyledLink to={`${product.id}`}>
+              <div className="img-wrapper">
+                <img src={product.thumbnail} alt={product.title} />
+              </div>
 
-            <div>
-              <p>이름</p>
-              <p>설명</p>
-              <p>가격</p>
-            </div>
-          </StyledLink>
-        </li>
-        <li>
-          <StyledLink to="/shop/abc">
-            <img
-              src="http://blesswebshop.com/1108-2574-large/n69-lost-in-contemplation-variation-bedsheets-saturnia.jpg"
-              alt=""
-              srcSet=""
-            />
-
-            <div>
-              <p>이름</p>
-              <p>설명</p>
-              <p>가격</p>
-            </div>
-          </StyledLink>
-        </li>
-        <li>
-          <StyledLink to="/shop/abc">
-            <img
-              src="https://contents.sixshop.com/thumbnails/uploadedFiles/181086/product/image_1635159135938_1000.png"
-              alt=""
-              srcSet=""
-            />
-
-            <div>
-              <p>이름</p>
-              <p>설명</p>
-              <p>가격</p>
-            </div>
-          </StyledLink>
-        </li>
-        <li>
-          <StyledLink to="/shop/abc">
-            <img
-              src="http://blesswebshop.com/1108-2574-large/n69-lost-in-contemplation-variation-bedsheets-saturnia.jpg"
-              alt=""
-              srcSet=""
-            />
-
-            <div>
-              <p>이름</p>
-              <p>설명</p>
-              <p>가격</p>
-            </div>
-          </StyledLink>
-        </li>
+              <div>
+                <p>{product.title}</p>
+                <p>{product.price.toLocaleString()}원</p>
+              </div>
+            </StyledLink>
+          </li>
+        ))}
       </ItemWrapper>
     </Section>
   );
@@ -135,11 +110,25 @@ const ItemWrapper = styled.ul`
   margin: 1rem 0;
 
   ${tablet({
-    gridTemplateColumns: "repeat(4,1fr)",
+    gridTemplateColumns: "repeat(auto-fit, minmax(10rem, 1fr))",
   })}
 
   div {
     text-align: center;
+  }
+
+  li a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .img-wrapper {
+      height: 300px;
+
+      img {
+        object-fit: contain;
+      }
+    }
   }
 `;
 
