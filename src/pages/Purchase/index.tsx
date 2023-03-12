@@ -1,16 +1,20 @@
 import Button from "@components/Button";
 import { tablet } from "@global/responsive";
 import { MdClose } from "react-icons/md";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import DaumPostcode from "react-daum-postcode";
 import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "app/hooks";
 import { getTotal } from "utils/getTotal";
-import { useQuery } from "@tanstack/react-query";
-import { getProduct } from "api/product";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getProduct, purchaseItem } from "api/product";
+import type { AccountValue } from "api/account";
+import { getAccountInfo } from "api/account";
+import { toast, ToastContainer } from "react-toastify";
 
 const Purchase = () => {
+  const queryClient = useQueryClient();
   const [openPostcode, setOpenPostcode] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const [zipcode, setZipcode] = useState("");
@@ -18,6 +22,11 @@ const Purchase = () => {
   const { cart } = useAppSelector((state) => state);
   const { purchase } = useAppSelector((state) => state);
   const { productId } = useParams();
+  const [accountLists, setAccountLists] = useState<AccountValue>({
+    totalBalance: 0,
+    accounts: [],
+  });
+  const navigate = useNavigate();
 
   const handle = {
     // 버튼 클릭 이벤트
@@ -50,6 +59,26 @@ const Purchase = () => {
       };
     }
   }, [openPostcode]);
+
+  // const availableAccount = async () => {
+  //   const accountData = await getAccountInfo();
+  //   setAccountLists(accountData);
+  // };
+  // availableAccount();
+
+  const handlePurchase = async () => {
+    const res = await purchaseItem(
+      "WRiNDYA5jwXCmGZ9GpIW",
+      "oaYvcXEXdZRfDqHPKoGu",
+    );
+    if (res.data) {
+      toast.success("구매에 성공하였습니다", {
+        onClose: () => {
+          navigate("/mypage/order");
+        },
+      });
+    }
+  };
 
   return (
     <Container>
@@ -160,13 +189,29 @@ const Purchase = () => {
           )}
         </div>
       </ShippingContainer>
-      <Button>
+
+      <ShippingContainer>
+        <h4>결제 정보</h4>
+        {/* <div>{accounts?.account.map((item) => console.log(item))}</div> */}
+      </ShippingContainer>
+      <Button onClick={handlePurchase}>
         총{" "}
         {productId === "cart"
           ? getTotal(cart).totalPrice.toLocaleString()
           : (purchase.price * purchase.quantity).toLocaleString()}
         원 주문하기
       </Button>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="light"
+      />
     </Container>
   );
 };
