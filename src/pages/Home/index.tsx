@@ -4,57 +4,11 @@ import Slider from "react-slick";
 import { SlickArrowLeft, SlickArrowRight } from "@components/SlickButton";
 import "@global/slick.css";
 import "@global/slick-theme.css";
-import { useQuery } from "@tanstack/react-query";
-import { getAllProducts } from "api/product";
+import useGetAllProductsQuery from "lib/hooks/useGetAllProductsQuery";
 import { mobile, tablet } from "../../global/responsive";
 
-const settings = {
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  nextArrow: <SlickArrowRight />,
-  prevArrow: <SlickArrowLeft />,
-  autoplay: true,
-  draggable: true,
-  responsive: [
-    // {
-    //   breakpoint: 1024,
-    //   settings: {
-    //     slidesToShow: 4,
-    //     slidesToScroll: 4,
-    //   },
-    // },
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 540,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-};
-
 const Home = () => {
-  const { data: products, isLoading } = useQuery({
-    queryKey: ["products"],
-    queryFn: getAllProducts,
-  });
-  console.log(products);
+  const { products, isLoading } = useGetAllProductsQuery();
 
   return (
     <>
@@ -84,6 +38,7 @@ const Home = () => {
         <MarqueeContainer>
           <MarqueeWrapper>
             <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑 </p>
+            <p>QUATRE FOIL의 최신 상품을 만나보세요 🛏️ </p>
             <p>
               Marque Lorem, ipsum.Marque Lorem, ipsum. Marque Lorem,
               ipsum.Marque Lorem, ipsum.🪑 Marque Lorem, ipsum.Marque Lorem,
@@ -103,7 +58,6 @@ const Home = () => {
           <MarqueeWrapper>
             <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑 </p>
             <p>QUATRE FOIL의 최신 상품을 만나보세요 🛏️ </p>
-
             <p>
               Infinite Marquee with long sentence Infinite Marquee with long
               sentence Infinite Marquee with long sentence Infinite Marquee with
@@ -116,11 +70,10 @@ const Home = () => {
         </MarqueeContainer>
       </section>
 
-      {/* 상품 section */}
       <ItemSection>
         <ItemWrapper>
           {!isLoading &&
-            products?.slice(0, 9).map((product) => (
+            products?.slice(0, 8).map((product) => (
               <Item key={product.id}>
                 <StyledLink to={`/shop/${product.id}`} slick="">
                   <img src={product.thumbnail!} alt={product.title} />
@@ -133,7 +86,6 @@ const Home = () => {
         </ItemWrapper>
       </ItemSection>
 
-      {/* slick section */}
       <SlickSection>
         <h2>인기 상품을 만나 보세요! 🔥</h2>
 
@@ -158,6 +110,40 @@ const Home = () => {
   );
 };
 export default Home;
+
+const settings = {
+  infinite: true,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  nextArrow: <SlickArrowRight />,
+  prevArrow: <SlickArrowLeft />,
+  autoplay: true,
+  draggable: true,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 540,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+};
 
 const HeroSection = styled.section`
   ${tablet({
@@ -320,9 +306,6 @@ const Item = styled.li`
     }
   }
 
-  a {
-  }
-
   img {
     width: 100%;
     height: 100%;
@@ -343,8 +326,8 @@ const StyledLink = styled(Link)<{ slick: string }>`
 
   img {
     object-fit: contain;
-    height: ${({ slick }) => (slick ? "400px" : "100%")};
-    width: ${({ slick }) => (slick ? "300px" : "100%")};
+    height: ${({ slick }) => (slick ? "350px" : "100%")};
+    width: ${({ slick }) => (slick ? "80%" : "100%")};
   }
 `;
 
@@ -353,6 +336,5 @@ const SlickSection = styled.section`
 `;
 
 const TextWrap = styled.div`
-  position: absolute;
-  bottom: 0;
+  margin-top: 1rem;
 `;
