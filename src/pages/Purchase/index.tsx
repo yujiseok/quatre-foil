@@ -6,7 +6,7 @@ import styled from "styled-components";
 import DaumPostcode from "react-daum-postcode";
 import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "app/hooks";
-import { getTotal } from "utils/getTotal";
+import { getTotal } from "lib/utils/getTotal";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProduct, purchaseItem } from "api/product";
 import type { AccountValue } from "api/account";

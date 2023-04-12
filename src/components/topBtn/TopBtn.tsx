@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { IoChevronUp } from "react-icons/io5";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
-import { scrollToTop } from "utils/scroll";
+import { scrollToTop } from "lib/utils/scroll";
 
 const TopBtn = () => {
   const [showButton, setShowButton] = useState(false);

@@ -11,7 +11,7 @@ import {
   decrementQuantity,
   incrementQuantity,
 } from "features/cartSlice";
-import { getTotal } from "utils/getTotal";
+import { getTotal } from "lib/utils/getTotal";
 
 interface Props {}
 const Cart = (props: Props) => {
