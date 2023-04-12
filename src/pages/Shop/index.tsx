@@ -26,7 +26,7 @@ const Shop = () => {
     queryFn: getAllProducts,
   });
 
-  const filteredProduct = products?.filter((product) =>
+  const filteredProducts = products?.filter((product) =>
     product.tags.find((tag) => {
       if (tag === category.toLowerCase() || category === "ALL") {
         return product;
@@ -54,7 +54,7 @@ const Shop = () => {
         ))}
       </CategoryWrapper>
       <ItemWrapper>
-        {filteredProduct?.map((product) => (
+        {filteredProducts?.map((product) => (
           <li key={product.id}>
             <StyledLink to={`${product.id}`}>
               <div className="img-wrapper">
