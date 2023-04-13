@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllProducts } from "api/product";
+import type { Category } from "features/categorySlice";
 
-const useGetAllProductsQuery = () => {
+const useGetAllProductsQuery = (category: Category) => {
   const {
     data: products,
     isLoading,
@@ -9,6 +10,14 @@ const useGetAllProductsQuery = () => {
   } = useQuery({
     queryKey: ["products"],
     queryFn: getAllProducts,
+    select: (data) =>
+      data?.filter((product) =>
+        product.tags.find((tag) => {
+          if (tag === category.toLowerCase() || category === "ALL") {
+            return product;
+          }
+        }),
+      ),
   });
 
   return { products, isLoading, isFetching };
