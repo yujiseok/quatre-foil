@@ -21,13 +21,9 @@ const purchaseSlice = createSlice({
   initialState,
   reducers: {
     purchaseAction: (state, action: PayloadAction<InitialState>) => {
-      state.id = action.payload.id;
-      state.title = action.payload.title;
-      state.price = action.payload.price;
-      state.thumbnail = action.payload.thumbnail;
-      state.quantity = action.payload.quantity;
+      state = action.payload;
     },
-    reset: (state) => initialState,
+    reset: () => initialState,
   },
 });
 
