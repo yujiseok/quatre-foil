@@ -1,11 +1,13 @@
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
+interface User {
+  email: string;
+  displayName: string;
+  profileImg?: string;
+}
 interface InitialState {
-  user: {
-    email: string;
-    displayName: string;
-    profileImg?: string;
-  };
+  user: User;
   accessToken: string;
 }
 
@@ -22,19 +24,12 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      state.user.email = action.payload.user.email;
-      state.user.displayName = action.payload.user.displayName;
-      state.user.profileImg = action.payload.user.profileImg;
+    setUser: (state, action: PayloadAction<InitialState>) => {
+      state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
     },
-    logOutAction: (state) => {
-      state.user.email = "";
-      state.user.displayName = "";
-      state.user.profileImg = "";
-      state.accessToken = "";
-    },
-    editUser: (state, action) => {
+    logOutAction: () => initialState,
+    editUser: (state, action: PayloadAction<User>) => {
       state.user.displayName = action.payload.displayName;
       state.user.profileImg = action.payload.profileImg;
     },
