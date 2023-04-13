@@ -2,10 +2,10 @@ import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 const TopBtnPortal = ({ children }: { children: ReactNode }) => {
-  const modalContainer = document.getElementById(
+  const topBtnContainer = document.getElementById(
     "top-btn-container",
   ) as HTMLDivElement;
 
-  return createPortal(children, modalContainer);
+  return createPortal(children, topBtnContainer);
 };
 export default TopBtnPortal;

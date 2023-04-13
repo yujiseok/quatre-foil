@@ -8,7 +8,6 @@ import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { mobile, tablet } from "@global/responsive";
 import { setCategory } from "features/categorySlice";
-import { scrollToTop } from "utils/scroll";
 
 interface IBtn {
   isOpen: boolean;
@@ -18,7 +17,6 @@ const CATEGORY = ["ALL", "FURNITURE", "BEDROOM", "HOMEWEAR", "GARDENING"];
 const Aside = () => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const toggle = useAppSelector((state) => state.toggleReducer.toggle);
   const { accessToken } = useAppSelector((state) => state.auth);
 
   const handleClick = () => setIsOpen((prev) => !prev);
@@ -26,7 +24,6 @@ const Aside = () => {
   const handleClickCategory = (e: MouseEvent<HTMLAnchorElement>) => {
     dispatch(setCategory(e.currentTarget.textContent));
     dispatch(closeMenu());
-    scrollToTop();
   };
   const handleResize = () => {
     if (window.innerWidth > 768) {
