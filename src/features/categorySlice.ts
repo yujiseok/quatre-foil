@@ -1,7 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { type } from "os";
 
-interface CategoryState {
-  category: "ALL" | "FURNITURE" | "BEDROOM" | "HOMEWEAR" | "GARDENING";
+export type Category =
+  | "ALL"
+  | "FURNITURE"
+  | "BEDROOM"
+  | "HOMEWEAR"
+  | "GARDENING";
+export interface CategoryState {
+  category: Category;
 }
 
 const initialState: CategoryState = {
