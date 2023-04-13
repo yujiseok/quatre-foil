@@ -3,7 +3,7 @@ import { getProduct } from "api/product";
 
 const useGetProductQuery = (productId: string) => {
   const { data: product, isLoading } = useQuery({
-    queryKey: ["product"],
+    queryKey: ["product", productId],
     queryFn: () => getProduct(productId),
   });
 
