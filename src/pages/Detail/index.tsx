@@ -1,34 +1,31 @@
+import ProductNotice from "@components/ProductNotice";
 import { tablet } from "@global/responsive";
 import { useQuery } from "@tanstack/react-query";
 import { getProduct } from "api/product";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { addToCart } from "features/cartSlice";
 import { purchaseAction } from "features/purchaseSlice";
+import useGetProductQuery from "lib/hooks/useGetProductQuery";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Detail = () => {
   const [quantity, setQuantity] = useState(1);
-  const { productId } = useParams();
+  const { productId } = useParams() as { productId: string };
   const navigate = useNavigate();
   const { purchase } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
 
-  const { data: product, isLoading } = useQuery({
-    queryKey: ["product"],
-    queryFn: () => getProduct(productId as string),
-  });
-
+  const { product, isLoading } = useGetProductQuery(productId);
   const onIncrement = () => {
-    setQuantity((prev) => prev + 1);
+    if (quantity < 5) setQuantity((prev) => prev + 1);
   };
   const onDecrement = () => {
     if (quantity > 1) {
       setQuantity((prev) => prev - 1);
     }
   };
-
-  const dispatch = useAppDispatch();
 
   const handleClickCart = () => {
     dispatch(
@@ -53,17 +50,21 @@ const Detail = () => {
       }),
     );
 
-    // navigate(`/purchase/${purchase.id}`);
+    navigate(`/purchase/${purchase.id}`);
   };
 
-  console.log(purchase);
+  console.log(product);
 
-  useEffect(() => {
-    if (purchase.id === productId) navigate(`/purchase/${purchase.id}`);
-  }, [navigate, purchase.id, productId]);
+  // useEffect(() => {
+  //   if (purchase.id === productId) navigate(`/purchase/${purchase.id}`);
+  // }, [navigate, purchase.id, productId]);
 
   if (isLoading) return <div>loading...</div>;
-  const { id, title, price, description, thumbnail, tags, photo } = product!;
+  const { id, title, price, description, thumbnail, tags, photo, isSoldOut } =
+    product!;
+
+  // isSoldOut 일시 처리
+
   return (
     <Section>
       <ItemWrapper>
@@ -74,7 +75,7 @@ const Detail = () => {
           <h4>{title}</h4>
           <p>{price.toLocaleString()} 원</p>
           <div>
-            <p>수량</p>
+            <p>수량 - 1인당 구매 수량 5개 </p>
             <BtnWrapper>
               <button
                 type="button"
@@ -104,11 +105,16 @@ const Detail = () => {
             <Button
               type="button"
               primary="primary"
+              disabled={isSoldOut}
               onClick={handleClickPurchase}
             >
-              구매하기
+              {isSoldOut ? "품절" : "구매하기"}
             </Button>
-            <Button type="button" onClick={handleClickCart}>
+            <Button
+              type="button"
+              disabled={isSoldOut}
+              onClick={handleClickCart}
+            >
               장바구니에 담기
             </Button>
           </BuyBtnWrapper>
@@ -117,133 +123,12 @@ const Detail = () => {
 
       <DescWrapper>
         <h4>상세설명</h4>
-        <div>{description}</div>
+        <div className="desc">{description}</div>
         <div>
           <img src={photo} alt={title} />
         </div>
 
-        <div className="desc-footer">
-          <p>&nbsp;</p>
-
-          <p>&nbsp;</p>
-
-          <p>
-            <span>
-              <strong>배송안내</strong>
-            </span>
-          </p>
-
-          <p>&nbsp;</p>
-
-          <p>
-            <span>
-              <strong>배송 업체 ㅣ&nbsp;</strong>CJ 대한통운 (1588-1255)
-            </span>
-          </p>
-
-          <p>
-            <span>
-              <strong>배송 지역 ㅣ&nbsp;</strong>대한민국 전지역
-            </span>
-          </p>
-
-          <p>
-            <span>
-              <strong>배송 기간 ㅣ&nbsp;</strong>주말·공휴일 제외 2일 ~ 5일
-            </span>
-          </p>
-
-          <p>&nbsp;</p>
-
-          <p>
-            <span>
-              <strong>유의 사항</strong>
-            </span>
-          </p>
-
-          <p>
-            <span>
-              -&nbsp;주문폭주 및 공급 사정으로 인하여 지연 및 품절이 발생될 수
-              있습니다.&nbsp;
-            </span>
-          </p>
-
-          <p>
-            <span>
-              - 기본 배송기간 이상 소요되는 상품이거나, 품절 상품은 개별 연락을
-              드립니다.
-            </span>
-          </p>
-
-          <p>&nbsp;</p>
-
-          <p>&nbsp;</p>
-
-          <p>
-            <span>
-              <strong>교환 및 반품안내</strong>
-            </span>
-          </p>
-
-          <p>&nbsp;</p>
-
-          <p>
-            <span>
-              <strong>신청 방법 ㅣ&nbsp;</strong>상품을 수령하신 날로부터 7일
-              이내로 콜센터(1234-1234)&nbsp;및 홈페이지 Q&amp;A 게시판을
-              통해&nbsp;접수
-            </span>
-          </p>
-
-          <p>
-            <span>
-              <strong>배송 비용 ㅣ</strong>&nbsp;단순 변심은 왕복&nbsp;택배비
-              5,000원 (반품 상품을 제외한 나머지 금액이 50,000원 이상일 경우에는
-              2,500원)
-            </span>
-          </p>
-
-          <p>
-            <span>
-              <strong>반품 주소 ㅣ&nbsp;</strong>서울특별시 서초구 강남대로
-            </span>
-          </p>
-
-          <p>&nbsp;</p>
-
-          <p>
-            <span>
-              <strong>유의 사항</strong>
-            </span>
-          </p>
-
-          <p>
-            <span>
-              - 단순 변심의 경우 수령일로부터 7일 이내까지&nbsp;교환∙반품이
-              가능합니다. (교환/반품비 고객님 부담)
-            </span>
-          </p>
-
-          <p>
-            <span>
-              - 상품 하자, 오배송의 경우 수령일로부터 7일 이내 고객센터 접수
-              후&nbsp;교환∙반품이 가능합니다. (교환/반품비 무료)
-            </span>
-          </p>
-
-          <p>
-            <span>
-              - 제품 특성상 단순 변심, 부주의에 의한 제품 손상 및 파손, 사용 및
-              개봉한 경우 교환/반품이 불가합니다.
-            </span>
-          </p>
-
-          <p>
-            <span>
-              - 네이버페이 결제 주문은 동일 상품 / 동일 옵션 교환만 가능합니다.
-            </span>
-          </p>
-        </div>
+        <ProductNotice />
       </DescWrapper>
     </Section>
   );
@@ -367,6 +252,11 @@ const DescWrapper = styled.div`
     padding-bottom: 1.5rem;
     border-bottom: 1px solid;
     margin-bottom: 1.25rem;
+  }
+
+  .desc {
+    margin: 1.5rem 0 3rem 0;
+    word-break: keep-all;
   }
 
   .desc-footer {
