@@ -1,8 +1,7 @@
 import { tablet } from "@global/responsive";
-import { useQuery } from "@tanstack/react-query";
-import { getAllProducts } from "api/product";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { setCategory } from "features/categorySlice";
+import useGetAllProductsQuery from "lib/hooks/useGetAllProductsQuery";
 import type { MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -17,24 +16,7 @@ const Shop = () => {
     dispatch(setCategory(e.currentTarget.textContent as string));
   };
 
-  const {
-    data: products,
-    isLoading,
-    isFetching,
-  } = useQuery({
-    queryKey: ["products"],
-    queryFn: getAllProducts,
-  });
-
-  const filteredProducts = products?.filter((product) =>
-    product.tags.find((tag) => {
-      if (tag === category.toLowerCase() || category === "ALL") {
-        return product;
-      }
-    }),
-  );
-
-  if (isFetching) return <h1>Loading...</h1>;
+  const { products } = useGetAllProductsQuery(category);
 
   return (
     <Section>
@@ -54,20 +36,24 @@ const Shop = () => {
         ))}
       </CategoryWrapper>
       <ItemWrapper>
-        {filteredProducts?.map((product) => (
-          <li key={product.id}>
-            <StyledLink to={`${product.id}`}>
-              <div className="img-wrapper">
-                <img src={product.thumbnail} alt={product.title} />
-              </div>
+        {products?.length ? (
+          products?.map((product) => (
+            <li key={product.id}>
+              <StyledLink to={`${product.id}`}>
+                <div className="img-wrapper">
+                  <img src={product.thumbnail} alt={product.title} />
+                </div>
 
-              <div>
-                <p>{product.title}</p>
-                <p>{product.price.toLocaleString()}원</p>
-              </div>
-            </StyledLink>
-          </li>
-        ))}
+                <div>
+                  <p>{product.title}</p>
+                  <p>{product.price.toLocaleString()}원</p>
+                </div>
+              </StyledLink>
+            </li>
+          ))
+        ) : (
+          <h2>상품이 없습니다.</h2>
+        )}
       </ItemWrapper>
     </Section>
   );
@@ -108,6 +94,7 @@ const ItemWrapper = styled.ul`
   grid-template-columns: repeat(2, minmax(200px, 1fr));
   gap: 0.25rem;
   margin: 1rem 0;
+  place-items: center;
 
   ${tablet({
     gridTemplateColumns: "repeat(auto-fit, minmax(10rem, 1fr))",

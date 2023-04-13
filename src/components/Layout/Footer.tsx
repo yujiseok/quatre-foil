@@ -7,7 +7,7 @@ import { tablet } from "@global/responsive";
 import { useAppDispatch } from "app/hooks";
 import { setCategory } from "features/categorySlice";
 import type { MouseEvent } from "react";
-import { scrollToTop } from "utils/scroll";
+import { scrollToTop } from "lib/utils/scroll";
 
 const CATEGORY = ["ALL", "FURNITURE", "BEDROOM", "HOMEWEAR", "GARDENING"];
 

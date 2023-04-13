@@ -32,7 +32,7 @@ export const cancelPurchase = async (detailId: string) => {
   });
 };
 
-interface Product {
+interface IProduct {
   // 제품 정보
   id: string; // 제품 ID
   title: string; // 제품 이름
@@ -55,7 +55,7 @@ export interface IProductDetail {
   isSoldOut: boolean; // 제품 매진 여부
 }
 
-export interface TransactionDetail {
+export interface ITransactionDetail {
   // 거래 내역 정보
   detailId: string; // 거래 내역 ID
   product: {
@@ -73,7 +73,7 @@ export interface TransactionDetail {
 }
 
 export const getAllProducts = async () => {
-  const { data } = await client<Product[]>({
+  const { data } = await client<IProduct[]>({
     url: "products",
     headers: {
       masterKey: true,
@@ -91,7 +91,7 @@ export const getProduct = async (id: string) => {
 
 // 제품 전체 거래 내역
 export const getPurchaseHistory = async () => {
-  const { data } = await client<TransactionDetail[]>({
+  const { data } = await client<ITransactionDetail[]>({
     url: "products/transactions/details",
   });
   return data;

@@ -7,7 +7,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { GlobalStyles } from "./global/globalStyles";
 import App from "./App";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { suspense: true, refetchOnWindowFocus: false, retry: false },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <>
