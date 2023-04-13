@@ -1,5 +1,5 @@
 import { useAppSelector } from "app/hooks";
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Aside from "./Aside";
 import Footer from "./Footer";
@@ -16,6 +16,7 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
+      <ScrollRestoration />
     </>
   );
 };
