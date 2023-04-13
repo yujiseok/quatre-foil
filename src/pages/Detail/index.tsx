@@ -6,26 +6,18 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { addToCart } from "features/cartSlice";
 import { purchaseAction } from "features/purchaseSlice";
 import useGetProductQuery from "lib/hooks/useGetProductQuery";
+import useQuantity from "lib/hooks/useQuantity";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Detail = () => {
-  const [quantity, setQuantity] = useState(1);
   const { productId } = useParams() as { productId: string };
   const navigate = useNavigate();
   const { purchase } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
-
+  const { quantity, onIncrement, onDecrement } = useQuantity();
   const { product, isLoading } = useGetProductQuery(productId);
-  const onIncrement = () => {
-    if (quantity < 5) setQuantity((prev) => prev + 1);
-  };
-  const onDecrement = () => {
-    if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
-  };
 
   const handleClickCart = () => {
     dispatch(
@@ -59,11 +51,8 @@ const Detail = () => {
   //   if (purchase.id === productId) navigate(`/purchase/${purchase.id}`);
   // }, [navigate, purchase.id, productId]);
 
-  if (isLoading) return <div>loading...</div>;
-  const { id, title, price, description, thumbnail, tags, photo, isSoldOut } =
+  const { id, title, price, description, thumbnail, photo, isSoldOut } =
     product!;
-
-  // isSoldOut 일시 처리
 
   return (
     <Section>
