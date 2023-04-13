@@ -13,14 +13,11 @@ import {
 } from "features/cartSlice";
 import { getTotal } from "lib/utils/getTotal";
 
-interface Props {}
-const Cart = (props: Props) => {
-  const [count, setCount] = useState(1);
+const Cart = () => {
   const { cart } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   const onIncrement = (item: InitialState) => {
-    console.log("clicked");
     dispatch(incrementQuantity(item));
   };
   const onDecrement = (item: InitialState) => {
@@ -49,11 +46,7 @@ const Cart = (props: Props) => {
               <div className="price-detail">
                 <p>{item.title}</p>
                 <BtnWrapper>
-                  <button
-                    type="button"
-                    onClick={() => onDecrement(item)}
-                    // disabled={count === 1}
-                  >
+                  <button type="button" onClick={() => onDecrement(item)}>
                     -
                   </button>
                   <p>{item.quantity}</p>
@@ -137,6 +130,10 @@ const CartItem = styled.li`
       alignItems: "center",
       gap: "1.25rem",
     })}
+
+    p {
+      max-width: 10rem;
+    }
   }
   .delete-btn-pc {
     font-family: inherit;
