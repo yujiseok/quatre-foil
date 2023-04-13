@@ -8,7 +8,6 @@ import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { mobile, tablet } from "@global/responsive";
 import { setCategory } from "features/categorySlice";
-import { scrollToTop } from "lib/utils/scroll";
 
 interface IBtn {
   isOpen: boolean;
@@ -25,7 +24,6 @@ const Aside = () => {
   const handleClickCategory = (e: MouseEvent<HTMLAnchorElement>) => {
     dispatch(setCategory(e.currentTarget.textContent));
     dispatch(closeMenu());
-    scrollToTop();
   };
   const handleResize = () => {
     if (window.innerWidth > 768) {
