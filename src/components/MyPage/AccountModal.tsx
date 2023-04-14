@@ -7,6 +7,13 @@ import { colors } from "constants/color";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Kookmin from "./BankList/Kookmin";
+import Shinhan from "./BankList/Shinhan";
+import Woori from "./BankList/Woori";
+import Hana from "./BankList/Hana";
+import Kbank from "./BankList/Kbank";
+import Kakao from "./BankList/Kakao";
+import NH from "./BankList/NH";
 
 const AccountModal = ({
   onClose,
@@ -18,8 +25,8 @@ const AccountModal = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const [isAgree, setIsAgree] = useState(false);
   const [btnActive, setBtnActive] = useState("");
-  const [accountInput, setAccountInput] = useState("");
-  const [mobileInput, setMobileInput] = useState("");
+  const [activeTab, setActiveTab] = useState(0);
+  const { register, handleSubmit, watch } = useForm();
 
   const handleSign = () => {
     setIsAgree((prev) => !prev);
@@ -54,72 +61,8 @@ const AccountModal = ({
   //   resolver: yupResolver(schema),
   // });
 
-  const banks = [
-    {
-      name: "KB국민은행",
-      code: "004",
-      digits: [3, 2, 4, 3],
-      disabled: false,
-    },
-    {
-      name: "신한은행",
-      code: "088",
-      digits: [3, 3, 6],
-      disabled: true,
-    },
-    {
-      name: "우리은행",
-      code: "020",
-      digits: [4, 3, 6],
-      disabled: true,
-    },
-    {
-      name: "하나은행",
-      code: "081",
-      digits: [3, 6, 5],
-      disabled: false,
-    },
-    {
-      name: "케이뱅크",
-      code: "089",
-      digits: [3, 3, 6],
-      disabled: false,
-    },
-    {
-      name: "카카오뱅크",
-      code: "090",
-      digits: [4, 2, 7],
-      disabled: false,
-    },
-    {
-      name: "NH농협은행",
-      code: "011",
-      digits: [3, 4, 4, 2],
-      disabled: false,
-    },
-  ];
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAccountInput(e.target.value);
-  };
-
-  const numberChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setMobileInput(e.target.value);
-  };
-
   const toggleActive = (e: MouseEvent<HTMLButtonElement>) => {
     setBtnActive(e.currentTarget.dataset.code as string);
-  };
-
-  const addMyAccount = async () => {
-    const res = await addAccount(btnActive, accountInput, mobileInput, isAgree);
-    if (res) {
-      alert("계좌가 성공적으로 추가되었어요!!!");
-      onClose();
-    }
-    const accountData = await getAccountInfo();
-    console.log(accountData);
-    setAccountLists(accountData);
   };
 
   return (
@@ -128,11 +71,12 @@ const AccountModal = ({
         <Contents>
           <h3>계좌 연결</h3>
           <BankLists>
-            {banks.map((bank) => {
+            {BANK_LIST.map((bank, i) => {
               return (
                 <BankList
                   key={bank.code}
-                  className={btnActive === bank.code ? "active" : ""}
+                  onClick={() => setActiveTab(i)}
+                  className={activeTab === i ? "active" : ""}
                 >
                   <button
                     type="button"
@@ -145,27 +89,34 @@ const AccountModal = ({
               );
             })}
           </BankLists>
-          <AddInput>
-            <div>
-              <label htmlFor="account">계좌번호</label>
-              <input type="text" id="account" onChange={onChange} />
-            </div>
-            <div>
-              <label htmlFor="mobile">전화번호</label>
-              <input type="text" id="mobile" onChange={numberChange} />
-            </div>
-          </AddInput>
-          <CheckWrapper htmlFor="">
+          <ActiveContent>
+            {/* {BANK_LIST[activeTab].content} */}
+            <Wrapper>
+              <Label htmlFor="account">계좌번호</Label>
+              <Input
+                type="text"
+                id="account"
+                name="account"
+                {...(register("account"), { required: true, maxLength: 12 })}
+              />
+            </Wrapper>
+            <Wrapper>
+              <Label htmlFor="mobile">전화번호</Label>
+              <Input
+                type="text"
+                id="mobile"
+                {...(register("phoneNumber"),
+                { required: true, maxLength: 11 })}
+              />
+            </Wrapper>
+          </ActiveContent>
+          <CheckWrapper>
             <CheckInput type="checkbox" onChange={handleSign} />
             <p>위 약관에 동의합니다</p>
           </CheckWrapper>
           <ButtonWrapper>
-            <Button type="button" onClick={addMyAccount}>
-              등록하기
-            </Button>
-            <Button type="button" onClick={onClose}>
-              취소하기
-            </Button>
+            <Button>등록하기</Button>
+            <Button onClick={onClose}>취소하기</Button>
           </ButtonWrapper>
         </Contents>
       </ModalWrap>
@@ -173,7 +124,20 @@ const AccountModal = ({
   );
 };
 
-const Overlay = styled.div`
+const Wrapper = styled.div`
+  display: flex;
+  flex: 1;
+  width: full;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+const Label = styled.label`
+  font-size: 14px;
+`;
+const Input = styled.input`
+  margin-bottom: 6px;
+`;
+const Overlay = styled.form`
   position: fixed;
   width: 100%;
   height: 100%;
@@ -184,9 +148,8 @@ const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.2);
   z-index: 9999;
 `;
-
 const ModalWrap = styled.div`
-  width: 700px;
+  width: 500px;
   height: fit-content;
   background-color: #fff;
   position: absolute;
@@ -194,9 +157,8 @@ const ModalWrap = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-
 const Contents = styled.div`
-  margin: 40px 30px;
+  margin: 70px 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -208,81 +170,67 @@ const Contents = styled.div`
     margin-top: 60px;
     width: 300px;
   }
-  input {
-    border: 1px solid var(--black-40);
-  }
 `;
 const BankLists = styled.ul`
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 450px;
+  align-self: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
   p {
     color: var(--black-40);
-    &:hover {
-      cursor: pointer;
-      color: var(--primary-color);
-    }
   }
 `;
 const BankList = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  flex-shrink: 1;
+  z-index: 10;
   font-size: 16px;
   font-weight: 500;
   gap: 4px;
   color: var(--black-40);
-  &:hover {
-    cursor: pointer;
-  }
+  border: 0.8px ${colors.black20} solid;
+  cursor: pointer;
   &.active {
-    color: var(--primary-color);
+    color: ${colors.black10};
+    background: ${colors.primary};
   }
 `;
-
-const AddInput = styled.form`
+const ActiveContent = styled.div`
   color: ${colors.black60};
-  label {
-    line-height: 2rem;
-  }
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
   justify-content: center;
   margin-inline: auto;
-  input {
-    display: block;
-    border: 1px solid ${colors.black60};
-    width: 100%;
-    /* line-height: 10px; */
-    padding: 0.25rem 0.5rem;
-    color: ${colors.black60};
+  margin-bottom: 6px;
+  div {
+    line-height: 2rem;
+    gap: 20px;
   }
-  button {
-    margin-left: 10px;
-    border: 1px solid var(--primary-color);
-    box-sizing: border-box;
-    padding: 0 4px;
-    font-size: 14px;
-    background-color: var(--primary-color);
-    color: var(--white);
+  input {
+    padding: 0.25rem 0.5rem;
+    border-bottom: 1px solid black;
   }
 `;
-
-const CheckWrapper = styled.label`
+const CheckWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin: 10px 0 0 0;
+  margin: 10px 0 10px 0;
   p {
     color: ${colors.black70};
     font-size: 12px;
   }
 `;
-
 const CheckInput = styled.input`
   width: auto;
   margin: 0;
   font-size: 10px;
   margin-right: 4px;
 `;
-
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -302,3 +250,55 @@ const Button = styled.button`
   }
 `;
 export default AccountModal;
+
+const BANK_LIST = [
+  {
+    name: "KB국민은행",
+    code: "004",
+    digits: [3, 2, 4, 3],
+    disabled: false,
+    content: <Kookmin />,
+  },
+  {
+    name: "신한은행",
+    code: "088",
+    digits: [3, 3, 6],
+    disabled: true,
+    content: <Shinhan />,
+  },
+  {
+    name: "우리은행",
+    code: "020",
+    digits: [4, 3, 6],
+    disabled: true,
+    content: <Woori />,
+  },
+  {
+    name: "하나은행",
+    code: "081",
+    digits: [3, 6, 5],
+    disabled: false,
+    content: <Hana />,
+  },
+  {
+    name: "케이뱅크",
+    code: "089",
+    digits: [3, 3, 6],
+    disabled: false,
+    content: <Kbank />,
+  },
+  {
+    name: "카카오뱅크",
+    code: "090",
+    digits: [4, 2, 7],
+    disabled: false,
+    content: <Kakao />,
+  },
+  {
+    name: "NH농협은행",
+    code: "011",
+    digits: [3, 4, 4, 2],
+    disabled: false,
+    content: <NH />,
+  },
+];

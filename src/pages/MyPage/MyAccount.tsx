@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import Button from "@components/Button";
-import AccountModal from "@components/AccountModal";
 import { useEffect, useState } from "react";
 import { colors } from "constants/color";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { AiOutlinePlus } from "react-icons/ai";
 import type { AccountValue } from "api/account";
 import { delAccount, getAccountInfo } from "api/account";
+import AccountModal from "@components/MyPage/AccountModal";
 
 const MyAccount = () => {
   const [isOpen, setIsOpen] = useState(false);
