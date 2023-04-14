@@ -20,9 +20,8 @@ const purchaseSlice = createSlice({
   name: "purchase",
   initialState,
   reducers: {
-    purchaseAction: (state, action: PayloadAction<InitialState>) => {
-      state = action.payload;
-    },
+    purchaseAction: (state, action: PayloadAction<InitialState>) =>
+      action.payload,
     reset: () => initialState,
   },
 });
