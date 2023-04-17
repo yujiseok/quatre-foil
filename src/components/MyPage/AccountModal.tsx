@@ -7,13 +7,6 @@ import { colors } from "constants/color";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Kookmin from "./BankList/Kookmin";
-import Shinhan from "./BankList/Shinhan";
-import Woori from "./BankList/Woori";
-import Hana from "./BankList/Hana";
-import Kbank from "./BankList/Kbank";
-import Kakao from "./BankList/Kakao";
-import NH from "./BankList/NH";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AccountModal = ({
@@ -98,6 +91,7 @@ const AccountModal = ({
         return (
           <Input
             type="text"
+            //maxLength 수정 필요
             {...register("account", { maxLength: 12 })}
             placeholder="계좌번호 12자리를 입력해 주세요"
           />
@@ -346,48 +340,41 @@ const BANK_LIST = [
     code: "004",
     digits: [3, 2, 4, 3],
     disabled: false,
-    content: <Kookmin />,
   },
   {
     name: "신한은행",
     code: "088",
     digits: [3, 3, 6],
     disabled: true,
-    content: <Shinhan />,
   },
   {
     name: "우리은행",
     code: "020",
     digits: [4, 3, 6],
     disabled: true,
-    content: <Woori />,
   },
   {
     name: "하나은행",
     code: "081",
     digits: [3, 6, 5],
     disabled: false,
-    content: <Hana />,
   },
   {
     name: "케이뱅크",
     code: "089",
     digits: [3, 3, 6],
     disabled: false,
-    content: <Kbank />,
   },
   {
     name: "카카오뱅크",
     code: "090",
     digits: [4, 2, 7],
     disabled: false,
-    content: <Kakao />,
   },
   {
     name: "NH농협은행",
     code: "011",
     digits: [3, 4, 4, 2],
     disabled: false,
-    content: <NH />,
   },
 ];
