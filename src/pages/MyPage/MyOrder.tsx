@@ -1,10 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  cfmPurchase,
-  TransactionDetail,
-  getPurchaseHistory,
-  cancelPurchase,
-} from "api/product";
+import { cfmPurchase, getPurchaseHistory, cancelPurchase } from "api/product";
 
 import { useAppSelector } from "app/hooks";
 import { useEffect, useState } from "react";

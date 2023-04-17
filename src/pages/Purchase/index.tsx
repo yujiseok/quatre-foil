@@ -1,6 +1,5 @@
 import Button from "@components/Button";
 import { tablet } from "@global/responsive";
-import { MdClose } from "react-icons/md";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import DaumPostcode from "react-daum-postcode";
@@ -8,8 +7,8 @@ import type { ChangeEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "app/hooks";
 import { getTotal } from "lib/utils/getTotal";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProduct, purchaseItem } from "api/product";
+import { useQueryClient } from "@tanstack/react-query";
+import { purchaseItem } from "api/product";
 import type { AccountValue } from "api/account";
 import { getAccountInfo } from "api/account";
 import { toast, ToastContainer } from "react-toastify";
@@ -33,7 +32,7 @@ const Purchase = () => {
 
   const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     console.log("e.target.value", e.target.value);
-    setAccountLists(e.target.value);
+    // setAccountLists(e.target.value);
   };
 
   const handle = {
