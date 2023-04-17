@@ -14,6 +14,7 @@ import Hana from "./BankList/Hana";
 import Kbank from "./BankList/Kbank";
 import Kakao from "./BankList/Kakao";
 import NH from "./BankList/NH";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AccountModal = ({
   onClose,
@@ -24,12 +25,33 @@ const AccountModal = ({
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isAgree, setIsAgree] = useState(false);
-  const [btnActive, setBtnActive] = useState("");
+  const [btnActive, setBtnActive] = useState("004");
   const [activeTab, setActiveTab] = useState(0);
   const { register, handleSubmit, watch } = useForm();
 
   const handleSign = () => {
     setIsAgree((prev) => !prev);
+  };
+
+  const queryClient = useQueryClient();
+  const { mutate: addAccountMutate } = useMutation(
+    (variables: {
+      btnActive: string;
+      account: string;
+      phoneNumber: string;
+      isAgree: boolean;
+    }) =>
+      addAccount(
+        variables.btnActive,
+        variables.account,
+        variables.phoneNumber,
+        variables.isAgree,
+      ),
+  );
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>, data: any) => {
+    e.preventDefault();
+    console.log(data);
   };
 
   // 모달 오버레이에서 스크롤 방지
@@ -65,10 +87,79 @@ const AccountModal = ({
     setBtnActive(e.currentTarget.dataset.code as string);
   };
 
+  const accountFactory = () => {
+    switch (btnActive) {
+      case "004":
+        return (
+          <Input
+            type="text"
+            {...register("account", { maxLength: 12 })}
+            placeholder="계좌번호 12자리를 입력해 주세요"
+          />
+        );
+      case "088":
+        return (
+          <Input
+            type="text"
+            {...register("account", { maxLength: 12 })}
+            placeholder="계좌번호 12자리를 입력해 주세요"
+          />
+        );
+      case "020":
+        return (
+          <Input
+            type="text"
+            {...register("account", { maxLength: 13 })}
+            placeholder="계좌번호 13자리를 입력해 주세요"
+          />
+        );
+      case "081":
+        return (
+          <Input
+            type="text"
+            {...register("account", { maxLength: 14 })}
+            placeholder="계좌번호 14자리를 입력해 주세요"
+          />
+        );
+      case "089":
+        return (
+          <Input
+            type="text"
+            {...register("account", { maxLength: 12 })}
+            placeholder="계좌번호 12자리를 입력해 주세요"
+          />
+        );
+      case "090":
+        return (
+          <Input
+            type="text"
+            {...register("account", { maxLength: 13 })}
+            placeholder="계좌번호 13자리를 입력해 주세요"
+          />
+        );
+      case "011":
+        return (
+          <Input
+            type="text"
+            {...register("account", { maxLength: 13 })}
+            placeholder="계좌번호 13자리를 입력해 주세요"
+          />
+        );
+      default:
+        return (
+          <Input
+            type="text"
+            {...register("account", { maxLength: 12 })}
+            placeholder="계좌번호 12자리를 입력해 주세요"
+          />
+        );
+    }
+  };
+
   return (
     <Overlay>
       <ModalWrap ref={modalRef}>
-        <Contents>
+        <FormContainer>
           <h3>계좌 연결</h3>
           <BankLists>
             {BANK_LIST.map((bank, i) => {
@@ -90,23 +181,15 @@ const AccountModal = ({
             })}
           </BankLists>
           <ActiveContent>
-            {/* {BANK_LIST[activeTab].content} */}
             <Wrapper>
               <Label htmlFor="account">계좌번호</Label>
-              <Input
-                type="text"
-                id="account"
-                name="account"
-                {...(register("account"), { required: true, maxLength: 12 })}
-              />
+              {accountFactory()}
             </Wrapper>
             <Wrapper>
-              <Label htmlFor="mobile">전화번호</Label>
+              <Label htmlFor="phoneNumber">전화번호</Label>
               <Input
                 type="text"
-                id="mobile"
-                {...(register("phoneNumber"),
-                { required: true, maxLength: 11 })}
+                {...register("phoneNumber", { required: false, maxLength: 11 })}
               />
             </Wrapper>
           </ActiveContent>
@@ -115,10 +198,10 @@ const AccountModal = ({
             <p>위 약관에 동의합니다</p>
           </CheckWrapper>
           <ButtonWrapper>
-            <Button>등록하기</Button>
+            <Button type="submit">등록하기</Button>
             <Button onClick={onClose}>취소하기</Button>
           </ButtonWrapper>
-        </Contents>
+        </FormContainer>
       </ModalWrap>
     </Overlay>
   );
@@ -137,7 +220,7 @@ const Label = styled.label`
 const Input = styled.input`
   margin-bottom: 6px;
 `;
-const Overlay = styled.form`
+const Overlay = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
@@ -153,11 +236,12 @@ const ModalWrap = styled.div`
   height: fit-content;
   background-color: #fff;
   position: absolute;
+  z-index: 100;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-const Contents = styled.div`
+const FormContainer = styled.form`
   margin: 70px 30px;
   display: flex;
   flex-direction: column;
@@ -186,18 +270,18 @@ const BankList = styled.li`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 15px;
-  flex-shrink: 1;
-  z-index: 10;
   font-size: 16px;
   font-weight: 500;
-  gap: 4px;
   color: var(--black-40);
   border: 0.8px ${colors.black20} solid;
   cursor: pointer;
   &.active {
     color: ${colors.black10};
     background: ${colors.primary};
+  }
+
+  button {
+    padding: 10px 15px;
   }
 `;
 const ActiveContent = styled.div`
