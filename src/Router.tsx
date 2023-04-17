@@ -69,9 +69,11 @@ const Router = createBrowserRouter(
       <Route
         path="/mypage"
         element={
-          <PrivateRouter>
-            <Mypage />
-          </PrivateRouter>
+          <Suspense fallback={<Spinner />}>
+            <PrivateRouter>
+              <Mypage />
+            </PrivateRouter>
+          </Suspense>
         }
       >
         <Route path="order" element={<MyOrder />} />
