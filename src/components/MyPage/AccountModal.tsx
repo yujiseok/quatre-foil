@@ -49,9 +49,14 @@ const AccountModal = ({
       ),
   );
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>, data: any) => {
-    e.preventDefault();
+  const onSubmit = (data: any) => {
     console.log(data);
+    addAccountMutate({
+      btnActive,
+      account: data.account,
+      phoneNumber: data.phoneNumber,
+      isAgree,
+    });
   };
 
   // 모달 오버레이에서 스크롤 방지
@@ -159,7 +164,7 @@ const AccountModal = ({
   return (
     <Overlay>
       <ModalWrap ref={modalRef}>
-        <FormContainer>
+        <FormContainer onSubmit={handleSubmit(onSubmit)}>
           <h3>계좌 연결</h3>
           <BankLists>
             {BANK_LIST.map((bank, i) => {
