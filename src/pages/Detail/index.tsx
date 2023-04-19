@@ -2,7 +2,7 @@ import ProductNotice from "@components/ProductNotice";
 import { tablet } from "@global/responsive";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { addToCart } from "features/cartSlice";
-import { purchaseAction } from "features/purchaseSlice";
+import { purchaseAction, reset } from "features/purchaseSlice";
 import useGetProductQuery from "lib/hooks/useGetProductQuery";
 import useQuantity from "lib/hooks/useQuantity";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,7 +12,6 @@ import styled from "styled-components";
 const Detail = () => {
   const { productId } = useParams() as { productId: string };
   const navigate = useNavigate();
-  const { purchase } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
   const { quantity, onIncrement, onDecrement } = useQuantity();
   const { product } = useGetProductQuery(productId);
@@ -48,7 +47,7 @@ const Detail = () => {
       }),
     );
 
-    navigate(`/purchase/${purchase.id}`);
+    navigate(`/purchase/${id}`);
   };
 
   return (
