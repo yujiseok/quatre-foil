@@ -15,6 +15,7 @@ const Detail = () => {
   const dispatch = useAppDispatch();
   const { quantity, onIncrement, onDecrement } = useQuantity();
   const { product } = useGetProductQuery(productId);
+
   const { id, title, price, description, thumbnail, photo, isSoldOut } =
     product!;
 
@@ -179,12 +180,12 @@ const ItemDescription = styled.div`
   }
 
   p {
-    font-size: 0.875rem;
+    font-size: 1rem;
+    font-weight: 500;
   }
 
   span {
-    font-size: 0.8125rem;
-    font-weight: 300;
+    font-size: 0.875rem;
   }
 `;
 
@@ -213,7 +214,6 @@ const BtnWrapper = styled.div`
 `;
 
 const PriceWrapper = styled.div`
-  /* display: flex; */
   padding-top: 1.5rem;
 `;
 
@@ -222,6 +222,7 @@ const Text = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
+  font-weight: 500;
 `;
 
 const BuyBtnWrapper = styled.div`
