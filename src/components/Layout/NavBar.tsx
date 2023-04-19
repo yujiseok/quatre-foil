@@ -47,7 +47,7 @@ export default NavBar;
 
 const StyledNav = styled.nav`
   width: 100%;
-  height: 52px;
+  height: 70px;
   position: fixed;
   top: 0;
   left: 0;
