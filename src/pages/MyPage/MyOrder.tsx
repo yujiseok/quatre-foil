@@ -3,6 +3,7 @@ import { cfmPurchase, getPurchaseHistory, cancelPurchase } from "api/product";
 import { toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import { tablet } from "../../global/responsive";
+import { isCancel } from "axios";
 
 const MyOrder = () => {
   const queryClient = useQueryClient();
@@ -53,7 +54,9 @@ const MyOrder = () => {
                 </ItemInfoContainer>
               </ItemInfoWrapper>
               <ConfirmOrderContainer>
-                {item.done ? (
+                {item.isCanceled ? (
+                  ""
+                ) : item.done ? (
                   ""
                 ) : (
                   <Cfmbtn
@@ -63,7 +66,9 @@ const MyOrder = () => {
                     확정
                   </Cfmbtn>
                 )}
-                {item.done ? (
+                {item.isCanceled ? (
+                  ""
+                ) : item.done ? (
                   ""
                 ) : (
                   <Cfmbtn
