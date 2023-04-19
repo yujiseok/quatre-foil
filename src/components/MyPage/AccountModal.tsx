@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { colors } from "constants/color";
 import { useForm } from "react-hook-form";
 import useAddAccountMutation from "lib/hooks/useAddAccountMutation";
+import AccountFactory from "./AccountFactory";
 
 const AccountModal = ({ onClose }: { onClose: () => void }) => {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -44,77 +45,6 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
   const toggleActive = (e: MouseEvent<HTMLButtonElement>) => {
     setBankcode(e.currentTarget.dataset.code as string);
   };
-
-  const accountFactory = () => {
-    switch (bankcode) {
-      case "004":
-        return (
-          <Input
-            type="text"
-            //maxLength 수정 필요
-            {...register("account", { maxLength: 12 })}
-            placeholder="계좌번호 12자리를 입력해 주세요"
-          />
-        );
-      case "088":
-        return (
-          <Input
-            type="text"
-            {...register("account", { maxLength: 12 })}
-            placeholder="계좌번호 12자리를 입력해 주세요"
-          />
-        );
-      case "020":
-        return (
-          <Input
-            type="text"
-            {...register("account", { maxLength: 13 })}
-            placeholder="계좌번호 13자리를 입력해 주세요"
-          />
-        );
-      case "081":
-        return (
-          <Input
-            type="text"
-            {...register("account", { maxLength: 14 })}
-            placeholder="계좌번호 14자리를 입력해 주세요"
-          />
-        );
-      case "089":
-        return (
-          <Input
-            type="text"
-            {...register("account", { maxLength: 12 })}
-            placeholder="계좌번호 12자리를 입력해 주세요"
-          />
-        );
-      case "090":
-        return (
-          <Input
-            type="text"
-            {...register("account", { maxLength: 13 })}
-            placeholder="계좌번호 13자리를 입력해 주세요"
-          />
-        );
-      case "011":
-        return (
-          <Input
-            type="text"
-            {...register("account", { maxLength: 13 })}
-            placeholder="계좌번호 13자리를 입력해 주세요"
-          />
-        );
-      default:
-        return (
-          <Input
-            type="text"
-            {...register("account", { maxLength: 12 })}
-            placeholder="계좌번호 12자리를 입력해 주세요"
-          />
-        );
-    }
-  };
-
   return (
     <Overlay>
       <ModalWrap ref={modalRef}>
@@ -142,7 +72,7 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
           <ActiveContent>
             <Wrapper>
               <Label htmlFor="account">계좌번호</Label>
-              {accountFactory()}
+              <AccountFactory bankcode={bankcode} />
             </Wrapper>
             <Wrapper>
               <Label htmlFor="phoneNumber">전화번호</Label>
@@ -166,19 +96,6 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
-const Wrapper = styled.div`
-  display: flex;
-  flex: 1;
-  width: full;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-const Label = styled.label`
-  font-size: 14px;
-`;
-const Input = styled.input`
-  margin-bottom: 6px;
-`;
 const Overlay = styled.div`
   position: fixed;
   width: 100%;
@@ -243,6 +160,12 @@ const BankList = styled.li`
     padding: 10px 15px;
   }
 `;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+`;
 const ActiveContent = styled.div`
   color: ${colors.black60};
   display: flex;
@@ -250,15 +173,23 @@ const ActiveContent = styled.div`
   justify-content: center;
   margin-inline: auto;
   margin-bottom: 6px;
+  max-width: 300px;
   div {
-    line-height: 2rem;
     gap: 20px;
   }
-  input {
-    padding: 0.25rem 0.5rem;
-    border-bottom: 1px solid black;
-  }
 `;
+
+const Label = styled.label`
+  font-size: 12px;
+`;
+
+const Input = styled.input`
+  margin-bottom: 6px;
+  font-size: 14px;
+  padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid black;
+`;
+
 const CheckWrapper = styled.div`
   display: flex;
   justify-content: center;
