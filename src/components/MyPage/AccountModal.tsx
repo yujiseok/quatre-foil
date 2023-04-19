@@ -6,19 +6,24 @@ import { useForm } from "react-hook-form";
 import useAddAccountMutation from "lib/hooks/useAddAccountMutation";
 import AccountFactory from "./AccountFactory";
 
+type FormValues = {
+  account: string;
+  phoneNumber: string;
+};
+
 const AccountModal = ({ onClose }: { onClose: () => void }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isAgree, setIsAgree] = useState(false);
   const [bankcode, setBankcode] = useState("004");
   const [activeTab, setActiveTab] = useState(0);
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit, watch } = useForm<FormValues>();
   const { addAccountMutate } = useAddAccountMutation();
 
   const handleSign = () => {
     setIsAgree((prev) => !prev);
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FormValues) => {
     addAccountMutate({
       bankcode,
       account: data.account,
