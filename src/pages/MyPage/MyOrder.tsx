@@ -1,37 +1,21 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { cfmPurchase, getPurchaseHistory, cancelPurchase } from "api/product";
-import { toast, ToastContainer } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
+import { getPurchaseHistory } from "api/product";
+import { ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import { tablet } from "../../global/responsive";
-import { isCancel } from "axios";
+import useConfirmMutation from "lib/hooks/useConfirmMutation";
+import useCancelMutation from "lib/hooks/useCancelMutation";
 
 const MyOrder = () => {
-  const queryClient = useQueryClient();
+  const { confirmMutation } = useConfirmMutation();
+  const { cancelMutation } = useCancelMutation();
+
   const { data: history } = useQuery({
     queryKey: ["history"],
     queryFn: getPurchaseHistory,
     refetchOnWindowFocus: false,
   });
 
-  const confirmMutation = useMutation({
-    mutationFn: (id: string) => cfmPurchase(id),
-    onSuccess(data, variables, context) {
-      queryClient.invalidateQueries();
-    },
-    onError(error, variables, context) {
-      alert("구매 확정에 실패했습니다.");
-    },
-  });
-
-  const cancelMutation = useMutation({
-    mutationFn: (id: string) => cancelPurchase(id),
-    onSuccess(data, variables, context) {
-      // queryClient.invalidateQueries();
-    },
-    onError(error, variables, context) {
-      alert("이미 구매 완료한 제품은 취소할 수 없습니다.");
-    },
-  });
   return (
     <Container>
       {history?.map((item) => {
@@ -61,7 +45,7 @@ const MyOrder = () => {
                 ) : (
                   <Cfmbtn
                     type="button"
-                    onClick={() => confirmMutation.mutate(item.detailId)}
+                    onClick={() => confirmMutation(item.detailId)}
                   >
                     확정
                   </Cfmbtn>
@@ -73,7 +57,7 @@ const MyOrder = () => {
                 ) : (
                   <Cfmbtn
                     type="button"
-                    onClick={() => cancelMutation.mutate(item.detailId)}
+                    onClick={() => cancelMutation(item.detailId)}
                   >
                     구매 취소
                   </Cfmbtn>
