@@ -1,10 +1,9 @@
-import { addAccount } from "api/account";
 import type { MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { colors } from "constants/color";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useAddAccountMutation from "lib/hooks/useAddAccountMutation";
 
 const AccountModal = ({ onClose }: { onClose: () => void }) => {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -12,29 +11,11 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
   const [bankcode, setBankcode] = useState("004");
   const [activeTab, setActiveTab] = useState(0);
   const { register, handleSubmit, watch } = useForm();
+  const { addAccountMutate } = useAddAccountMutation();
 
   const handleSign = () => {
     setIsAgree((prev) => !prev);
   };
-
-  const queryClient = useQueryClient();
-  const { mutate: addAccountMutate } = useMutation(
-    (variables: {
-      bankcode: string;
-      account: string;
-      phoneNumber: string;
-      isAgree: boolean;
-    }) =>
-      addAccount(
-        variables.bankcode,
-        variables.account,
-        variables.phoneNumber,
-        variables.isAgree,
-      ),
-    {
-      onSuccess: () => alert("연결에 성공했습니다"),
-    },
-  );
 
   const onSubmit = (data: any) => {
     addAccountMutate({
