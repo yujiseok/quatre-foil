@@ -1,8 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { cfmPurchase, getPurchaseHistory, cancelPurchase } from "api/product";
-
-import { useAppSelector } from "app/hooks";
-import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import { tablet } from "../../global/responsive";
@@ -14,12 +11,14 @@ const MyOrder = () => {
     queryFn: getPurchaseHistory,
     refetchOnWindowFocus: false,
   });
-  console.log(history);
 
   const confirmMutation = useMutation({
     mutationFn: (id: string) => cfmPurchase(id),
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries();
+    },
+    onError(error, variables, context) {
+      alert("구매 확정에 실패했습니다.");
     },
   });
 
@@ -29,10 +28,9 @@ const MyOrder = () => {
       // queryClient.invalidateQueries();
     },
     onError(error, variables, context) {
-      toast.error("이미 구매 완료한 제품은 취소할 수 없습니다.");
+      alert("이미 구매 완료한 제품은 취소할 수 없습니다.");
     },
   });
-
   return (
     <Container>
       {history?.map((item) => {
@@ -55,18 +53,26 @@ const MyOrder = () => {
                 </ItemInfoContainer>
               </ItemInfoWrapper>
               <ConfirmOrderContainer>
-                <Cfmbtn
-                  type="button"
-                  onClick={() => confirmMutation.mutate(item.detailId)}
-                >
-                  확정
-                </Cfmbtn>
-                <Cfmbtn
-                  type="button"
-                  onClick={() => cancelMutation.mutate(item.detailId)}
-                >
-                  취소
-                </Cfmbtn>
+                {item.done ? (
+                  ""
+                ) : (
+                  <Cfmbtn
+                    type="button"
+                    onClick={() => confirmMutation.mutate(item.detailId)}
+                  >
+                    확정
+                  </Cfmbtn>
+                )}
+                {item.done ? (
+                  ""
+                ) : (
+                  <Cfmbtn
+                    type="button"
+                    onClick={() => cancelMutation.mutate(item.detailId)}
+                  >
+                    구매 취소
+                  </Cfmbtn>
+                )}
               </ConfirmOrderContainer>
             </Wrapper>
           </ItemContainer>
@@ -176,8 +182,8 @@ const Cfmbtn = styled.button`
   min-width: 60px;
   flex: 1;
   :hover {
-    color: var(--primary-color);
-    border: 1.5px solid var(--primary-color);
+    color: var(--pramary-color);
+    border: 1px solid var(--primary-color);
   }
   ${tablet({
     padding: "6px 14px",
