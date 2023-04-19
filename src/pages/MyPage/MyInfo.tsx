@@ -70,7 +70,8 @@ const MyInfo = () => {
       auth.accessToken,
     );
     if (res.displayName) {
-      dispatch(editUser(res));
+      const profileImg = res.profileImg ? res.profileImg : auth.user.profileImg;
+      dispatch(editUser({ displayName: res.displayName, profileImg }));
     }
   };
 

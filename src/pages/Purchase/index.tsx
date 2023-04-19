@@ -1,19 +1,20 @@
 import Button from "@components/Button";
 import { tablet } from "@global/responsive";
-import { MdClose } from "react-icons/md";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import DaumPostcode from "react-daum-postcode";
+import type { ChangeEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "app/hooks";
 import { getTotal } from "lib/utils/getTotal";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProduct, purchaseItem } from "api/product";
+import { useQueryClient } from "@tanstack/react-query";
+import { purchaseItem } from "api/product";
 import type { AccountValue } from "api/account";
 import { getAccountInfo } from "api/account";
 import { toast, ToastContainer } from "react-toastify";
 
 const Purchase = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [openPostcode, setOpenPostcode] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -26,7 +27,13 @@ const Purchase = () => {
     totalBalance: 0,
     accounts: [],
   });
-  const navigate = useNavigate();
+  const [selectedAccount, setSelectedAccount] = useState({});
+  console.log("selectedAccount", selectedAccount);
+
+  const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    console.log("e.target.value", e.target.value);
+    // setAccountLists(e.target.value);
+  };
 
   const handle = {
     // 버튼 클릭 이벤트
@@ -60,11 +67,14 @@ const Purchase = () => {
     }
   }, [openPostcode]);
 
-  // const availableAccount = async () => {
-  //   const accountData = await getAccountInfo();
-  //   setAccountLists(accountData);
-  // };
-  // availableAccount();
+  useEffect(() => {
+    const availableAccount = async () => {
+      const accountData = await getAccountInfo();
+      setAccountLists(accountData);
+    };
+    availableAccount();
+  }, []);
+  console.log(accountLists.accounts);
 
   const handlePurchase = async () => {
     const res = await purchaseItem(
@@ -192,7 +202,21 @@ const Purchase = () => {
 
       <ShippingContainer>
         <h4>결제 정보</h4>
-        {/* <div>{accounts?.account.map((item) => console.log(item))}</div> */}
+        <label htmlFor="account-select">결제 수단</label>
+        <CustomSelect
+          name="pets"
+          id="account-select"
+          onChange={handleChangeSelect}
+        >
+          <option disabled>계좌를 선택하세요</option>
+          {accountLists.accounts.map((account) => {
+            return (
+              <option value="" key={account.id}>
+                {account.bankName} - {account.balance?.toLocaleString()}원
+              </option>
+            );
+          })}
+        </CustomSelect>
       </ShippingContainer>
       <Button onClick={handlePurchase}>
         총{" "}
@@ -215,6 +239,15 @@ const Purchase = () => {
     </Container>
   );
 };
+
+const CustomSelect = styled.select`
+  display: block;
+  border: 1px solid var(--primary-color);
+  width: 100%;
+  line-height: 10px;
+  padding: 0.625rem 0.9375rem;
+  color: var(--primary-color);
+`;
 
 const Overlay = styled.div`
   position: fixed;
