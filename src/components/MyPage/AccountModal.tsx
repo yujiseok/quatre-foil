@@ -1,24 +1,15 @@
-import type { AccountValue } from "api/account";
-import { addAccount, getAccountInfo } from "api/account";
-import type { ChangeEvent, Dispatch, MouseEvent } from "react";
+import { addAccount } from "api/account";
+import type { MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { colors } from "constants/color";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const AccountModal = ({
-  onClose,
-  setAccountLists,
-}: {
-  onClose: () => void;
-  setAccountLists: Dispatch<React.SetStateAction<AccountValue>>;
-}) => {
+const AccountModal = ({ onClose }: { onClose: () => void }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isAgree, setIsAgree] = useState(false);
-  const [btnActive, setBtnActive] = useState("004");
+  const [bankcode, setBankcode] = useState("004");
   const [activeTab, setActiveTab] = useState(0);
   const { register, handleSubmit, watch } = useForm();
 
@@ -29,27 +20,30 @@ const AccountModal = ({
   const queryClient = useQueryClient();
   const { mutate: addAccountMutate } = useMutation(
     (variables: {
-      btnActive: string;
+      bankcode: string;
       account: string;
       phoneNumber: string;
       isAgree: boolean;
     }) =>
       addAccount(
-        variables.btnActive,
+        variables.bankcode,
         variables.account,
         variables.phoneNumber,
         variables.isAgree,
       ),
+    {
+      onSuccess: () => alert("연결에 성공했습니다"),
+    },
   );
 
   const onSubmit = (data: any) => {
-    console.log(data);
     addAccountMutate({
-      btnActive,
+      bankcode,
       account: data.account,
       phoneNumber: data.phoneNumber,
       isAgree,
     });
+    onClose();
   };
 
   // 모달 오버레이에서 스크롤 방지
@@ -66,27 +60,12 @@ const AccountModal = ({
     };
   }, []);
 
-  // const schema = yup.object().shape({
-  //   account: yup.string().max(12).required(),
-  //     // .oneOf([yup.ref("password"), null])
-  //     .required(),
-  // });
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   formState: { errors },
-  // } = useForm({
-  //   resolver: yupResolver(schema),
-  // });
-
   const toggleActive = (e: MouseEvent<HTMLButtonElement>) => {
-    setBtnActive(e.currentTarget.dataset.code as string);
+    setBankcode(e.currentTarget.dataset.code as string);
   };
 
   const accountFactory = () => {
-    switch (btnActive) {
+    switch (bankcode) {
       case "004":
         return (
           <Input

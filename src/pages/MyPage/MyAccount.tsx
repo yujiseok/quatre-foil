@@ -14,27 +14,27 @@ const MyAccount = () => {
     totalBalance: 0,
     accounts: [],
   });
+
   const onClickButton = () => {
     setIsOpen(true);
   };
+
   useEffect(() => {
     const account = async () => {
       const res = await getAccountInfo();
       setAccountLists(res);
     };
     account();
-  }, []);
+  }, [accountLists]);
 
   const delMyAccount = async (id: string, boolean: boolean) => {
     const res = await delAccount(id, boolean);
-    console.log(res);
     if (res) {
-      alert("삭제되었어요!!!!!");
+      alert("삭제되었어요!");
     }
     const accountData = await getAccountInfo();
     setAccountLists(accountData);
   };
-
   return (
     <Container>
       {accountLists?.accounts?.map((account) => {
@@ -66,7 +66,6 @@ const MyAccount = () => {
             onClose={() => {
               setIsOpen(false);
             }}
-            setAccountLists={setAccountLists}
           />
         )}
       </BtnContainer>
