@@ -19,7 +19,7 @@ const AccountFactory = ({ bankcode }: { bankcode: string }) => {
           type="text"
           maxLength={12}
           {...register("account")}
-          placeholder="계좌번호 12자리를 입력해 주세요"
+          placeholder="계좌번호 12자리를 입력하세요"
         />
       );
     case "020":
@@ -28,7 +28,7 @@ const AccountFactory = ({ bankcode }: { bankcode: string }) => {
           type="text"
           maxLength={13}
           {...register("account")}
-          placeholder="계좌번호 13자리를 입력해 주세요"
+          placeholder="계좌번호 13자리를 입력하세요"
         />
       );
     case "081":
@@ -37,7 +37,7 @@ const AccountFactory = ({ bankcode }: { bankcode: string }) => {
           type="text"
           maxLength={14}
           {...register("account")}
-          placeholder="계좌번호 14자리를 입력해 주세요"
+          placeholder="계좌번호 14자리를 입력하세요"
         />
       );
     case "089":
@@ -46,7 +46,7 @@ const AccountFactory = ({ bankcode }: { bankcode: string }) => {
           type="text"
           maxLength={12}
           {...register("account")}
-          placeholder="계좌번호 12자리를 입력해 주세요"
+          placeholder="계좌번호 12자리를 입력하세요"
         />
       );
     case "090":
@@ -55,7 +55,7 @@ const AccountFactory = ({ bankcode }: { bankcode: string }) => {
           type="text"
           maxLength={13}
           {...register("account")}
-          placeholder="계좌번호 13자리를 입력해 주세요"
+          placeholder="계좌번호 13자리를 입력하세요"
         />
       );
     case "011":
@@ -64,7 +64,7 @@ const AccountFactory = ({ bankcode }: { bankcode: string }) => {
           type="text"
           maxLength={13}
           {...register("account")}
-          placeholder="계좌번호 13자리를 입력해 주세요"
+          placeholder="계좌번호 13자리를 입력하세요"
         />
       );
     default:
@@ -73,7 +73,7 @@ const AccountFactory = ({ bankcode }: { bankcode: string }) => {
           type="text"
           maxLength={12}
           {...register("account")}
-          placeholder="계좌번호 12자리를 입력해 주세요"
+          placeholder="계좌번호 12자리를 입력하세요"
         />
       );
   }
@@ -81,8 +81,9 @@ const AccountFactory = ({ bankcode }: { bankcode: string }) => {
 export default AccountFactory;
 
 const Input = styled.input`
+  flex: 1;
   margin-bottom: 6px;
   font-size: 14px;
-  padding: 0.25rem 0.5rem;
   border-bottom: 1px solid black;
+  padding: 4px 0;
 `;

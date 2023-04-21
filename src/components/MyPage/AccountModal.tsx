@@ -113,6 +113,7 @@ const Overlay = styled.div`
   z-index: 9999;
 `;
 const ModalWrap = styled.div`
+  padding: 70px 50px;
   width: 500px;
   height: fit-content;
   background-color: #fff;
@@ -123,17 +124,8 @@ const ModalWrap = styled.div`
   transform: translate(-50%, -50%);
 `;
 const FormContainer = styled.form`
-  margin: 70px 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   h3 {
-    margin-inline: auto;
-    margin-bottom: 20px;
-  }
-  img {
-    margin-top: 60px;
-    width: 300px;
+    text-align: center;
   }
 `;
 const BankLists = styled.ul`
@@ -171,28 +163,29 @@ const Wrapper = styled.div`
   align-items: center;
   margin-bottom: 10px;
 `;
+
 const ActiveContent = styled.div`
   color: ${colors.black60};
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-inline: auto;
-  margin-bottom: 6px;
-  max-width: 300px;
+  max-width: 260px;
   div {
     gap: 20px;
   }
 `;
 
 const Label = styled.label`
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 const Input = styled.input`
+  flex: 1;
   margin-bottom: 6px;
   font-size: 14px;
-  padding: 0.25rem 0.5rem;
   border-bottom: 1px solid black;
+  padding: 4px 0;
 `;
 
 const CheckWrapper = styled.div`
