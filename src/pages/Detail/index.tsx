@@ -1,23 +1,23 @@
 import ProductNotice from "@components/ProductNotice";
 import { tablet } from "@global/responsive";
-import { useQuery } from "@tanstack/react-query";
-import { getProduct } from "api/product";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { addToCart } from "features/cartSlice";
-import { purchaseAction } from "features/purchaseSlice";
+import { purchaseAction, reset } from "features/purchaseSlice";
 import useGetProductQuery from "lib/hooks/useGetProductQuery";
 import useQuantity from "lib/hooks/useQuantity";
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 
 const Detail = () => {
   const { productId } = useParams() as { productId: string };
   const navigate = useNavigate();
-  const { purchase } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
   const { quantity, onIncrement, onDecrement } = useQuantity();
-  const { product, isLoading } = useGetProductQuery(productId);
+  const { product } = useGetProductQuery(productId);
+
+  const { id, title, price, description, thumbnail, photo, isSoldOut } =
+    product!;
 
   const handleClickCart = () => {
     dispatch(
@@ -29,6 +29,12 @@ const Detail = () => {
         title,
       }),
     );
+
+    toast.success("상품이 성공적으로 장바구니에 담겼습니다.", {
+      onClose: () => {
+        navigate(`/cart`);
+      },
+    });
   };
 
   const handleClickPurchase = () => {
@@ -42,17 +48,8 @@ const Detail = () => {
       }),
     );
 
-    navigate(`/purchase/${purchase.id}`);
+    navigate(`/purchase/${id}`);
   };
-
-  console.log(product);
-
-  // useEffect(() => {
-  //   if (purchase.id === productId) navigate(`/purchase/${purchase.id}`);
-  // }, [navigate, purchase.id, productId]);
-
-  const { id, title, price, description, thumbnail, photo, isSoldOut } =
-    product!;
 
   return (
     <Section>
@@ -64,7 +61,9 @@ const Detail = () => {
           <h4>{title}</h4>
           <p>{price.toLocaleString()} 원</p>
           <div>
-            <p>수량 - 1인당 구매 수량 5개 </p>
+            <p>
+              수량 - <span>1인당 구매 수량 5개</span>
+            </p>
             <BtnWrapper>
               <button
                 type="button"
@@ -119,6 +118,17 @@ const Detail = () => {
 
         <ProductNotice />
       </DescWrapper>
+      <ToastContainer
+        position="top-center"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="light"
+      />
     </Section>
   );
 };
@@ -170,6 +180,11 @@ const ItemDescription = styled.div`
   }
 
   p {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  span {
     font-size: 0.875rem;
   }
 `;
@@ -178,7 +193,7 @@ const BtnWrapper = styled.div`
   display: inline-flex;
   align-items: center;
   border: 1px solid;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
   button {
     padding: 0.5rem;
     width: 37px;
@@ -199,7 +214,6 @@ const BtnWrapper = styled.div`
 `;
 
 const PriceWrapper = styled.div`
-  /* display: flex; */
   padding-top: 1.5rem;
 `;
 
@@ -208,6 +222,7 @@ const Text = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
+  font-weight: 500;
 `;
 
 const BuyBtnWrapper = styled.div`

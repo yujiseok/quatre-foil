@@ -35,7 +35,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    height: 100vh;
+    height: calc(100vh - 70px);
   }
 
   a {
@@ -82,11 +82,10 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   #root {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
     min-height: 100%;
-    margin-top: 3.25rem;
-    grid-template-columns: 100%;
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
   }
 
   svg {
