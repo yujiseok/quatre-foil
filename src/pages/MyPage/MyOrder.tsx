@@ -38,29 +38,21 @@ const MyOrder = () => {
                 </ItemInfoContainer>
               </ItemInfoWrapper>
               <ConfirmOrderContainer>
-                {item.isCanceled ? (
-                  ""
-                ) : item.done ? (
-                  ""
-                ) : (
-                  <Cfmbtn
-                    type="button"
-                    onClick={() => confirmMutation(item.detailId)}
-                  >
-                    확정
-                  </Cfmbtn>
-                )}
-                {item.isCanceled ? (
-                  ""
-                ) : item.done ? (
-                  ""
-                ) : (
-                  <Cfmbtn
-                    type="button"
-                    onClick={() => cancelMutation(item.detailId)}
-                  >
-                    구매 취소
-                  </Cfmbtn>
+                {item.isCanceled || item.done ? null : (
+                  <>
+                    <Cfmbtn
+                      type="button"
+                      onClick={() => confirmMutation(item.detailId)}
+                    >
+                      확정
+                    </Cfmbtn>
+                    <Cfmbtn
+                      type="button"
+                      onClick={() => cancelMutation(item.detailId)}
+                    >
+                      구매 취소
+                    </Cfmbtn>
+                  </>
                 )}
               </ConfirmOrderContainer>
             </Wrapper>
