@@ -72,6 +72,7 @@ export default Footer;
 
 const StyledFooter = styled.footer`
   padding-top: 3rem;
+  margin-top: auto;
 `;
 
 const Container = styled.div`
