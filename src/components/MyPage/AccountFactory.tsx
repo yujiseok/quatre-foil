@@ -1,8 +1,14 @@
-import { useForm } from "react-hook-form";
+import { UseFormRegister, useForm } from "react-hook-form";
 import styled from "styled-components";
+import { FormValues } from "./AccountModal";
 
-const AccountFactory = ({ bankcode }: { bankcode: string }) => {
-  const { register, handleSubmit, watch } = useForm();
+const AccountFactory = ({
+  bankcode,
+  register,
+}: {
+  bankcode: string;
+  register: UseFormRegister<FormValues>;
+}) => {
   switch (bankcode) {
     case "004":
       return (

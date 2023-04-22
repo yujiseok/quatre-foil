@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import useAddAccountMutation from "lib/hooks/useAddAccountMutation";
 import AccountFactory from "./AccountFactory";
 
-type FormValues = {
+export type FormValues = {
   account: string;
   phoneNumber: string;
 };
@@ -77,7 +77,7 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
           <ActiveContent>
             <Wrapper>
               <Label htmlFor="account">계좌번호</Label>
-              <AccountFactory bankcode={bankcode} />
+              <AccountFactory bankcode={bankcode} register={register} />
             </Wrapper>
             <Wrapper>
               <Label htmlFor="phoneNumber">전화번호</Label>
