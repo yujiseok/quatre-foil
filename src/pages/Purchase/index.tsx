@@ -2,28 +2,21 @@ import Button from "@components/Button";
 import { tablet } from "@global/responsive";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import type { ChangeEvent } from "react";
-import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "app/hooks";
 import { getTotal } from "lib/utils/getTotal";
 import { ToastContainer } from "react-toastify";
 import usePurchaseItem from "lib/hooks/usePurchaseItem";
-import useGetAccountsQuery from "lib/hooks/useGetAccountsQuery";
 import Shipping from "@components/Purchase/Shipping";
+import AccountSelection from "@components/Purchase/AccountSelection";
+import { useState } from "react";
 
 const Purchase = () => {
   const navigate = useNavigate();
   const { cart } = useAppSelector((state) => state);
   const { purchase } = useAppSelector((state) => state);
   const { productId } = useParams();
-  const { accountList } = useGetAccountsQuery();
-  const [accountId, setAccountId] = useState("");
   const { purchaseMutation } = usePurchaseItem();
-
-  const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setAccountId(e.target.value);
-  };
-
+  const [accountId, setAccountId] = useState("");
   const handlePurchase = async () => {
     if (!productId) {
       alert("상품을 선택해 주세요");
@@ -86,24 +79,7 @@ const Purchase = () => {
 
       <Shipping />
 
-      <ShippingContainer>
-        <h4>결제 정보</h4>
-        <label htmlFor="account-select">결제 수단</label>
-        <CustomSelect
-          name="pets"
-          id="account-select"
-          onChange={handleChangeSelect}
-        >
-          <option value="none">계좌를 선택하세요</option>
-          {accountList?.accounts.map((account) => {
-            return (
-              <option value={account.id} key={account.id}>
-                {account.bankName} - {account.balance?.toLocaleString()}원
-              </option>
-            );
-          })}
-        </CustomSelect>
-      </ShippingContainer>
+      <AccountSelection setAccountId={setAccountId} />
 
       <Button onClick={handlePurchase}>
         총
@@ -126,15 +102,6 @@ const Purchase = () => {
     </Container>
   );
 };
-
-const CustomSelect = styled.select`
-  display: block;
-  border: 1px solid var(--primary-color);
-  width: 100%;
-  line-height: 10px;
-  padding: 0.625rem 0.9375rem;
-  color: var(--primary-color);
-`;
 
 const Container = styled.div`
   padding: 0 1rem 2.25rem;
@@ -224,26 +191,6 @@ const DeleteBtn = styled.button`
   ${tablet({
     display: "none",
   })}
-`;
-
-const ShippingContainer = styled.form`
-  margin-bottom: 3.5rem;
-  label {
-    line-height: 2.5rem;
-  }
-  input {
-    display: block;
-    border: 1px solid var(--primary-color);
-    width: 100%;
-    line-height: 10px;
-    padding: 0.625rem 0.9375rem;
-    color: var(--primary-color);
-  }
-  p {
-    color: red;
-    font-size: 10px;
-    margin-top: 0.25rem;
-  }
 `;
 
 export default Purchase;
