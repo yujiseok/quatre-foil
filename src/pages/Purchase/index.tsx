@@ -7,15 +7,12 @@ import type { ChangeEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "app/hooks";
 import { getTotal } from "lib/utils/getTotal";
-import { useQueryClient } from "@tanstack/react-query";
-import { purchaseItem } from "api/product";
-import type { AccountValue } from "api/account";
-import { getAccountInfo } from "api/account";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import usePurchaseItem from "lib/hooks/usePurchaseItem";
+import useGetAccountsQuery from "lib/hooks/useGetAccountsQuery";
 
 const Purchase = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [openPostcode, setOpenPostcode] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const [zipcode, setZipcode] = useState("");
@@ -23,16 +20,12 @@ const Purchase = () => {
   const { cart } = useAppSelector((state) => state);
   const { purchase } = useAppSelector((state) => state);
   const { productId } = useParams();
-  const [accountLists, setAccountLists] = useState<AccountValue>({
-    totalBalance: 0,
-    accounts: [],
-  });
-  const [selectedAccount, setSelectedAccount] = useState({});
-  console.log("selectedAccount", selectedAccount);
+  const { accountList } = useGetAccountsQuery();
+  const [accountId, setAccountId] = useState("");
+  const { purchaseMutation } = usePurchaseItem();
 
   const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log("e.target.value", e.target.value);
-    // setAccountLists(e.target.value);
+    setAccountId(e.target.value);
   };
 
   const handle = {
@@ -67,26 +60,15 @@ const Purchase = () => {
     }
   }, [openPostcode]);
 
-  useEffect(() => {
-    const availableAccount = async () => {
-      const accountData = await getAccountInfo();
-      setAccountLists(accountData);
-    };
-    availableAccount();
-  }, []);
-  console.log(accountLists.accounts);
-
   const handlePurchase = async () => {
-    const res = await purchaseItem(
-      "WRiNDYA5jwXCmGZ9GpIW",
-      "oaYvcXEXdZRfDqHPKoGu",
-    );
-    if (res.data) {
-      toast.success("구매에 성공하였습니다", {
-        onClose: () => {
-          navigate("/mypage/order");
-        },
-      });
+    if (!productId) {
+      alert("상품을 선택해 주세요");
+    } else if (productId === "cart") {
+      alert("카트입니다");
+    } else if (productId) {
+      purchaseMutation({ productId, accountId });
+      alert("성공적으로 구매하였습니다");
+      navigate("/mypage/order");
     }
   };
 
@@ -208,18 +190,19 @@ const Purchase = () => {
           id="account-select"
           onChange={handleChangeSelect}
         >
-          <option disabled>계좌를 선택하세요</option>
-          {accountLists.accounts.map((account) => {
+          <option value="none">계좌를 선택하세요</option>
+          {accountList?.accounts.map((account) => {
             return (
-              <option value="" key={account.id}>
+              <option value={account.id} key={account.id}>
                 {account.bankName} - {account.balance?.toLocaleString()}원
               </option>
             );
           })}
         </CustomSelect>
       </ShippingContainer>
+
       <Button onClick={handlePurchase}>
-        총{" "}
+        총
         {productId === "cart"
           ? getTotal(cart).totalPrice.toLocaleString()
           : (purchase.price * purchase.quantity).toLocaleString()}
