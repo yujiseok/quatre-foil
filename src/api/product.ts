@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { client } from "./core/api";
+import { client, clientNoAuth } from "./core/api";
 
 // 제품 구매
 export const purchaseItem = async (productId: string, accountId: string) => {
@@ -73,7 +73,7 @@ export interface ITransactionDetail {
 }
 
 export const getAllProducts = async () => {
-  const { data } = await client<IProduct[]>({
+  const { data } = await clientNoAuth<IProduct[]>({
     url: "products",
     headers: {
       masterKey: true,

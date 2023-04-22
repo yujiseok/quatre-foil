@@ -10,11 +10,12 @@ const axiosConfig: AxiosRequestConfig = {
   },
 };
 
+export const clientNoAuth = axios.create(axiosConfig);
 export const client = axios.create(axiosConfig);
 
 client.interceptors.request.use((config) => {
   const { accessToken } = JSON.parse(
-    JSON.parse(localStorage.getItem("persist:root") as string).auth,
+    JSON.parse(localStorage.getItem("persist:root") as string)?.auth,
   );
   if (!config.headers) return config;
 
