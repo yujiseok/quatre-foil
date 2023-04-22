@@ -2,7 +2,7 @@ import ProductNotice from "@components/ProductNotice";
 import { tablet } from "@global/responsive";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { addToCart } from "features/cartSlice";
-import { purchaseAction, reset } from "features/purchaseSlice";
+import { purchaseAction } from "features/purchaseSlice";
 import useGetProductQuery from "lib/hooks/useGetProductQuery";
 import useQuantity from "lib/hooks/useQuantity";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,6 +13,7 @@ const Detail = () => {
   const { productId } = useParams() as { productId: string };
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state);
   const { quantity, onIncrement, onDecrement } = useQuantity();
   const { product } = useGetProductQuery(productId);
 
@@ -38,17 +39,25 @@ const Detail = () => {
   };
 
   const handleClickPurchase = () => {
-    dispatch(
-      purchaseAction({
-        id,
-        price,
-        quantity,
-        thumbnail,
-        title,
-      }),
-    );
+    if (auth.accessToken) {
+      dispatch(
+        purchaseAction({
+          id,
+          price,
+          quantity,
+          thumbnail,
+          title,
+        }),
+      );
 
-    navigate(`/purchase/${id}`);
+      navigate(`/purchase/${id}`);
+    } else {
+      toast.error("로그인 후 이용해주세요.", {
+        onClose: () => {
+          navigate(`/login`);
+        },
+      });
+    }
   };
 
   return (
