@@ -65,7 +65,14 @@ const Router = createBrowserRouter(
         }
       />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/purchase/:productId" element={<Purchase />} />
+      <Route
+        path="/purchase/:productId"
+        element={
+          <Suspense fallback={<Spinner />}>
+            <Purchase />
+          </Suspense>
+        }
+      />
       <Route
         path="/mypage"
         element={

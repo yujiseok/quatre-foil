@@ -100,23 +100,16 @@ export const addAccount: AddAccountFn = async (
   phoneNumber,
   signature,
 ) => {
-  try {
-    const res = await client("/account", {
-      method: "POST",
-      data: {
-        bankCode,
-        accountNumber,
-        phoneNumber,
-        signature,
-      },
-    });
-    return res.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log(error);
-    }
-  }
-  return false;
+  const res = await client("/account", {
+    method: "POST",
+    data: {
+      bankCode,
+      accountNumber,
+      phoneNumber,
+      signature,
+    },
+  });
+  return res.data;
 };
 
 // 계좌 해지
