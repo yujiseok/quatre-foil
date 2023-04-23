@@ -2,13 +2,15 @@ import Button from "@components/Button";
 import { tablet } from "@global/responsive";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useAppSelector } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { getTotal } from "lib/utils/getTotal";
 import { ToastContainer } from "react-toastify";
 import usePurchaseItem from "lib/hooks/usePurchaseItem";
 import Shipping from "@components/Purchase/Shipping";
 import AccountSelection from "@components/Purchase/AccountSelection";
 import { useState } from "react";
+import { removeItem } from "features/cartSlice";
+import { InitialState } from "features/cartSlice";
 
 const Purchase = () => {
   const navigate = useNavigate();
@@ -20,12 +22,17 @@ const Purchase = () => {
   const [zipcode, setZipcode] = useState("");
   const [address, setAddress] = useState("");
   const [openPostcode, setOpenPostcode] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const handlePurchase = async () => {
-    if (!productId) {
-      alert("상품을 선택해 주세요");
-    } else if (productId === "cart") {
-      alert("카트입니다");
+    if (productId === "cart") {
+      cart.forEach((product) => {
+        const productId = product.id;
+        purchaseMutation({ productId, accountId });
+        dispatch(removeItem(product));
+      });
+      alert("성공적으로 구매하였습니다");
+      navigate("/mypage/order");
     } else if (productId) {
       purchaseMutation({ productId, accountId });
       alert("성공적으로 구매하였습니다");
