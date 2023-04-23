@@ -17,6 +17,10 @@ const Purchase = () => {
   const { productId } = useParams();
   const { purchaseMutation } = usePurchaseItem();
   const [accountId, setAccountId] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const [address, setAddress] = useState("");
+  const [openPostcode, setOpenPostcode] = useState<boolean>(false);
+
   const handlePurchase = async () => {
     if (!productId) {
       alert("상품을 선택해 주세요");
@@ -35,6 +39,7 @@ const Purchase = () => {
         주문 목록
         <span>{productId === "cart" ? getTotal(cart).totalQuantity : "1"}</span>
       </h4>
+
       <PurchaseWrapper>
         {productId === "cart" ? (
           // 카트에서 주문하기 눌렀을 때
@@ -77,17 +82,29 @@ const Purchase = () => {
         )}
       </PurchaseWrapper>
 
-      <Shipping />
+      <Shipping
+        zipcode={zipcode}
+        setZipcode={setZipcode}
+        address={address}
+        setAddress={setAddress}
+        openPostcode={openPostcode}
+        setOpenPostcode={setOpenPostcode}
+      />
 
       <AccountSelection setAccountId={setAccountId} />
 
-      <Button onClick={handlePurchase}>
+      <Button
+        type="button"
+        onClick={handlePurchase}
+        disabled={!zipcode || !address || !accountId}
+      >
         총
         {productId === "cart"
           ? getTotal(cart).totalPrice.toLocaleString()
           : (purchase.price * purchase.quantity).toLocaleString()}
         원 주문하기
       </Button>
+
       <ToastContainer
         position="top-center"
         autoClose={3000}
@@ -179,18 +196,6 @@ const BtnWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const DeleteBtn = styled.button`
-  position: absolute;
-  /* display: flex;
-  align-items: start; */
-  height: 100%;
-  top: -42px;
-  right: 0;
-  ${tablet({
-    display: "none",
-  })}
 `;
 
 export default Purchase;

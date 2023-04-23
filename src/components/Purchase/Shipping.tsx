@@ -3,11 +3,22 @@ import styled from "styled-components";
 import DaumPostcode from "react-daum-postcode";
 import Button from "@components/Button";
 
-const Shipping = () => {
-  const [openPostcode, setOpenPostcode] = useState<boolean>(false);
+const Shipping = ({
+  zipcode,
+  setZipcode,
+  address,
+  setAddress,
+  openPostcode,
+  setOpenPostcode,
+}: {
+  zipcode: string;
+  setZipcode: React.Dispatch<React.SetStateAction<string>>;
+  address: string;
+  setAddress: React.Dispatch<React.SetStateAction<string>>;
+  openPostcode: boolean;
+  setOpenPostcode: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [zipcode, setZipcode] = useState("");
-  const [address, setAddress] = useState("");
 
   const handle = {
     // 버튼 클릭 이벤트
@@ -17,10 +28,6 @@ const Shipping = () => {
 
     // 주소 선택 이벤트
     selectAddress: (data: any) => {
-      console.log(`
-            주소: ${data.address},
-            우편번호: ${data.zonecode}
-        `);
       setZipcode(data.zonecode);
       setAddress(data.address);
       setOpenPostcode(false);
