@@ -1,22 +1,48 @@
 import { tablet } from "@global/responsive";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { setCategory } from "features/categorySlice";
 import useGetAllProductsQuery from "lib/hooks/useGetAllProductsQuery";
 import type { MouseEvent } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 const CATEGORY = ["ALL", "FURNITURE", "BEDROOM", "HOMEWEAR", "GARDENING"];
 
 const Shop = () => {
-  const { category } = useAppSelector((state) => state.categoryReducer);
-  const dispatch = useAppDispatch();
-
-  const onClick = (e: MouseEvent<HTMLButtonElement>) => {
-    dispatch(setCategory(e.currentTarget.textContent as string));
+  const observerRef = useRef<HTMLDivElement>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category") ?? "ALL";
+  const handleClickCategory = (e: MouseEvent<HTMLButtonElement>) => {
+    setSearchParams({ category: e.currentTarget.textContent as string });
   };
 
   const { products } = useGetAllProductsQuery(category);
+
+  const [page, setPage] = useState(1);
+
+  const LIMIT = 8;
+
+  const OFFSET = (page - 1) * LIMIT;
+  const TOTAL = products?.length as number;
+  const PAGE_NUMS = Math.ceil(TOTAL / LIMIT);
+
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const [target] = entries;
+      if (target.isIntersecting && page < PAGE_NUMS) {
+        setPage((prev) => prev + 1);
+      }
+    },
+    [setPage, PAGE_NUMS, page],
+  );
+
+  useEffect(() => {
+    const observerEl = observerRef?.current as Element;
+    const option = { threshold: 0 };
+
+    const observer = new IntersectionObserver(handleObserver, option);
+    observer.observe(observerEl);
+    return () => observer.unobserve(observerEl);
+  }, [handleObserver, page]);
 
   return (
     <Section>
@@ -27,7 +53,7 @@ const Shop = () => {
           <li key={item}>
             <Category
               type="button"
-              onClick={onClick}
+              onClick={handleClickCategory}
               className={item === category ? "active" : ""}
             >
               {item}
@@ -37,7 +63,7 @@ const Shop = () => {
       </CategoryWrapper>
       <ItemWrapper>
         {products?.length ? (
-          products?.map((product) => (
+          products?.slice(0, OFFSET + LIMIT).map((product) => (
             <li key={product.id}>
               <StyledLink to={`${product.id}`}>
                 <div className="img-wrapper">
@@ -55,6 +81,7 @@ const Shop = () => {
           <h2>상품이 없습니다.</h2>
         )}
       </ItemWrapper>
+      <div ref={observerRef} />
     </Section>
   );
 };
@@ -67,6 +94,7 @@ const Section = styled.section`
     text-align: center;
     font-family: "Noto Sans KR", sans-serif;
   }
+  margin-bottom: 2.25rem;
 `;
 
 const CategoryWrapper = styled.ul`
@@ -95,9 +123,10 @@ const ItemWrapper = styled.ul`
   gap: 0.25rem;
   margin: 1rem 0;
   place-items: center;
+  position: relative;
 
   ${tablet({
-    gridTemplateColumns: "repeat(auto-fit, minmax(10rem, 1fr))",
+    gridTemplateColumns: "repeat(4, minmax(10rem, 1fr))",
   })}
 
   div {
@@ -116,6 +145,11 @@ const ItemWrapper = styled.ul`
         object-fit: contain;
       }
     }
+  }
+
+  h2 {
+    position: absolute;
+    top: 24px;
   }
 `;
 
