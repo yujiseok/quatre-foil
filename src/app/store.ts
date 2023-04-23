@@ -2,7 +2,6 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "features/authSlice";
 import cartReducer from "features/cartSlice";
 import purchaseReducer from "features/purchaseSlice";
-import categoryReducer from "features/categorySlice";
 import toggleReducer from "features/toggleSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -15,7 +14,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   toggleReducer,
-  categoryReducer,
   auth: authReducer,
   cart: cartReducer,
   purchase: purchaseReducer,
