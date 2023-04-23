@@ -1,20 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPurchaseHistory } from "api/product";
 import { ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import { tablet } from "../../global/responsive";
 import useConfirmMutation from "lib/hooks/useConfirmMutation";
 import useCancelMutation from "lib/hooks/useCancelMutation";
+import useGetPurchaseList from "lib/hooks/useGetPurchaseListQuery";
 
 const MyOrder = () => {
   const { confirmMutation } = useConfirmMutation();
   const { cancelMutation } = useCancelMutation();
-
-  const { data: history } = useQuery({
-    queryKey: ["history"],
-    queryFn: getPurchaseHistory,
-    refetchOnWindowFocus: false,
-  });
+  const { history } = useGetPurchaseList();
 
   return (
     <Container>

@@ -2,12 +2,11 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import styled from "styled-components";
 import { closeMenu } from "features/toggleSlice";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoClose, IoChevronDown } from "react-icons/io5";
 import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { mobile, tablet } from "@global/responsive";
-import { setCategory } from "features/categorySlice";
 
 interface IBtn {
   isOpen: boolean;
@@ -18,13 +17,14 @@ const Aside = () => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const { accessToken } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const handleClick = () => setIsOpen((prev) => !prev);
-
-  const handleClickCategory = (e: MouseEvent<HTMLAnchorElement>) => {
-    dispatch(setCategory(e.currentTarget.textContent));
+  const handleClickCategory = (e: MouseEvent<HTMLButtonElement>) => {
     dispatch(closeMenu());
+    navigate(`/shop?category=${e.currentTarget.textContent}`);
   };
+
   const handleResize = () => {
     if (window.innerWidth > 768) {
       dispatch(closeMenu());
@@ -64,7 +64,7 @@ const Aside = () => {
             <li>
               <ShopDropdown>
                 <button type="button" onClick={() => dispatch(closeMenu())}>
-                  <Link to="/shop">shop</Link>
+                  <Link to="/shop?category=ALL">shop</Link>
                 </button>
                 <DropdownBtn
                   type="button"
@@ -79,9 +79,9 @@ const Aside = () => {
                 <DropdownMenu>
                   {CATEGORY.map((item) => (
                     <li key={item}>
-                      <Link to="/shop" onClick={handleClickCategory}>
+                      <button type="button" onClick={handleClickCategory}>
                         {item}
-                      </Link>
+                      </button>
                     </li>
                   ))}
                 </DropdownMenu>

@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllProducts } from "api/product";
-import type { Category } from "features/categorySlice";
 
-const useGetAllProductsQuery = (category?: Category) => {
+const useGetAllProductsQuery = (category?: string) => {
   const {
     data: products,
     isLoading,
