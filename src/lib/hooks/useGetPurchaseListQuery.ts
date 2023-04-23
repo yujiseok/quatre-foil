@@ -7,6 +7,11 @@ const useGetPurchaseList = () => {
     queryKey: ["history"],
     queryFn: getPurchaseHistory,
     refetchOnWindowFocus: false,
+    select: (data) =>
+      data.sort(
+        (a, b) =>
+          new Date(b.timePaid).getTime() - new Date(a.timePaid).getTime(),
+      ),
   });
   return { history };
 };
