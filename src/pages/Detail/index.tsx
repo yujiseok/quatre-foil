@@ -1,4 +1,4 @@
-import ProductNotice from "@components/ProductNotice";
+import ProductNotice from "@components/Shop/ProductNotice";
 import { tablet } from "@global/responsive";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { addToCart } from "features/cartSlice";
