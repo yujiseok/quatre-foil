@@ -18,7 +18,12 @@ const useAddAccountMutation = () => {
         variables.isAgree,
       ),
     {
-      onSuccess: () => alert("연결에 성공했습니다"),
+      onSuccess(data, variables, context) {
+        alert("연결에 성공했습니다");
+      },
+      onError(error, variables, context) {
+        alert("연결에 실패했습니다");
+      },
     },
   );
   return { addAccountMutate };

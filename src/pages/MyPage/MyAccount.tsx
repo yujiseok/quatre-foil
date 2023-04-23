@@ -7,6 +7,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import type { AccountValue } from "api/account";
 import { delAccount, getAccountInfo } from "api/account";
 import AccountModal from "@components/MyPage/AccountModal";
+import useGetAccountsQuery from "lib/hooks/useGetAccountsQuery";
 
 const MyAccount = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,30 +15,21 @@ const MyAccount = () => {
     totalBalance: 0,
     accounts: [],
   });
+  const { accountList } = useGetAccountsQuery();
 
   const onClickButton = () => {
     setIsOpen(true);
   };
-
-  useEffect(() => {
-    const account = async () => {
-      const res = await getAccountInfo();
-      setAccountLists(res);
-    };
-    account();
-  }, [accountLists]);
 
   const delMyAccount = async (id: string, boolean: boolean) => {
     const res = await delAccount(id, boolean);
     if (res) {
       alert("삭제되었어요!");
     }
-    const accountData = await getAccountInfo();
-    setAccountLists(accountData);
   };
   return (
     <Container>
-      {accountLists?.accounts?.map((account) => {
+      {accountList?.accounts?.map((account) => {
         return (
           <BankList key={account.bankCode}>
             <BankName>

@@ -5,14 +5,21 @@ const Button = ({
   children,
   onClick,
   type,
+  disabled,
 }: {
   primary?: boolean;
   children: React.ReactNode;
   onClick?: () => void;
   type?: "submit" | "button";
+  disabled?: boolean;
 }) => {
   return (
-    <Btn primary={primary as boolean} type={type} onClick={onClick}>
+    <Btn
+      primary={primary as boolean}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </Btn>
   );
@@ -31,4 +38,7 @@ const Btn = styled.button<{ primary: boolean }>`
     props.primary ? "var(--primary-color)" : "var(--white)"};
   color: ${(props) =>
     props.primary ? "var(--white)" : "var(--primary-color)"};
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
