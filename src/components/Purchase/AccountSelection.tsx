@@ -1,5 +1,6 @@
 import useGetAccountsQuery from "lib/hooks/useGetAccountsQuery";
 import React, { ChangeEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const AccountSelection = ({
@@ -12,6 +13,19 @@ const AccountSelection = ({
   const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setAccountId(e.target.value);
   };
+
+  if (!accountList?.accounts || accountList.totalBalance === 0) {
+    return (
+      <AlertContainer>
+        ⚠️ 상품 구매를 위해 계좌 연결이 필요합니다. <br />
+        <Link to="/mypage/account">
+          <span>링크</span>
+        </Link>
+        로 이동하여 계좌 연결하기
+      </AlertContainer>
+    );
+  }
+
   return (
     <ShippingContainer>
       <h4>결제 정보</h4>
@@ -33,6 +47,15 @@ const AccountSelection = ({
     </ShippingContainer>
   );
 };
+
+const AlertContainer = styled.div`
+  color: var(--black-50);
+  margin-bottom: 3.5rem;
+  text-align: center;
+  span {
+    color: var(--primary-color);
+  }
+`;
 
 const ShippingContainer = styled.form`
   margin-bottom: 3.5rem;
