@@ -1,83 +1,43 @@
 import Button from "@components/Button";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { MdClose } from "react-icons/md";
 import { tablet } from "@global/responsive";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import type { InitialState } from "features/cartSlice";
-import {
-  removeItem,
-  decrementQuantity,
-  incrementQuantity,
-} from "features/cartSlice";
+import { resetCart } from "features/cartSlice";
 import { getTotal } from "lib/utils/getTotal";
+import CartItem from "@components/Cart/CartItem";
 
 const Cart = () => {
   const { cart } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
-  const onIncrement = (item: InitialState) => {
-    dispatch(incrementQuantity(item));
-  };
-  const onDecrement = (item: InitialState) => {
-    dispatch(decrementQuantity(item));
-  };
-
-  const handleClickDelete = (item: InitialState) => {
-    dispatch(removeItem(item));
-  };
+  const handleClickReset = () => dispatch(resetCart());
 
   return (
     <Container>
-      <h4>
-        장바구니 <span>{getTotal(cart).totalQuantity || 0}</span>
-      </h4>
+      <div className="cart-top">
+        <h4>
+          장바구니 <span>{getTotal(cart).totalQuantity || 0}</span>
+        </h4>
+
+        <button type="button" onClick={handleClickReset}>
+          비우기
+        </button>
+      </div>
 
       <CartWrapper>
-        {cart.map((item) => (
-          <CartItem key={item.id}>
-            <div className="img-wrapper">
-              <Link to="/shop/abc">
-                <img src={item.thumbnail} alt={item.title} />
-              </Link>
-            </div>
-            <DetailWrapper>
-              <div className="price-detail">
-                <p>{item.title}</p>
-                <BtnWrapper>
-                  <button type="button" onClick={() => onDecrement(item)}>
-                    -
-                  </button>
-                  <p>{item.quantity}</p>
-                  <button type="button" onClick={() => onIncrement(item)}>
-                    +
-                  </button>
-                </BtnWrapper>
-                <div>{item.price}</div>
-              </div>
-              <div>
-                <DeleteBtn type="button">
-                  <MdClose />
-                </DeleteBtn>
-                <button
-                  className="delete-btn-pc"
-                  type="button"
-                  onClick={() => handleClickDelete(item)}
-                >
-                  삭제하기
-                </button>
-              </div>
-            </DetailWrapper>
-          </CartItem>
-        ))}
+        {cart.length ? (
+          cart.map((item) => <CartItem key={item.id} item={item} />)
+        ) : (
+          <h4>장바구니가 비었습니다.</h4>
+        )}
       </CartWrapper>
       <Total>
         <div>합계</div>
         <div>{getTotal(cart).totalPrice.toLocaleString()} 원</div>
       </Total>
       <Link to="/purchase/cart">
-        <Button>주문하기</Button>
+        <Button disabled={!cart.length}>주문하기</Button>
       </Link>
     </Container>
   );
@@ -88,110 +48,28 @@ const Container = styled.div`
 
   h4 {
     font-size: 1.5rem;
-    margin-top: 3.5rem;
   }
 
   ${tablet({
     maxWidth: "750px",
     marginInline: "auto",
   })}
+
+  .cart-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 3.5rem;
+  }
 `;
 
 const CartWrapper = styled.ul`
   margin: 1.5rem 0;
   border-top: 1px solid;
-`;
 
-const CartItem = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid;
-  /* gap: 1.25rem; */
-  position: relative;
-  .img-wrapper {
-    width: 30%;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-
-  .price-detail {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 1rem;
-
-    ${tablet({
-      flexDirection: "row",
-      alignItems: "center",
-      gap: "1.25rem",
-    })}
-
-    p {
-      max-width: 10rem;
-    }
-  }
-  .delete-btn-pc {
-    font-family: inherit;
-    display: none;
-    font-weight: 600;
-    ${tablet({
-      display: "block",
-    })}
-  }
-`;
-
-const DetailWrapper = styled.div`
-  display: flex;
-  gap: 2.5rem;
-  ${tablet({
-    flexDirection: "column",
-    gap: "1rem",
-  })}
-`;
-
-const DeleteBtn = styled.button`
-  position: absolute;
-  /* display: flex;
-  align-items: start; */
-  height: 100%;
-  top: -42px;
-  right: 0;
-  ${tablet({
-    display: "none",
-  })}
-`;
-
-const BtnWrapper = styled.div`
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid;
-  button {
-    padding: 0.25rem;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:disabled {
-      cursor: not-allowed;
-    }
-  }
-  p {
-    padding: 0.5rem;
-    width: 28px;
-    height: 28px;
+  h4 {
     text-align: center;
-    border-right: 1px solid;
-    border-left: 1px solid;
-    font-size: 0.875rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 3rem 0;
   }
 `;
 

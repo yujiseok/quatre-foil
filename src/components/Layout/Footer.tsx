@@ -1,22 +1,17 @@
-import { Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { FaGithub } from "react-icons/fa";
 import TopBtnPortal from "@components/topBtn/TopBtnPortal";
 import TopBtn from "@components/topBtn/TopBtn";
 import { tablet } from "@global/responsive";
-import { useAppDispatch } from "app/hooks";
-import { setCategory } from "features/categorySlice";
 import type { MouseEvent } from "react";
-import { scrollToTop } from "lib/utils/scroll";
 
 const CATEGORY = ["ALL", "FURNITURE", "BEDROOM", "HOMEWEAR", "GARDENING"];
 
 const Footer = () => {
-  const dispatch = useAppDispatch();
-
-  const handleClickCategory = (e: MouseEvent<HTMLAnchorElement>) => {
-    dispatch(setCategory(e.currentTarget.textContent));
-    scrollToTop();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const handleClickCategory = (e: MouseEvent<HTMLButtonElement>) => {
+    setSearchParams({ category: e.currentTarget.textContent as string });
   };
 
   return (
@@ -28,9 +23,9 @@ const Footer = () => {
             <ul>
               {CATEGORY.map((item) => (
                 <li key={item}>
-                  <Link to="/shop" onClick={handleClickCategory}>
+                  <button type="button" onClick={handleClickCategory}>
                     {item}
-                  </Link>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -97,6 +92,12 @@ const FooterTop = styled.div`
     flexDirection: "row",
     justifyContent: "space-between",
   })}
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
 `;
 const FooterBottom = styled.div`
   text-align: center;
