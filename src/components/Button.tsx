@@ -40,5 +40,8 @@ const Btn = styled.button<{ primary: boolean }>`
     props.primary ? "var(--white)" : "var(--primary-color)"};
   &:disabled {
     cursor: not-allowed;
+    background-color: var(--black-40);
+    border: 1px solid var(--black-40);
+    color: var(--white);
   }
 `;
