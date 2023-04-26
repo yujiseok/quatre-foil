@@ -1,10 +1,10 @@
 import { ToastContainer } from "react-toastify";
 import styled from "styled-components";
-import { tablet } from "../../global/responsive";
 import useConfirmMutation from "lib/hooks/useConfirmMutation";
 import useCancelMutation from "lib/hooks/useCancelMutation";
 import useGetPurchaseList from "lib/hooks/useGetPurchaseListQuery";
 import { useSearchParams } from "react-router-dom";
+import { tablet } from "../../global/responsive";
 
 const MyOrder = () => {
   const { confirmMutation } = useConfirmMutation();
@@ -18,10 +18,6 @@ const MyOrder = () => {
       status: e.target.value,
     });
   };
-
-  if (history?.length === 0 || undefined) {
-    return <h2>주문 내역이 존재하지 않습니다!</h2>;
-  }
 
   return (
     <Container>
