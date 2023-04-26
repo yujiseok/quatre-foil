@@ -19,10 +19,6 @@ const MyOrder = () => {
     });
   };
 
-  if (history?.length === 0 || undefined) {
-    return <h2>주문 내역이 존재하지 않습니다!</h2>;
-  }
-
   return (
     <Container>
       <Select>
