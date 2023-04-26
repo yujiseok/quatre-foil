@@ -93,7 +93,10 @@ const BankList = styled.ul`
 
 const NoAccountContainter = styled.div`
   text-align: center;
+  margin: 5rem;
   color: var(--black-40);
+  font-size: x-large;
+  font-weight: 900;
 `;
 
 const BankName = styled.div`
