@@ -1,0 +1,15 @@
+export const colors = {
+  primary: "#00B900",
+  secondary: "#FF922B",
+  white: "#FFF",
+  black10: "#E6E6E6",
+  black20: "#CCC",
+  black30: "#b3b3b3",
+  black40: "#999",
+  black50: "#808080",
+  black60: "#666",
+  black70: "#4C4C4C",
+  black80: "#333",
+  black90: "#191919",
+  black100: "#000",
+};
