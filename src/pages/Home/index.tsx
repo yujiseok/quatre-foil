@@ -5,6 +5,8 @@ import { SlickArrowLeft, SlickArrowRight } from "@components/SlickButton";
 import "@global/slick.css";
 import "@global/slick-theme.css";
 import useGetAllProductsQuery from "lib/hooks/useGetAllProductsQuery";
+import MarqueeTop from "@components/Home/MarqueeTop";
+import MarqueeBottom from "@components/Home/MarqueeBottom";
 import { mobile, tablet } from "../../global/responsive";
 
 const Home = () => {
@@ -37,24 +39,7 @@ const Home = () => {
       <section>
         <MarqueeContainer>
           <MarqueeWrapper>
-            <p>
-              안녕하세요. 라이프스타일 편집샵 QUATRE FOIL입니다. QUATRE FOIL의
-              최신 상품을 만나보세요 🛏️
-            </p>
-            <p> QUATRE FOIL의 선정한 다양한 제품들을 만나보세요.</p>
-            <p>
-              안녕하세요. 라이프스타일 편집샵 QUATRE FOIL입니다. QUATRE FOIL의
-              최신 상품을 만나보세요 🛏️
-            </p>
-            <p>
-              안녕하세요. 라이프스타일 편집샵 QUATRE FOIL입니다. QUATRE FOIL의
-              최신 상품을 만나보세요 🛏️
-            </p>
-            <p> QUATRE FOIL의 선정한 다양한 제품들을 만나보세요.</p>
-            <p>
-              안녕하세요. 라이프스타일 편집샵 QUATRE FOIL입니다. QUATRE FOIL의
-              최신 상품을 만나보세요 🛏️
-            </p>
+            <MarqueeTop />
           </MarqueeWrapper>
         </MarqueeContainer>
         <Picture>
@@ -67,18 +52,7 @@ const Home = () => {
 
         <MarqueeContainer>
           <MarqueeWrapper>
-            <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑</p>
-            <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑</p>
-            <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑</p>
-            {/* <p>
-              QUATRE FOIL의 인기 상품을 만나보세요 🪑 Infinite Marquee with long
-              sentence Infinite Marquee with long sentence Infinite Marquee with
-              long sentence Infinite Marquee with long sentence Infinite Marquee
-              with long sentence Infinite Marquee with long sentence Infinite
-              Marquee with long sentence Infinite Marquee with long sentence
-              Infinite Marquee with long sentence Infinite Marquee with long
-              sentence
-            </p> */}
+            <MarqueeBottom />
           </MarqueeWrapper>
         </MarqueeContainer>
       </section>
@@ -242,7 +216,7 @@ const MarqueeWrapper = styled.div`
   overflow: hidden;
   display: inline-block;
   will-change: transform;
-  animation: ${marquee} 30s linear infinite;
+  animation: ${marquee} 35s linear infinite;
   padding: 1rem;
   &:hover {
     animation-play-state: paused;
