@@ -1,6 +1,6 @@
 // api 요청 함수 만들기
 import { AxiosError } from "axios";
-import { client } from "./core/api";
+import { client, clientNoAuth } from "./core/api";
 
 // 인증
 interface AuthFn {
@@ -66,28 +66,8 @@ export const signUp: AuthFn = async (
   }
 };
 
-// 로그인
-// export const login: AuthFn = async (email, password) => {
-//   try {
-//     const res = await client("/auth/login", {
-//       method: "post",
-//       data: {
-//         email,
-//         password,
-//       },
-//     });
-
-//     return res.data;
-//   } catch (error) {
-//     if (error instanceof AxiosError) {
-//       console.log(error.message);
-//     }
-//     return false;
-//   }
-// };
-
 export const login = (email: string, password: string) => {
-  const res = client({
+  const res = clientNoAuth({
     method: "post",
     url: "/auth/login",
     data: {
@@ -95,6 +75,7 @@ export const login = (email: string, password: string) => {
       password,
     },
   });
+
   return res;
 };
 
@@ -106,36 +87,16 @@ export const logout = () => {
   return res;
 };
 
-// 로그아웃
-// export const logout: AuthFn = async (token) => {
-//   try {
-//     const res = await client("/auth/logout", {
-//       method: "post",
-//     });
-
-//     return res.data;
-//   } catch (error) {
-//     if (error instanceof AxiosError) {
-//       console.log(error);
-//     }
-//     return false;
-//   }
-// };
-
 // 정보 수정
 export const editInfo: EditAuthFn = async (
   displayName,
   profileImgBase64,
   oldPassword,
   newPassword,
-  token,
 ) => {
   try {
     const res = await client("/auth/user", {
       method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       data: {
         displayName,
         profileImgBase64,

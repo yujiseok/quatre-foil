@@ -1,4 +1,4 @@
-import type { AxiosHeaders, AxiosRequestConfig } from "axios";
+import type { AxiosError, AxiosHeaders, AxiosRequestConfig } from "axios";
 import axios from "axios";
 
 const axiosConfig: AxiosRequestConfig = {
@@ -25,3 +25,19 @@ client.interceptors.request.use((config) => {
 
   return config;
 });
+
+client.interceptors.response.use(
+  (res) => res,
+  async (error: AxiosError) => {
+    const { status } = error;
+
+    if (status === 401) {
+      localStorage.removeItem("persist:root");
+      alert("토큰이 만료되었습니다.");
+
+      window.location.replace("https://quatre-foil.netlify.app/login");
+    }
+
+    return Promise.reject(error);
+  },
+);
