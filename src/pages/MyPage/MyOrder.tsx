@@ -33,8 +33,9 @@ const MyOrder = () => {
           <ItemContainer key={item.timePaid}>
             <TitleContainer>
               <h3>결제 완료&nbsp;&nbsp;</h3>
-              <span>{item.done ? "구매 확정" : ""}</span>
-              <span>{item.isCanceled ? "구매 취소" : ""}</span>
+              <span>
+                {item.done ? "구매 확정" : item.isCanceled ? " 구매 취소" : ""}
+              </span>
             </TitleContainer>
             <Wrapper>
               <ItemInfoWrapper>
