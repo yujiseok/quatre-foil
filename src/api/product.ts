@@ -91,8 +91,9 @@ export const getProduct = async (id: string) => {
 
 // 제품 전체 거래 내역
 export const getPurchaseHistory = async () => {
-  const { data } = await client<ITransactionDetail[]>({
+  const data = await client<ITransactionDetail[]>({
     url: "products/transactions/details",
   });
-  return data;
+
+  return data.data;
 };
