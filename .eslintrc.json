@@ -62,6 +62,7 @@
     "@typescript-eslint/no-shadow": "off",
     "import/no-extraneous-dependencies": "off",
     "consistent-return": "off",
-    "array-callback-return": "off"
+    "array-callback-return": "off",
+    "no-nested-ternary": "off"
   }
 }

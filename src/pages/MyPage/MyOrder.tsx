@@ -1,17 +1,33 @@
 import { ToastContainer } from "react-toastify";
 import styled from "styled-components";
-import { tablet } from "../../global/responsive";
 import useConfirmMutation from "lib/hooks/useConfirmMutation";
 import useCancelMutation from "lib/hooks/useCancelMutation";
 import useGetPurchaseList from "lib/hooks/useGetPurchaseListQuery";
+import { useSearchParams } from "react-router-dom";
+import { tablet } from "../../global/responsive";
 
 const MyOrder = () => {
   const { confirmMutation } = useConfirmMutation();
   const { cancelMutation } = useCancelMutation();
-  const { history } = useGetPurchaseList();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const status = searchParams.get("status") ?? "all";
+  const { history } = useGetPurchaseList(status);
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchParams({
+      status: e.target.value,
+    });
+  };
 
   return (
     <Container>
+      <Select>
+        <select onChange={handleChange}>
+          <option value="all">전체</option>
+          <option value="done">구매 확정</option>
+          <option value="isCanceled">구매 취소</option>
+        </select>
+      </Select>
       {history?.map((item) => {
         return (
           <ItemContainer key={item.timePaid}>
@@ -72,6 +88,16 @@ export default MyOrder;
 const Container = styled.div`
   max-width: 750px;
   margin: 1.875rem auto 0;
+`;
+
+const Select = styled.div`
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
+  select {
+    padding: 8px 10px;
+    border: none;
+  }
 `;
 
 const ItemContainer = styled.div`

@@ -10,7 +10,6 @@ import Shipping from "@components/Purchase/Shipping";
 import AccountSelection from "@components/Purchase/AccountSelection";
 import { useState } from "react";
 import { removeItem } from "features/cartSlice";
-import { InitialState } from "features/cartSlice";
 
 const Purchase = () => {
   const navigate = useNavigate();

@@ -11,10 +11,6 @@ import useGetAccountsQuery from "lib/hooks/useGetAccountsQuery";
 
 const MyAccount = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [accountLists, setAccountLists] = useState<AccountValue>({
-    totalBalance: 0,
-    accounts: [],
-  });
   const { accountList } = useGetAccountsQuery();
 
   const onClickButton = () => {
@@ -27,6 +23,7 @@ const MyAccount = () => {
       alert("삭제되었어요!");
     }
   };
+
   return (
     <Container>
       {accountList?.accounts?.map((account) => {
@@ -48,6 +45,9 @@ const MyAccount = () => {
           </BankList>
         );
       })}
+      {accountList?.accounts.length === 0 ? (
+        <NoAccountContainter>⚠️ 등록된 계좌가 없습니다.</NoAccountContainter>
+      ) : null}
       <BtnContainer>
         <Button onClick={onClickButton}>
           <AiOutlinePlus />
@@ -89,6 +89,14 @@ const BankList = styled.ul`
     font-size: 18px;
     color: var(--black-50);
   }
+`;
+
+const NoAccountContainter = styled.div`
+  text-align: center;
+  margin: 5rem;
+  color: var(--black-40);
+  font-size: x-large;
+  font-weight: 900;
 `;
 
 const BankName = styled.div`

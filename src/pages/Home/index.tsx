@@ -8,7 +8,7 @@ import useGetAllProductsQuery from "lib/hooks/useGetAllProductsQuery";
 import { mobile, tablet } from "../../global/responsive";
 
 const Home = () => {
-  const { products, isLoading } = useGetAllProductsQuery();
+  const { products } = useGetAllProductsQuery();
 
   return (
     <>
@@ -37,12 +37,23 @@ const Home = () => {
       <section>
         <MarqueeContainer>
           <MarqueeWrapper>
-            <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑 </p>
-            <p>QUATRE FOIL의 최신 상품을 만나보세요 🛏️ </p>
             <p>
-              Marque Lorem, ipsum.Marque Lorem, ipsum. Marque Lorem,
-              ipsum.Marque Lorem, ipsum.🪑 Marque Lorem, ipsum.Marque Lorem,
-              ipsum. Marque Lorem, ipsum.Marque Lorem, ipsum.🪑
+              안녕하세요. 라이프스타일 편집샵 QUATRE FOIL입니다. QUATRE FOIL의
+              최신 상품을 만나보세요 🛏️
+            </p>
+            <p> QUATRE FOIL의 선정한 다양한 제품들을 만나보세요.</p>
+            <p>
+              안녕하세요. 라이프스타일 편집샵 QUATRE FOIL입니다. QUATRE FOIL의
+              최신 상품을 만나보세요 🛏️
+            </p>
+            <p>
+              안녕하세요. 라이프스타일 편집샵 QUATRE FOIL입니다. QUATRE FOIL의
+              최신 상품을 만나보세요 🛏️
+            </p>
+            <p> QUATRE FOIL의 선정한 다양한 제품들을 만나보세요.</p>
+            <p>
+              안녕하세요. 라이프스타일 편집샵 QUATRE FOIL입니다. QUATRE FOIL의
+              최신 상품을 만나보세요 🛏️
             </p>
           </MarqueeWrapper>
         </MarqueeContainer>
@@ -56,33 +67,34 @@ const Home = () => {
 
         <MarqueeContainer>
           <MarqueeWrapper>
-            <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑 </p>
-            <p>QUATRE FOIL의 최신 상품을 만나보세요 🛏️ </p>
-            <p>
-              Infinite Marquee with long sentence Infinite Marquee with long
+            <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑</p>
+            <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑</p>
+            <p>QUATRE FOIL의 인기 상품을 만나보세요 🪑</p>
+            {/* <p>
+              QUATRE FOIL의 인기 상품을 만나보세요 🪑 Infinite Marquee with long
               sentence Infinite Marquee with long sentence Infinite Marquee with
               long sentence Infinite Marquee with long sentence Infinite Marquee
               with long sentence Infinite Marquee with long sentence Infinite
               Marquee with long sentence Infinite Marquee with long sentence
-              Infinite Marquee with long sentence
-            </p>
+              Infinite Marquee with long sentence Infinite Marquee with long
+              sentence
+            </p> */}
           </MarqueeWrapper>
         </MarqueeContainer>
       </section>
 
       <ItemSection>
         <ItemWrapper>
-          {!isLoading &&
-            products?.slice(0, 8).map((product) => (
-              <Item key={product.id}>
-                <StyledLink to={`/shop/${product.id}`} slick="">
-                  <img src={product.thumbnail!} alt={product.title} />
-                  <ItemName>
-                    <p>{product.title}</p>
-                  </ItemName>
-                </StyledLink>
-              </Item>
-            ))}
+          {products?.slice(0, 8).map((product) => (
+            <Item key={product.id}>
+              <StyledLink to={`/shop/${product.id}`} slick="">
+                <img src={product.thumbnail!} alt={product.title} />
+                <ItemName>
+                  <p>{product.title}</p>
+                </ItemName>
+              </StyledLink>
+            </Item>
+          ))}
         </ItemWrapper>
       </ItemSection>
 
@@ -90,8 +102,9 @@ const Home = () => {
         <h2>인기 상품을 만나 보세요! 🔥</h2>
 
         <Slider {...settings}>
-          {!isLoading &&
-            products?.map((product) => (
+          {products
+            ?.sort(() => Math.random() - 0.5)
+            .map((product) => (
               <StyledLink
                 key={product.id}
                 to={`/shop/${product.id}`}
@@ -119,7 +132,7 @@ const settings = {
   nextArrow: <SlickArrowRight />,
   prevArrow: <SlickArrowLeft />,
   autoplay: true,
-  draggable: true,
+  draggable: false,
   responsive: [
     {
       breakpoint: 1024,

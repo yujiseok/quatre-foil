@@ -1,3 +1,4 @@
+import ErrorBoundary from "@components/ErrorBoundary";
 import Layout from "@components/Layout";
 import PrivateRouter from "@components/PrivateRouter";
 import PublicRouter from "@components/PublicRouter";
@@ -83,7 +84,11 @@ const Router = createBrowserRouter(
           </Suspense>
         }
       >
-        <Route path="order" element={<MyOrder />} />
+        <Route
+          path="order"
+          element={<MyOrder />}
+          errorElement={<ErrorBoundary />}
+        />
         <Route path="account" element={<MyAccount />} />
         <Route path="mypage" element={<MyInfo />} />
       </Route>
@@ -150,4 +155,5 @@ const Router = createBrowserRouter(
 //     </BrowserRouter>
 //   );
 // };
+
 export default Router;

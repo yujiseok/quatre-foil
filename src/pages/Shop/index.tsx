@@ -46,7 +46,7 @@ const Shop = () => {
 
   return (
     <Section>
-      <h1>콰트레 포일 상품 🛌</h1>
+      <h1>콰트레 포일 상품 🛋</h1>
 
       <CategoryWrapper>
         {CATEGORY.map((item) => (
@@ -150,6 +150,7 @@ const ItemWrapper = styled.ul`
   h2 {
     position: absolute;
     top: 24px;
+    padding: 1.5rem 0;
   }
 `;
 
