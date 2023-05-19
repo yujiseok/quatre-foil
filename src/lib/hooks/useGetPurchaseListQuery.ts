@@ -8,9 +8,23 @@ const useGetPurchaseList = (status: string) => {
     refetchOnWindowFocus: false,
     select:
       status === "done"
-        ? (data) => data.filter((item) => item.done === true)
+        ? (data) =>
+            data
+              .filter((item) => item.done === true)
+              .sort(
+                (a, b) =>
+                  new Date(b.timePaid).getTime() -
+                  new Date(a.timePaid).getTime(),
+              )
         : status === "isCanceled"
-        ? (data) => data.filter((item) => item.isCanceled === true)
+        ? (data) =>
+            data
+              .filter((item) => item.isCanceled === true)
+              .sort(
+                (a, b) =>
+                  new Date(b.timePaid).getTime() -
+                  new Date(a.timePaid).getTime(),
+              )
         : (data) =>
             data.sort(
               (a, b) =>
