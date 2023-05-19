@@ -34,7 +34,7 @@ const MyOrder = () => {
             <TitleContainer>
               <h3>결제 완료&nbsp;&nbsp;</h3>
               <span>
-                {item.done ? "구매 확정" : item.isCanceled ? " 구매 취소" : ""}
+                {item.isCanceled ? "구매 취소" : item.done ? " 구매 확정" : ""}
               </span>
             </TitleContainer>
             <Wrapper>
